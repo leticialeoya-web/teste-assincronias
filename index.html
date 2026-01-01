@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Teste – Assincronias Ventilatórias</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { 
+  font-family: Arial, sans-serif; 
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+h1 { font-size: 22px; }
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+label { 
+  display: block; 
+  margin-top: 10px;
+  cursor: pointer;
+}
+button { 
+  padding: 10px 20px; 
+  font-size: 16px; 
+  margin-top: 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
+.resultado { 
+  margin-top: 20px; 
+  font-weight: bold;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  min-height: 30px;
+}
+.legend { 
+  font-size: 13px; 
+  color: #666; 
+  margin-bottom: 15px;
+  margin-left: 25px;
+}
+.checkbox-container { 
+  margin-bottom: 20px; 
+}
+input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+.disclaimer {
+  background-color: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 20px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.disclaimer strong {
+  color: #856404;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+.footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+.copyright {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Teste clínico – Assincronias Ventilatórias</h1>
+<div class="subtitle">Ferramenta educacional de apoio ao aprendizado</div>
+
+<div class="disclaimer">
+  <strong>⚠️ AVISO IMPORTANTE – FERRAMENTA EXCLUSIVAMENTE EDUCACIONAL</strong>
+  Esta ferramenta tem finalidade EXCLUSIVAMENTE EDUCACIONAL e de treinamento para profissionais de saúde.
+  <br><br>
+  <strong>NÃO substitui:</strong>
+  <ul style="margin: 10px 0;">
+    <li>Avaliação clínica completa do paciente</li>
+    <li>Interpretação por profissional qualificado e habilitado</li>
+    <li>Julgamento clínico individualizado</li>
+    <li>Protocolos institucionais estabelecidos</li>
+  </ul>
+  <strong>As decisões clínicas devem sempre ser tomadas por profissionais habilitados, considerando o contexto clínico completo do paciente.</strong>
+  <br><br>
+  O uso desta ferramenta é de inteira responsabilidade do usuário. A autora não se responsabiliza por decisões clínicas baseadas exclusivamente nesta ferramenta.
+</div>
+
+<p>Marque os achados observados nas curvas e veja a interpretação sugerida pelo motor.</p>
+
+<div class="checkbox-container">
+  <label>
+    <input type="checkbox" id="degrau"> Degrau expiratório
+    <div class="legend">Entalhe na expiração indicando esforço do paciente ou auto-PEEP.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado
+    <div class="legend">Fluxo insuficiente, paciente tentando puxar mais ar.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="ciclagemPrecoce"> Ciclagem precoce
+    <div class="legend">Ventilador termina antes do fluxo inspiratório chegar a zero.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="ciclagemTardia"> Ciclagem tardia
+    <div class="legend">Ventilador continua inspirando após fluxo expiratório chegar a zero.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="letraM"> Letra M / topo bifásico
+    <div class="legend">Sobre-assistência ou esforço adicional do paciente.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="concavidade"> Concavidade no fluxo
+    <div class="legend">Indica esforço subclínico do paciente.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="convexidade"> Convexidade no fluxo
+    <div class="legend">Indica suporte excessivo pelo ventilador.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="spike"> Spike / overshoot
+    <div class="legend">Pequeno pico extra no final da inspiração.</div>
+  </label>
+
+  <label>
+    <input type="checkbox" id="degrauRecorrente"> Degrau recorrente pós-aspiração
+    <div class="legend">Obstrução parcial ou secreção persistente.</div>
+  </label>
+</div>
+
+<button onclick="rodarAnalise()">Rodar análise</button>
+
+<div class="resultado" id="resultado"></div>
+
+<div class="footer">
+  <div class="copyright">
+    © 2025 Leticia - Fisioterapeuta Intensivista<br>
+    Todos os direitos reservados.
+  </div>
+  <div>
+    <strong>Ferramenta Educacional de Análise de Assincronias Ventilatórias</strong><br>
+    Desenvolvida para fins exclusivamente educacionais e de capacitação profissional.<br>
+    Uso clínico direto não autorizado. Não substitui avaliação médica ou fisioterapêutica qualificada.
+  </div>
+  <div style="margin-top: 15px; font-size: 11px;">
+    Proibida a reprodução, distribuição ou uso comercial sem autorização prévia por escrito da autora.
+  </div>
+</div>
+
+<script>
+function rodarAnalise() {
+  let achados = [];
+
+  if (document.getElementById('degrau').checked) 
+    achados.push("Degrau expiratório → esforço inefetivo ou auto-PEEP");
+  if (document.getElementById('picoAbaulado').checked) 
+    achados.push("Pico inspiratório abaulado → fluxo insuficiente / aumento de resistência");
+  if (document.getElementById('ciclagemPrecoce').checked) 
+    achados.push("Ciclagem precoce → ventilador termina antes do fluxo = 0");
+  if (document.getElementById('ciclagemTardia').checked) 
+    achados.push("Ciclagem tardia → ventilador continua após fluxo = 0");
+  if (document.getElementById('letraM').checked) 
+    achados.push("Letra M / topo bifásico → sobre-assistência / esforço adicional");
+  if (document.getElementById('concavidade').checked) 
+    achados.push("Concavidade → esforço subclínico do paciente");
+  if (document.getElementById('convexidade').checked) 
+    achados.push("Convexidade → excesso de suporte pelo ventilador");
+  if (document.getElementById('spike').checked) 
+    achados.push("Spike / overshoot → pico extra no final da inspiração");
+  if (document.getElementById('degrauRecorrente').checked) 
+    achados.push("Degrau recorrente pós-aspiração → obstrução parcial / secreção persistente");
+
+  let texto = "Nenhuma assincronia dominante identificada.";
+  if (achados.length > 0) {
+    texto = "Assincronia(s) sugerida(s):<br>• " + achados.join("<br>• ");
+  }
+
+  document.getElementById("resultado").innerHTML = texto;
+}
+</script>
+
+</body>
+</html>
