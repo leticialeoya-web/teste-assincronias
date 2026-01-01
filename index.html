@@ -1,205 +1,246 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Teste – Assincronias Ventilatórias Avançado</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<title>Teste – Assincronias Ventilatórias</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
-body { 
-  font-family: Arial, sans-serif; 
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-h1 { font-size: 22px; }
-.subtitle {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 20px;
-}
-button { 
-  padding: 10px 20px; 
-  font-size: 16px; 
-  margin-top: 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #0056b3;
-}
-.resultado { 
-  margin-top: 20px; 
-  font-weight: bold;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  min-height: 30px;
-}
-fieldset { 
-  margin-top: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 15px;
-}
-legend { 
-  font-weight: bold;
-  padding: 0 10px;
-}
-label { 
-  display: block; 
-  margin: 5px 0;
-  cursor: pointer;
-}
-input[type="radio"], input[type="checkbox"] {
-  margin-right: 8px;
-  cursor: pointer;
-}
-.disclaimer {
-  background-color: #fff3cd;
-  border: 2px solid #ffc107;
-  border-radius: 5px;
-  padding: 15px;
-  margin: 20px 0;
-  font-size: 13px;
-  line-height: 1.6;
-}
-.disclaimer strong {
-  color: #856404;
-  display: block;
-  margin-bottom: 10px;
-  font-size: 15px;
-}
-.footer {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
-  font-size: 12px;
-  color: #666;
-  text-align: center;
-}
-.copyright {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #ffffff;
+    color: #111827;
+  }
+
+  h1 {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    color: #4b5563;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    background: #f9fafb;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+  }
+
+  .legend {
+    font-size: 13px;
+    color: #374151;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .controls {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #d1d5db;
+    display: none;
+  }
+
+  select {
+    margin-top: 6px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 10px 14px;
+    font-size: 16px;
+    margin-top: 16px;
+    cursor: pointer;
+  }
+
+  .resultado {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+
+  .detalhes {
+    margin-top: 12px;
+    font-weight: normal;
+  }
+
+  ul {
+    margin-left: 18px;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 12px;
+    color: #4b5563;
+    line-height: 1.5;
+  }
 </style>
 </head>
 
 <body>
 
-<h1>Teste clínico – Assincronias Ventilatórias Avançado</h1>
-<div class="subtitle">Ferramenta educacional de apoio ao aprendizado</div>
+<h1>Teste clínico – Assincronias Ventilatórias</h1>
+<p>Marque os achados observados nas curvas e especifique onde eles ocorrem.  
+O motor descreve o <b>sinal visual</b> e sugere a interpretação.</p>
 
-<div class="disclaimer">
-  <strong>⚠️ AVISO IMPORTANTE – FERRAMENTA EXCLUSIVAMENTE EDUCACIONAL</strong>
-  Esta ferramenta tem finalidade EXCLUSIVAMENTE EDUCACIONAL e de treinamento para profissionais de saúde.
-  <br><br>
-  <strong>NÃO substitui:</strong>
-  <ul style="margin: 10px 0;">
-    <li>Avaliação clínica completa do paciente</li>
-    <li>Interpretação por profissional qualificado e habilitado</li>
-    <li>Julgamento clínico individualizado</li>
-    <li>Protocolos institucionais estabelecidos</li>
-  </ul>
-  <strong>As decisões clínicas devem sempre ser tomadas por profissionais habilitados, considerando o contexto clínico completo do paciente.</strong>
-  <br><br>
-  O uso desta ferramenta é de inteira responsabilidade do usuário. A autora não se responsabiliza por decisões clínicas baseadas exclusivamente nesta ferramenta.
+<!-- Degrau expiratório -->
+<div class="card">
+  <label><input type="checkbox" id="degrauExp"> Degrau expiratório (curva de fluxo)</label>
+  <div class="legend">
+    Sinal visual: entalhe/degrau na fase expiratória do fluxo, interrompendo a descida suave.
+  </div>
+  <div class="controls" id="ctl_degrauExp">
+    Parte da expiração:
+    <select id="degrauExp_local">
+      <option>Início</option>
+      <option>Meio</option>
+      <option>Final</option>
+    </select>
+  </div>
 </div>
 
-<p>Selecione o tipo de ciclo e marque os achados observados nas curvas.</p>
+<!-- Pico abaulado -->
+<div class="card">
+  <label><input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado (curva de fluxo)</label>
+  <div class="legend">
+    Sinal visual: pico de fluxo inspiratório arredondado/abaulado, sem ponta definida.
+  </div>
+</div>
 
-<fieldset>
-<legend>Tipo de ciclo</legend>
-<label><input type="radio" name="tipoCiclo" value="mandatorio"> Predominantemente mandatários (a tempo)</label>
-<label><input type="radio" name="tipoCiclo" value="espontaneo"> Predominantemente espontâneos</label>
-<label><input type="radio" name="tipoCiclo" value="misto"> Misto (mandatórios + espontâneos)</label>
-<label><input type="radio" name="tipoCiclo" value="naoSei"> Não sei</label>
-</fieldset>
+<!-- Ciclagem precoce -->
+<div class="card">
+  <label><input type="checkbox" id="ciclagemPrecoce"> Ciclagem precoce (curva de fluxo)</label>
+  <div class="legend">
+    Sinal visual da assincronia: término da inspiração com fluxo ainda positivo
+    (fluxo inspiratório não chega próximo de zero).
+  </div>
+</div>
 
-<fieldset>
-<legend>Achados visuais</legend>
-<label><input type="checkbox" id="degrau"> Degrau expiratório (curva de fluxo)</label>
-<label><input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado (curva de fluxo)</label>
-<label><input type="checkbox" id="ciclagemPrecoce"> Ciclagem precoce (curva de fluxo)</label>
-<label><input type="checkbox" id="ciclagemTardia"> Ciclagem tardia (curva de fluxo)</label>
-<label><input type="checkbox" id="letraM"> Letra M / topo bifásico (curva de pressão)</label>
-<label><input type="checkbox" id="concavidade"> Concavidade no fluxo (curva de fluxo)</label>
-<label><input type="checkbox" id="convexidade"> Convexidade no fluxo (curva de fluxo)</label>
-<label><input type="checkbox" id="spike"> Spike / overshoot (curva de pressão)</label>
-<label><input type="checkbox" id="degrauRecorrente"> Degrau recorrente pós-aspiração (curva de fluxo)</label>
-</fieldset>
+<!-- Ciclagem tardia -->
+<div class="card">
+  <label><input type="checkbox" id="ciclagemTardia"> Ciclagem tardia (curva de fluxo)</label>
+  <div class="legend">
+    Sinal visual da assincronia: inspiração mantida mesmo após o fluxo inspiratório
+    já ter atingido aproximadamente zero.
+  </div>
+</div>
+
+<!-- Letra M -->
+<div class="card">
+  <label><input type="checkbox" id="letraM"> Letra M (entalhe no platô de pressão)</label>
+  <div class="legend">
+    Curva de pressão.  
+    Sinal visual: entalhe/queda parcial no meio do platô inspiratório,
+    com retorno da pressão, formando um “M”.  
+    Não corresponde a ciclos duplos.
+  </div>
+</div>
+
+<!-- Concavidade -->
+<div class="card">
+  <label><input type="checkbox" id="concavidade"> Concavidade no fluxo (curva de fluxo)</label>
+  <div class="legend">
+    Sinal visual: “afundamento” da curva onde se esperaria trajetória mais linear.
+  </div>
+</div>
+
+<!-- Convexidade -->
+<div class="card">
+  <label><input type="checkbox" id="convexidade"> Convexidade no fluxo (curva de fluxo)</label>
+  <div class="legend">
+    Sinal visual: abaulamento da curva para fora, sugerindo padrão de fluxo mais imposto.
+  </div>
+</div>
+
+<!-- Spike -->
+<div class="card">
+  <label><input type="checkbox" id="spike"> Spike / overshoot (curva de pressão)</label>
+  <div class="legend">
+    Sinal visual: pico transitório curto de pressão na transição de fase
+    (entrada ou saída da inspiração).
+  </div>
+</div>
+
+<!-- Degrau pós-aspiração -->
+<div class="card">
+  <label><input type="checkbox" id="degrauRecorrente"> Degrau recorrente pós-aspiração (fluxo)</label>
+  <div class="legend">
+    Sinal visual: degraus repetidos no fluxo após aspiração, não sendo achado isolado.
+  </div>
+</div>
 
 <button onclick="rodarAnalise()">Rodar análise</button>
 
 <div class="resultado" id="resultado"></div>
-
-<div class="footer">
-  <div class="copyright">
-    © 2025 Leticia - Fisioterapeuta Intensivista<br>
-    Todos os direitos reservados.
-  </div>
-  <div>
-    <strong>Ferramenta Educacional de Análise de Assincronias Ventilatórias</strong><br>
-    Desenvolvida para fins exclusivamente educacionais e de capacitação profissional.<br>
-    Uso clínico direto não autorizado. Não substitui avaliação médica ou fisioterapêutica qualificada.
-  </div>
-  <div style="margin-top: 15px; font-size: 11px;">
-    Proibida a reprodução, distribuição ou uso comercial sem autorização prévia por escrito da autora.
-  </div>
-</div>
+<div class="detalhes" id="detalhes"></div>
 
 <script>
 function rodarAnalise() {
-  let tipo = document.querySelector('input[name="tipoCiclo"]:checked');
-  let tipoCiclo = tipo ? tipo.value : null;
+  let achados = [];
 
-  // Achados
-  let a = {
-    degrau: document.getElementById("degrau").checked,
-    picoAbaulado: document.getElementById("picoAbaulado").checked,
-    ciclagemPrecoce: document.getElementById("ciclagemPrecoce").checked,
-    ciclagemTardia: document.getElementById("ciclagemTardia").checked,
-    letraM: document.getElementById("letraM").checked,
-    concavidade: document.getElementById("concavidade").checked,
-    convexidade: document.getElementById("convexidade").checked,
-    spike: document.getElementById("spike").checked,
-    degrauRecorrente: document.getElementById("degrauRecorrente").checked
-  };
+  if (degrauExp.checked)
+    achados.push("Degrau expiratório → entalhe na expiração, sugerindo alteração do esvaziamento expiratório (ex.: auto-PEEP, esforço expiratório).");
 
-  let interpretacoes = [];
+  if (picoAbaulado.checked)
+    achados.push("Pico inspiratório abaulado → dificuldade em sustentar fluxo; possível aumento de resistência ou demanda maior que o fluxo ofertado.");
 
-  if (!tipoCiclo) {
-    interpretacoes.push("Selecione o tipo de ciclo para uma interpretação completa.");
-  } else {
-    // Combinando sinais para interpretação composta
-    if(a.degrau && a.picoAbaulado && tipoCiclo==="espontaneo") {
-      interpretacoes.push("Esforço inefetivo com possível aumento de resistência/auto-PEEP (curvas de fluxo).");
-    } else if(a.degrau && tipoCiclo==="espontaneo") {
-      interpretacoes.push("Esforço inefetivo verdadeiro ou auto-PEEP (curva de fluxo).");
-    } else if(a.degrau && tipoCiclo==="mandatorio") {
-      interpretacoes.push("Disparo reverso possível (curva de fluxo).");
-    }
+  if (ciclagemPrecoce.checked)
+    achados.push("Ciclagem precoce → término da inspiração com fluxo ainda positivo; ventilador cicla antes da demanda do paciente.");
 
-    if(a.picoAbaulado && !a.degrau) {
-      interpretacoes.push("Fluxo insuficiente, paciente tentando puxar mais ar (curva de fluxo).");
-    }
+  if (ciclagemTardia.checked)
+    achados.push("Ciclagem tardia → inspiração prolongada após o fluxo inspiratório chegar a zero; paciente já inicia intenção expiratória.");
 
-    if(a.ciclagemPrecoce) interpretacoes.push("Ventilador termina antes do fluxo inspiratório atingir zero (curva de fluxo).");
-    if(a.ciclagemTardia) interpretacoes.push("Ventilador continua inspirando após fluxo expiratório atingir zero (curva de fluxo).");
-    if(a.letraM) interpretacoes.push("Sobre-assistência ou esforço adicional do paciente (curva de pressão).");
-    if(a.concavidade) interpretacoes.push("Esforço subclínico do paciente (curva de fluxo).");
-    if(a.convexidade) interpretacoes.push("Suporte excessivo pelo ventilador (curva de fluxo).");
-    if(a.spike) interpretacoes.push("Pequeno pico extra no final da inspiração (curva de pressão).");
-    if(a.degrauRecorrente) interpretacoes.push("Obstrução parcial ou secreção persistente (curva de fluxo).");
+  if (letraM.checked)
+    achados.push("Letra M (pressão) → entalhe no platô inspiratório, indicando interferência de esforço durante a fase inspiratória.");
+
+  if (concavidade.checked)
+    achados.push("Concavidade no fluxo → esforço do paciente modulando o fluxo durante a fase respiratória.");
+
+  if (convexidade.checked)
+    achados.push("Convexidade no fluxo → padrão de fluxo mais imposto, podendo sugerir sobreassistência.");
+
+  if (spike.checked)
+    achados.push("Spike / overshoot → pico transitório de pressão associado à entrada ou saída da inspiração.");
+
+  if (degrauRecorrente.checked)
+    achados.push("Degrau recorrente pós-aspiração → persistência de obstrução parcial ou secreção residual.");
+
+  if (achados.length === 0) {
+    resultado.innerHTML = "Nenhum achado selecionado.";
+    detalhes.innerHTML = "";
+    return;
   }
 
-  let texto = interpretacoes.length > 0 ? "Interpretação sugerida:<br>• " + interpretacoes.join("<br>• ") : "Nenhuma assincronia detectada.";
-  document.getElementById("resultado").innerHTML = texto;
+  resultado.innerHTML = "Interpretação sugerida:";
+  detalhes.innerHTML = "<ul><li>" + achados.join("</li><li>") + "</li></ul>";
 }
 </script>
+
+<footer>
+  <p>
+    <strong>Aviso educacional:</strong><br>
+    Este material tem finalidade exclusivamente educacional e de apoio ao raciocínio clínico.
+    Não substitui a avaliação individual do paciente, o julgamento do profissional de saúde
+    ou protocolos institucionais. As interpretações devem sempre ser correlacionadas com o
+    contexto clínico e ventilatório.
+  </p>
+
+  <p>
+    © 2026 – Todos os direitos reservados.<br>
+    Uso permitido para fins educacionais e não comerciais, com citação da fonte.
+    É vedada a reprodução, distribuição ou modificação para fins comerciais sem autorização.
+  </p>
+</footer>
 
 </body>
 </html>
