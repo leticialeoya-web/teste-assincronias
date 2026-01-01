@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Teste – Assincronias Ventilatórias</title>
+<title>Teste – Assincronias Ventilatórias Avançado</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -18,11 +17,6 @@ h1 { font-size: 22px; }
   font-size: 14px;
   color: #666;
   margin-bottom: 20px;
-}
-label { 
-  display: block; 
-  margin-top: 10px;
-  cursor: pointer;
 }
 button { 
   padding: 10px 20px; 
@@ -45,16 +39,22 @@ button:hover {
   border-radius: 5px;
   min-height: 30px;
 }
-.legend { 
-  font-size: 13px; 
-  color: #666; 
-  margin-bottom: 15px;
-  margin-left: 25px;
+fieldset { 
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
 }
-.checkbox-container { 
-  margin-bottom: 20px; 
+legend { 
+  font-weight: bold;
+  padding: 0 10px;
 }
-input[type="checkbox"] {
+label { 
+  display: block; 
+  margin: 5px 0;
+  cursor: pointer;
+}
+input[type="radio"], input[type="checkbox"] {
   margin-right: 8px;
   cursor: pointer;
 }
@@ -86,12 +86,11 @@ input[type="checkbox"] {
   margin-bottom: 10px;
 }
 </style>
-
 </head>
 
 <body>
 
-<h1>Teste clínico – Assincronias Ventilatórias</h1>
+<h1>Teste clínico – Assincronias Ventilatórias Avançado</h1>
 <div class="subtitle">Ferramenta educacional de apoio ao aprendizado</div>
 
 <div class="disclaimer">
@@ -110,54 +109,28 @@ input[type="checkbox"] {
   O uso desta ferramenta é de inteira responsabilidade do usuário. A autora não se responsabiliza por decisões clínicas baseadas exclusivamente nesta ferramenta.
 </div>
 
-<p>Marque os achados observados nas curvas e veja a interpretação sugerida pelo motor.</p>
+<p>Selecione o tipo de ciclo e marque os achados observados nas curvas.</p>
 
-<div class="checkbox-container">
-  <label>
-    <input type="checkbox" id="degrau"> Degrau expiratório
-    <div class="legend">Entalhe na expiração indicando esforço do paciente ou auto-PEEP.</div>
-  </label>
+<fieldset>
+<legend>Tipo de ciclo</legend>
+<label><input type="radio" name="tipoCiclo" value="mandatorio"> Predominantemente mandatários (a tempo)</label>
+<label><input type="radio" name="tipoCiclo" value="espontaneo"> Predominantemente espontâneos</label>
+<label><input type="radio" name="tipoCiclo" value="misto"> Misto (mandatórios + espontâneos)</label>
+<label><input type="radio" name="tipoCiclo" value="naoSei"> Não sei</label>
+</fieldset>
 
-  <label>
-    <input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado
-    <div class="legend">Fluxo insuficiente, paciente tentando puxar mais ar.</div>
-  </label>
-
-  <label>
-    <input type="checkbox" id="ciclagemPrecoce"> Ciclagem precoce
-    <div class="legend">Ventilador termina antes do fluxo inspiratório chegar a zero.</div>
-  </label>
-
-  <label>
-    <input type="checkbox" id="ciclagemTardia"> Ciclagem tardia
-    <div class="legend">Ventilador continua inspirando após fluxo expiratório chegar a zero.</div>
-  </label>
-
-  <label>
-    <input type="checkbox" id="letraM"> Letra M / topo bifásico
-    <div class="legend">Sobre-assistência ou esforço adicional do paciente.</div>
-  </label>
-
-  <label>
-    <input type="checkbox" id="concavidade"> Concavidade no fluxo
-    <div class="legend">Indica esforço subclínico do paciente.</div>
-  </label>
-
-  <label>
-    <input type="checkbox" id="convexidade"> Convexidade no fluxo
-    <div class="legend">Indica suporte excessivo pelo ventilador.</div>
-  </label>
-
-  <label>
-    <input type="checkbox" id="spike"> Spike / overshoot
-    <div class="legend">Pequeno pico extra no final da inspiração.</div>
-  </label>
-
-  <label>
-    <input type="checkbox" id="degrauRecorrente"> Degrau recorrente pós-aspiração
-    <div class="legend">Obstrução parcial ou secreção persistente.</div>
-  </label>
-</div>
+<fieldset>
+<legend>Achados visuais</legend>
+<label><input type="checkbox" id="degrau"> Degrau expiratório (curva de fluxo)</label>
+<label><input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado (curva de fluxo)</label>
+<label><input type="checkbox" id="ciclagemPrecoce"> Ciclagem precoce (curva de fluxo)</label>
+<label><input type="checkbox" id="ciclagemTardia"> Ciclagem tardia (curva de fluxo)</label>
+<label><input type="checkbox" id="letraM"> Letra M / topo bifásico (curva de pressão)</label>
+<label><input type="checkbox" id="concavidade"> Concavidade no fluxo (curva de fluxo)</label>
+<label><input type="checkbox" id="convexidade"> Convexidade no fluxo (curva de fluxo)</label>
+<label><input type="checkbox" id="spike"> Spike / overshoot (curva de pressão)</label>
+<label><input type="checkbox" id="degrauRecorrente"> Degrau recorrente pós-aspiração (curva de fluxo)</label>
+</fieldset>
 
 <button onclick="rodarAnalise()">Rodar análise</button>
 
@@ -180,32 +153,50 @@ input[type="checkbox"] {
 
 <script>
 function rodarAnalise() {
-  let achados = [];
+  let tipo = document.querySelector('input[name="tipoCiclo"]:checked');
+  let tipoCiclo = tipo ? tipo.value : null;
 
-  if (document.getElementById('degrau').checked) 
-    achados.push("Degrau expiratório → esforço inefetivo ou auto-PEEP");
-  if (document.getElementById('picoAbaulado').checked) 
-    achados.push("Pico inspiratório abaulado → fluxo insuficiente / aumento de resistência");
-  if (document.getElementById('ciclagemPrecoce').checked) 
-    achados.push("Ciclagem precoce → ventilador termina antes do fluxo = 0");
-  if (document.getElementById('ciclagemTardia').checked) 
-    achados.push("Ciclagem tardia → ventilador continua após fluxo = 0");
-  if (document.getElementById('letraM').checked) 
-    achados.push("Letra M / topo bifásico → sobre-assistência / esforço adicional");
-  if (document.getElementById('concavidade').checked) 
-    achados.push("Concavidade → esforço subclínico do paciente");
-  if (document.getElementById('convexidade').checked) 
-    achados.push("Convexidade → excesso de suporte pelo ventilador");
-  if (document.getElementById('spike').checked) 
-    achados.push("Spike / overshoot → pico extra no final da inspiração");
-  if (document.getElementById('degrauRecorrente').checked) 
-    achados.push("Degrau recorrente pós-aspiração → obstrução parcial / secreção persistente");
+  // Achados
+  let a = {
+    degrau: document.getElementById("degrau").checked,
+    picoAbaulado: document.getElementById("picoAbaulado").checked,
+    ciclagemPrecoce: document.getElementById("ciclagemPrecoce").checked,
+    ciclagemTardia: document.getElementById("ciclagemTardia").checked,
+    letraM: document.getElementById("letraM").checked,
+    concavidade: document.getElementById("concavidade").checked,
+    convexidade: document.getElementById("convexidade").checked,
+    spike: document.getElementById("spike").checked,
+    degrauRecorrente: document.getElementById("degrauRecorrente").checked
+  };
 
-  let texto = "Nenhuma assincronia dominante identificada.";
-  if (achados.length > 0) {
-    texto = "Assincronia(s) sugerida(s):<br>• " + achados.join("<br>• ");
+  let interpretacoes = [];
+
+  if (!tipoCiclo) {
+    interpretacoes.push("Selecione o tipo de ciclo para uma interpretação completa.");
+  } else {
+    // Combinando sinais para interpretação composta
+    if(a.degrau && a.picoAbaulado && tipoCiclo==="espontaneo") {
+      interpretacoes.push("Esforço inefetivo com possível aumento de resistência/auto-PEEP (curvas de fluxo).");
+    } else if(a.degrau && tipoCiclo==="espontaneo") {
+      interpretacoes.push("Esforço inefetivo verdadeiro ou auto-PEEP (curva de fluxo).");
+    } else if(a.degrau && tipoCiclo==="mandatorio") {
+      interpretacoes.push("Disparo reverso possível (curva de fluxo).");
+    }
+
+    if(a.picoAbaulado && !a.degrau) {
+      interpretacoes.push("Fluxo insuficiente, paciente tentando puxar mais ar (curva de fluxo).");
+    }
+
+    if(a.ciclagemPrecoce) interpretacoes.push("Ventilador termina antes do fluxo inspiratório atingir zero (curva de fluxo).");
+    if(a.ciclagemTardia) interpretacoes.push("Ventilador continua inspirando após fluxo expiratório atingir zero (curva de fluxo).");
+    if(a.letraM) interpretacoes.push("Sobre-assistência ou esforço adicional do paciente (curva de pressão).");
+    if(a.concavidade) interpretacoes.push("Esforço subclínico do paciente (curva de fluxo).");
+    if(a.convexidade) interpretacoes.push("Suporte excessivo pelo ventilador (curva de fluxo).");
+    if(a.spike) interpretacoes.push("Pequeno pico extra no final da inspiração (curva de pressão).");
+    if(a.degrauRecorrente) interpretacoes.push("Obstrução parcial ou secreção persistente (curva de fluxo).");
   }
 
+  let texto = interpretacoes.length > 0 ? "Interpretação sugerida:<br>• " + interpretacoes.join("<br>• ") : "Nenhuma assincronia detectada.";
   document.getElementById("resultado").innerHTML = texto;
 }
 </script>
