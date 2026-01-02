@@ -12,19 +12,26 @@
 
   .row { display:flex; gap:12px; flex-wrap:wrap; }
   .card { border:1px solid #e5e7eb; border-radius:10px; padding:14px; margin-bottom:14px; background:#f9fafb; }
-  .card strong { color:#111827; }
   label { font-weight:700; display:block; }
   .legend { font-size:13px; color:#374151; margin-top:6px; line-height:1.45; }
 
   .controls { margin-top:10px; padding-top:10px; border-top:1px dashed #d1d5db; display:none; }
   .controls.always { display:block; border-top:none; padding-top:0; margin-top:10px; }
-  select, input[type="number"], input[type="text"] { margin-top:6px; font-size:14px; padding:8px; border:1px solid #d1d5db; border-radius:8px; background:#fff; }
-  input[type="number"]{ width: 130px; }
+
+  select, input[type="number"], input[type="text"] {
+    margin-top:6px; font-size:14px; padding:8px; border:1px solid #d1d5db; border-radius:8px; background:#fff;
+  }
+  input[type="number"]{ width: 150px; }
+
   .radio-line { display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; }
   .radio-line label { font-weight:400; color:#111827; }
+
   .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin-top:10px; }
 
-  button { padding:10px 14px; font-size:16px; margin-top:8px; cursor:pointer; border:1px solid #d1d5db; background:#fff; border-radius:10px; }
+  button {
+    padding:10px 14px; font-size:16px; margin-top:8px; cursor:pointer;
+    border:1px solid #d1d5db; background:#fff; border-radius:10px;
+  }
   button.primary { border-color:#111827; }
   button:active { transform: translateY(1px); }
 
@@ -45,6 +52,7 @@
   .kicker { font-size:12px; color:#6b7280; margin-top:6px; }
 
   footer { margin-top:36px; padding-top:16px; border-top:1px solid #e5e7eb; font-size:12px; color:#4b5563; line-height:1.55; }
+  footer ul { margin-top:6px; }
 </style>
 </head>
 
@@ -56,7 +64,7 @@
   O motor separa: <b>sinal → padrão/assincronia → hipótese → ajustes educacionais</b>, com <b>grau de confiança</b>.
 </p>
 
-<!-- CONTEXTO (Melhoria 1: modo + ciclo + versão do motor) -->
+<!-- CONTEXTO -->
 <div class="card">
   <label>Contexto do traçado <span class="pill">Base do motor</span></label>
   <div class="legend">
@@ -85,12 +93,11 @@
         <option value="SIMV">SIMV</option>
       </select>
       <div class="muted" style="margin-top:6px;">
-        Versão do motor: <b>v0.7</b> (educacional).
+        Versão do motor: <b>v0.9</b> (educacional).
       </div>
     </div>
   </div>
 
-  <!-- Melhoria 2: parâmetros opcionais mínimos -->
   <div class="controls always">
     <div class="legend"><b>Parâmetros opcionais (se você tiver)</b> <span class="pill">Opcional</span></div>
     <div class="grid">
@@ -122,14 +129,18 @@
         <div class="muted">PEEP (cmH2O)</div>
         <input id="p_peep" type="number" step="1" min="0" placeholder="ex.: 8" />
       </div>
+      <div>
+        <div class="muted">Auto-PEEP / PEEPi (cmH2O)</div>
+        <input id="p_peepi" type="number" step="1" min="0" placeholder="ex.: 10" />
+      </div>
     </div>
     <div class="muted" style="margin-top:8px;">
-      O motor usa esses campos apenas para <b>personalizar a linguagem</b> e indicar ajustes compatíveis com o modo.
+      O motor usa esses campos para <b>personalizar o texto</b> e sugerir estratégias compatíveis com o modo.
     </div>
   </div>
 </div>
 
-<!-- DISPARO REVERSO (Melhoria 3: opções completas + confiança + confirmação cruzada) -->
+<!-- DISPARO REVERSO -->
 <div class="card">
   <label><input type="checkbox" id="rt_habilitar"> Disparo reverso (Reverse Triggering) <span class="pill">Padrão</span></label>
   <div class="legend">
@@ -179,7 +190,26 @@
   </div>
 </div>
 
-<!-- ACHADOS VISUAIS -->
+<!-- AUTO-PEEP SINAL CHAVE -->
+<div class="card">
+  <label><input type="checkbox" id="expNaoZera"> Expiração não zera antes do próximo ciclo <span class="pill">Fluxo</span></label>
+  <div class="legend">
+    <b>Sinal:</b> o fluxo expiratório <b>não retorna a zero</b> e a próxima inspiração começa com a expiração ainda em andamento. Sugere <b>hiperinsuflação dinâmica/auto-PEEP</b>.
+  </div>
+  <div class="controls" id="ctl_expNaoZera">
+    Quem inicia o próximo ciclo?
+    <select id="expNaoZera_quem">
+      <option value="nao_sei">Não sei</option>
+      <option value="ventilador">Ventilador (a tempo/mandatório)</option>
+      <option value="paciente">Paciente (disparo/assistido)</option>
+    </select>
+    <div class="muted" style="margin-top:6px;">
+      Nota: em ciclos assistidos, isso pode aumentar esforço e disparos inefetivos por “threshold load”.
+    </div>
+  </div>
+</div>
+
+<!-- ACHADOS (os demais) -->
 <div class="card">
   <label><input type="checkbox" id="degrauExp"> Degrau expiratório <span class="pill">Fluxo</span></label>
   <div class="legend">
@@ -321,12 +351,11 @@
 <div class="resultado" id="resultado"></div>
 <div class="debug" id="debugBox"></div>
 
-<!-- RESUMO EXECUTIVO (Melhoria 4: saída em passos + confiança + exportação) -->
+<!-- RESUMO -->
 <div class="card" id="resumoExecutivo" style="display:none;">
   <label>Resumo executivo</label>
   <div class="legend">
     Estrutura fixa: <b>1) sinais</b> → <b>2) padrão/assincronia</b> → <b>3) hipótese</b> → <b>4) ajustes educacionais</b>.
-    O grau de confiança aparece quando aplicável.
   </div>
 
   <div class="detalhes">
@@ -350,34 +379,6 @@
     <p class="muted" style="margin-top:10px;">
       Observação: o motor descreve <b>padrões</b> e possíveis <b>ajustes típicos</b>. A decisão final depende do quadro clínico, do ventilador e do protocolo local.
     </p>
-  </div>
-</div>
-
-<!-- PROPOSTAS DE MELHORIA (agora “implementadas” + itens futuros) -->
-<div class="card" id="propostasMelhoria">
-  <label>Melhorias implementadas e próximos passos</label>
-  <div class="legend">
-    Linguagem técnica, porém direta. O objetivo é reduzir falso positivo e deixar o raciocínio transparente.
-  </div>
-  <div class="detalhes">
-    <p><b>Implementadas neste código</b></p>
-    <ul>
-      <li><b>Seleção de modo ventilatório</b> (VCV/PCV/PSV/PRVC/SIMV) para orientar quais ajustes fazem sentido.</li>
-      <li><b>Parâmetros opcionais</b> (Ti, rise, trigger, % ciclagem, FR, VT, PEEP) para personalizar o texto.</li>
-      <li><b>Grau de confiança</b> (baixa/média/alta) baseado em critérios objetivos (ex.: disparo reverso exige segundo esforço + repetição + contexto mandatório).</li>
-      <li><b>Saída em passos</b> (sinal → padrão → hipótese → ajuste), reduzindo confusão.</li>
-      <li><b>Copiar resumo</b> para área de transferência (para aula, checklist ou discussão de caso).</li>
-      <li><b>Checagem de consistência</b> simples: quando falta confirmação em pressão/fluxo, o resumo pede “confirmar em mais de uma curva”.</li>
-      <li><b>Diagnóstico em tela de erros</b>: se houver falha de JS, aparece uma caixa vermelha (sem depender do console).</li>
-    </ul>
-
-    <p style="margin-top:10px;"><b>Próximos passos (não implementados aqui)</b></p>
-    <ul>
-      <li><b>Biblioteca visual</b> (miniaturas) por achado para padronizar o que é “degrau”, “entalhe”, “overshoot” etc.</li>
-      <li><b>Regras por ventilador/modelo</b> (quando aplicável): nomes e comportamentos mudam entre fabricantes.</li>
-      <li><b>Exportar como PDF</b> do resumo executivo (para registro educacional).</li>
-      <li><b>Perfil de paciente</b> (ex.: obstrutivo vs restritivo) para ajustar hipóteses de resistência/tempo expiratório.</li>
-    </ul>
   </div>
 </div>
 
@@ -426,10 +427,16 @@
     for (const [k, v] of map.entries()) out.push(v ? `${k} — ${v}` : k);
     return out;
   }
-
   function fmtNum(x) {
     const v = String(x || "").trim();
     return v ? v.replace(".", ",") : "";
+  }
+  function parseNum(x) {
+    if (x === null || x === undefined) return null;
+    const s = String(x).trim().replace(",", ".");
+    if (!s) return null;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : null;
   }
 
   function confidenceTag(level) {
@@ -441,6 +448,7 @@
   // Toggle (mostrar/ocultar controles)
   const toggles = [
     ["rt_habilitar", "ctl_rt"],
+    ["expNaoZera", "ctl_expNaoZera"],
     ["degrauExp", "ctl_degrauExp"],
     ["abaulamentoPlatoFluxo", "ctl_abaulamentoPlatoFluxo"],
     ["concavidade", "ctl_concavidade"],
@@ -468,6 +476,7 @@
     const fr = $("p_fr").value;
     const vt = $("p_vt").value;
     const peep = $("p_peep").value;
+    const peepi = $("p_peepi").value;
 
     const parts = [];
     if (ti) parts.push(`Ti ${fmtNum(ti)} s`);
@@ -476,7 +485,8 @@
     if (cyc) parts.push(`% ciclagem: ${fmtNum(cyc)}%`);
     if (fr) parts.push(`FR ${fmtNum(fr)}`);
     if (vt) parts.push(`VT ${fmtNum(vt)} mL`);
-    if (peep) parts.push(`PEEP ${fmtNum(peep)}`);
+    if (peep) parts.push(`PEEP ${fmtNum(peep)} cmH2O`);
+    if (peepi) parts.push(`Auto-PEEP (PEEPi) ${fmtNum(peepi)} cmH2O`);
 
     return parts.length ? parts.join(" | ") : "Sem parâmetros adicionais informados.";
   }
@@ -491,7 +501,6 @@
     return "Observação: sem modo informado, as sugestões ficam mais gerais.";
   }
 
-  // Monta correções com compatibilidade com o modo
   function ajusteCiclagemSugestao(direction) {
     const m = modo();
     const cyc = $("p_ciclagem").value;
@@ -504,7 +513,17 @@
     return `Em PSV: considerar reduzir % ciclagem (atual: ${cyc ? fmtNum(cyc) + "%" : "não informado"}) para prolongar a inspiração.`;
   }
 
-  // Texto para cópia
+  // PEEP externa como fração da PEEPi: 75–85% (ponto de partida educacional)
+  function peepExternaSugestao75a85(peepInfoText) {
+    const peepi = parseNum($("p_peepi").value);
+    if (!peepi || peepi <= 0) {
+      return `Se PEEPi medida e paciente disparando/assistido: considerar PEEP externa abaixo da auto-PEEP, frequentemente em torno de 75–85% como ponto de partida, titulando em passos de 1–2 cmH2O e monitorando PEEP total/platô e hemodinâmica. ${peepInfoText || ""}`.trim();
+    }
+    const low = Math.round(peepi * 0.75);
+    const high = Math.round(peepi * 0.85);
+    return `Compensação parcial da auto-PEEP (para reduzir carga de disparo): ~75–85% da PEEPi. Para PEEPi ${peepi} cmH2O → alvo inicial ≈ ${low} a ${high} cmH2O (titulando 1–2 cmH2O e monitorando PEEP total/platô/hemodinâmica). ${peepInfoText || ""}`.trim();
+  }
+
   function buildPlainTextSummary(state) {
     const lines = [];
     lines.push("RESUMO EXECUTIVO – Assincronias Ventilatórias (educacional)");
@@ -531,7 +550,6 @@
 
   let lastSummaryState = null;
 
-  // Expor global para o botão inline
   window.rodarAnalise = function rodarAnalise() {
     try {
       debugBox.style.display = "none";
@@ -543,13 +561,6 @@
       const resultadoEl = $("resultado");
       const resumoBox = $("resumoExecutivo");
 
-      const listaContexto = $("listaContexto");
-      const listaSinais = $("listaSinais");
-      const listaAssincronias = $("listaAssincronias");
-      const listaHipoteses = $("listaHipoteses");
-      const listaCorrecoes = $("listaCorrecoes");
-      const notaCtx = $("notaContextoResumo");
-
       if (!tipoCiclo) {
         resultadoEl.innerHTML = "Selecione o tipo de ciclo antes de rodar a análise.";
         resumoBox.style.display = "none";
@@ -560,6 +571,7 @@
 
       const conservador = (tipoCiclo === "nao_sei");
       const misto = (tipoCiclo === "misto");
+      const assistOuMisto = (tipoCiclo === "assistido" || tipoCiclo === "misto");
 
       function notaResumo() {
         if (conservador) return "Nota: tipo de ciclo não informado; conclusões com menor especificidade.";
@@ -577,6 +589,10 @@
         if (!correcaoMap.has(nomeHtml)) correcaoMap.set(nomeHtml, correcao || "");
       }
 
+      // Flags de auto-PEEP / hiperinsuflação dinâmica
+      let flagAutoPeep = false;
+      let flagAutoPeepForte = false;
+
       // ===== DISPARO REVERSO =====
       if ($("rt_habilitar").checked) {
         const sPressao = $("rt_segundoEsforco_pressao").checked;
@@ -589,7 +605,6 @@
         const reforcoMandatorio = (tipoCiclo === "mandatorio") || (tipoCiclo === "misto") || emMand;
         const temSegundoEsforco = (sPressao || sFluxo);
 
-        // Critérios e confiança
         let score = 0;
         if (reforcoMandatorio) score++;
         if (temSegundoEsforco) score++;
@@ -606,8 +621,6 @@
         if (duplo) sinais.push("Disparo reverso: há ciclo duplo associado.");
 
         const criteriosMinimos = reforcoMandatorio && temSegundoEsforco && acopl;
-
-        // Checagem de consistência (pressão x fluxo)
         const precisaConfirmacaoCruzada = criteriosMinimos && !(sPressao && sFluxo);
 
         if (criteriosMinimos) {
@@ -625,20 +638,58 @@
           add(
             `Suspeita de disparo reverso (critérios incompletos) ${confidenceTag("baixa")}`,
             "Para concluir com mais segurança: precisa de segundo esforço (pressão e/ou fluxo) + repetição/acoplamento em mandatórios.",
-            "Complete os itens do bloco e tente confirmar se ocorre nos ciclos mandatórios (a tempo)."
+            "Complete os itens do bloco e confirme se ocorre nos ciclos mandatórios (a tempo)."
           );
         }
       }
 
-      // ===== Degrau expiratório =====
+      // ===== SINAL FORTE DE AUTO-PEEP: expiração não zera =====
+      if ($("expNaoZera").checked) {
+        flagAutoPeep = true;
+        flagAutoPeepForte = true;
+
+        const quem = $("expNaoZera_quem").value;
+        const quemTxt =
+          quem === "ventilador" ? "Próximo ciclo iniciado pelo ventilador (a tempo)." :
+          quem === "paciente" ? "Próximo ciclo iniciado pelo paciente (disparo)." :
+          "Quem inicia o próximo ciclo: não informado.";
+
+        sinais.push("Expiração não zera: fluxo expiratório não retorna a zero antes do próximo ciclo.");
+        sinais.push(quemTxt);
+
+        add(
+          `Auto-PEEP / hiperinsuflação dinâmica (sinal forte) ${confidenceTag("alta")}`,
+          "Quando o fluxo expiratório não retorna a zero antes da próxima inspiração, há esvaziamento incompleto (air trapping), sugerindo auto-PEEP.",
+          (function(){
+            let base = "Priorizar aumento do tempo expiratório: reduzir FR e/ou encurtar Ti (conforme modo), ajustar I:E e tratar resistência elevada/secreções quando presentes. Monitorar PEEP total/platô e hemodinâmica.";
+            if (assistOuMisto || quem === "paciente") {
+              base += " Se houver esforço para disparar, considerar compensação parcial da auto-PEEP com PEEP externa para reduzir carga de disparo. " + peepExternaSugestao75a85("");
+            }
+            return base;
+          })()
+        );
+
+        hipoteses.push("Hiperinsuflação dinâmica (air trapping) com auto-PEEP.");
+      }
+
+      // ===== Degrau expiratório (inespecífico, mas pode reforçar auto-PEEP) =====
       if ($("degrauExp").checked) {
         const local = $("degrauExp_local").value;
         sinais.push(`Degrau/entalhe no ramo expiratório (${local}).`);
+        flagAutoPeep = true;
+
         add(
-          "Alteração expiratória / possível auto-PEEP (contextual)",
-          "Degrau expiratório é inespecífico e precisa de correlação.",
-          "Em geral: avaliar tempo expiratório e mecânica (resistência/secreção). Se houver evidência de auto-PEEP, discutir ajustes de tempo expiratório e estratégia ventilatória conforme protocolo."
+          "Alteração expiratória (contextual) — considerar auto-PEEP conforme conjunto de sinais",
+          "Degrau expiratório é inespecífico; interpretar com mecânica e outros sinais (ex.: expiração não zera).",
+          (function(){
+            let t = "Estratégias usuais: avaliar tempo expiratório e mecânica (resistência/secreções). Se houver evidência de auto-PEEP: aumentar tempo expiratório (reduzir FR/encurtar Ti conforme modo), tratar broncoobstrução/secreções e monitorar PEEP total/platô.";
+            if (assistOuMisto && (flagAutoPeepForte || parseNum($("p_peepi").value))) {
+              t += " Em ciclos assistidos/mistos, a compensação parcial com PEEP externa pode reduzir carga de disparo. " + peepExternaSugestao75a85("");
+            }
+            return t;
+          })()
         );
+
         hipoteses.push("Esvaziamento expiratório comprometido (auto-PEEP, resistência elevada, secreções ou esforço expiratório).");
       }
 
@@ -728,7 +779,7 @@
         hipoteses.push("Padrão mais imposto/assistido (depende do modo e do contexto).");
       }
 
-      // ===== Fluxo “tremido” =====
+      // ===== Fluxo tremido exp =====
       if ($("fluxoTremidoExp").checked) {
         sinais.push("Fluxo expiratório serrilhado (“tremido”).");
         add(
@@ -748,6 +799,8 @@
           "Em geral: correlacionar com broncoespasmo/obstrução; revisar tempo expiratório e condições do circuito/tubo conforme avaliação clínica."
         );
         hipoteses.push("Resistência aumentada (broncoespasmo/obstrução), dependendo do contexto.");
+        // resistência pode contribuir para auto-PEEP
+        if (flagAutoPeep) hipoteses.push("Resistência elevada pode favorecer hiperinsuflação dinâmica e auto-PEEP.");
       }
 
       // ===== Spike saída =====
@@ -796,6 +849,14 @@
         hipoteses.push("Persistência de secreção/obstrução/patência comprometida.");
       }
 
+      // Se PEEPi foi preenchida, reforçar hipóteses quando houver qualquer pista
+      const peepiVal = parseNum($("p_peepi").value);
+      if (peepiVal && peepiVal > 0) {
+        if (flagAutoPeep || $("expNaoZera").checked) {
+          hipoteses.push(`Auto-PEEP medida informada (PEEPi ${peepiVal} cmH2O).`);
+        }
+      }
+
       // ===== Saída final =====
       const sinaisU = unique(sinais);
       const assinU = mapToArray(assincroniaMap);
@@ -804,7 +865,7 @@
 
       if (sinaisU.length === 0) {
         resultadoEl.innerHTML = `Ciclo: ${labelTipoCiclo(tipoCiclo)} | Modo: ${m === "nao_sei" ? "Não informado" : m}. Nenhum achado selecionado.`;
-        resumoBox.style.display = "none";
+        $("resumoExecutivo").style.display = "none";
         $("btnCopiar").disabled = true;
         lastSummaryState = null;
         return;
@@ -815,30 +876,30 @@
       const ctxParams = paramsResumo();
 
       $("resultado").innerHTML = `Análise concluída.`;
-      resumoBox.style.display = "block";
+      $("resumoExecutivo").style.display = "block";
 
-      listaContexto.innerHTML =
+      $("listaContexto").innerHTML =
         `<li><b>Ciclo:</b> ${ctxCiclo}</li>` +
         `<li><b>Modo:</b> ${ctxModo}</li>` +
         `<li><b>Parâmetros:</b> ${ctxParams}</li>`;
 
-      listaSinais.innerHTML = "<li>" + sinaisU.join("</li><li>") + "</li>";
-      listaAssincronias.innerHTML = "<li>" + assinU.join("</li><li>") + "</li>";
-      listaHipoteses.innerHTML = "<li>" + hipU.join("</li><li>") + "</li>";
-      listaCorrecoes.innerHTML = "<li>" + corrU.join("</li><li>") + "</li>";
+      $("listaSinais").innerHTML = "<li>" + sinaisU.join("</li><li>") + "</li>";
+      $("listaAssincronias").innerHTML = "<li>" + assinU.join("</li><li>") + "</li>";
+      $("listaHipoteses").innerHTML = "<li>" + hipU.join("</li><li>") + "</li>";
+      $("listaCorrecoes").innerHTML = "<li>" + corrU.join("</li><li>") + "</li>";
 
       const nota = [notaResumo(), modoNotaAjustes()].filter(Boolean).join(" ");
-      notaCtx.textContent = nota;
+      $("notaContextoResumo").textContent = nota;
 
-      // habilita copiar resumo
       lastSummaryState = {
         ctxCiclo, ctxModo, ctxParams,
         sinais: sinaisU,
-        assin: assinU.map(x => x.replace(/<[^>]*>/g, "")), // remove tags (confiança)
+        assin: assinU.map(x => x.replace(/<[^>]*>/g, "")),
         hip: hipU,
         corr: corrU,
         nota
       };
+
       $("btnCopiar").disabled = false;
 
     } catch (e) {
@@ -846,13 +907,11 @@
     }
   };
 
-  // Copiar resumo (Melhoria 5)
   window.copiarResumo = async function copiarResumo() {
     try {
       if (!lastSummaryState) return;
       const text = buildPlainTextSummary(lastSummaryState);
 
-      // tenta clipboard moderno
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(text);
         $("btnCopiar").textContent = "Resumo copiado";
@@ -860,7 +919,6 @@
         return;
       }
 
-      // fallback
       const ta = document.createElement("textarea");
       ta.value = text;
       ta.style.position = "fixed";
@@ -878,7 +936,6 @@
     }
   };
 
-  // Bind básico
   document.addEventListener("DOMContentLoaded", function () {
     bindToggles();
   });
@@ -903,6 +960,21 @@
     Uso permitido para fins educacionais e não comerciais, com citação da autora.
     É vedada a reprodução, distribuição ou modificação para fins comerciais sem autorização expressa.
   </p>
+
+  <p>
+    <strong>Referências selecionadas (auto-PEEP e PEEP externa):</strong>
+  </p>
+  <ul>
+    <li>
+      Nava S. et al. Aplicação de PEEP externa ~75% da PEEPi durante PS reduziu esforços inefetivos. (Chest, 1995).  [oai_citation:0‡PubMed](https://pubmed.ncbi.nlm.nih.gov/8636518/?utm_source=chatgpt.com)
+    </li>
+    <li>
+      Revisão/compêndio: PEEP externa deve ficar abaixo de ~75–85% da auto-PEEP; titular em pequenos incrementos e monitorar pressões estáticas.  [oai_citation:1‡NCBI](https://www.ncbi.nlm.nih.gov/books/NBK441904/?utm_source=chatgpt.com)
+    </li>
+    <li>
+      Revisão em DPOC: manter PEEP externa abaixo da PEEPi evita aumento significativo de pressão alveolar e comprometimento cardiovascular.  [oai_citation:2‡PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC4613406/?utm_source=chatgpt.com)
+    </li>
+  </ul>
 </footer>
 
 </body>
