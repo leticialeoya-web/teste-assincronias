@@ -335,7 +335,7 @@
   }
 
   function valRadio(name){
-    const el = document.querySelector(`input[name="${name}"]:checked`);
+    const el = document.querySelector(input[name="${name}"]:checked);
     return el ? el.value : null;
   }
 
@@ -360,7 +360,7 @@
 
   function mapToArray(map) {
     const out = [];
-    for (const [k, v] of map.entries()) out.push(v ? `${k} — ${v}` : k);
+    for (const [k, v] of map.entries()) out.push(v ? ${k} — ${v} : k);
     return out;
   }
 
@@ -423,7 +423,7 @@
       if (padrao !== "incerto") score++;
 
       if (segundoEsforco) sinais.push("Segundo esforço inspiratório dentro da mesma inspiração mandatória (sem novo ciclo), sugerindo entrainment.");
-      if (acoplamento) sinais.push(`Padrão repetitivo acoplado aos ciclos mandatórios (${padrao}).`);
+      if (acoplamento) sinais.push(Padrão repetitivo acoplado aos ciclos mandatórios (${padrao}).);
       if (cicloDuplo) sinais.push("Há ciclo duplo associado (fenótipo com double triggering).");
 
       // Só nomeia se tiver critérios mínimos
@@ -432,13 +432,13 @@
         if (!cicloDuplo) {
           addAssincronia(
             "Disparo reverso (reverse triggering) sem ciclo duplo",
-            `Critérios atendidos (contexto mandatório/misto + segundo esforço + acoplamento). Confiança ${confianca}.`,
+            Critérios atendidos (contexto mandatório/misto + segundo esforço + acoplamento). Confiança ${confianca}.,
             "Avaliar entrainment paciente–ventilador: revisar ajustes de ciclos mandatórios (FR/Ti) e contexto de drive/sedação; confirmar padrão em pressão e fluxo ciclo a ciclo."
           );
         } else {
           addAssincronia(
             "Disparo reverso (reverse triggering) com ciclo duplo",
-            `Critérios atendidos (contexto mandatório/misto + acoplamento). Confiança ${confianca}.`,
+            Critérios atendidos (contexto mandatório/misto + acoplamento). Confiança ${confianca}.,
             "Revisar entrainment e prevenir ciclo duplo: ajustar FR/Ti e critérios de término conforme modo, avaliar drive/sedação e confirmar padrão em pressão/fluxo ciclo a ciclo."
           );
         }
@@ -457,7 +457,7 @@
     // ========== ACHADOS INDIVIDUAIS ==========
     if (degrauExp.checked) {
       const local = document.getElementById("degrauExp_local").value;
-      sinais.push(`Entalhe/degrau no ramo expiratório (${local}).`);
+      sinais.push(Entalhe/degrau no ramo expiratório (${local}).);
 
       addAssincronia(
         "Assincronia expiratória / provável auto-PEEP (contextual)",
@@ -492,7 +492,7 @@
 
     if (abaulamentoPlatoFluxo.checked) {
       const local = document.getElementById("abaulamentoPlato_local").value;
-      sinais.push(`Abaulamento (“barriga”) no trecho inspiratório do fluxo (${local}).`);
+      sinais.push(Abaulamento (“barriga”) no trecho inspiratório do fluxo (${local}).);
 
       addAssincronia(
         "Fome de fluxo intra-inspiratória (contextual)",
@@ -557,17 +557,17 @@
         ? "Em ciclos mandatórios, o entalhe pode refletir esforço do paciente dentro da inspiração (inclui padrão de disparo reverso quando acoplado)."
         : "Sugere interferência de esforço durante a fase inspiratória; correlacionar com contexto e repetitividade.";
 
-      achados.push(`Letra M (pressão) → entalhe no platô formando “M”. ${notaContexto(extra)}`);
+      achados.push(Letra M (pressão) → entalhe no platô formando “M”. ${notaContexto(extra)});
     }
 
     if (concavidade.checked) {
       const fase = document.getElementById("concavidade_fase").value;
       const local = document.getElementById("concavidade_local").value;
-      sinais.push(`Concavidade (“afundamento”) no fluxo na ${fase} (${local}).`);
+      sinais.push(Concavidade (“afundamento”) no fluxo na ${fase} (${local}).);
 
       addAssincronia(
         "Padrão compatível com demanda/esforço modulando o fluxo (contextual)",
-        `Concavidade na ${fase} (${local}).`,
+        Concavidade na ${fase} (${local}).,
         "Correlacionar com modo e contexto; revisar assistência/sincronia (trigger, rise/fluxo, ciclagem) e conforto do paciente, conforme objetivos clínicos."
       );
 
@@ -582,11 +582,11 @@
     if (convexidade.checked) {
       const fase = document.getElementById("convexidade_fase").value;
       const local = document.getElementById("convexidade_local").value;
-      sinais.push(`Convexidade (abaulamento para fora) no fluxo na ${fase} (${local}).`);
+      sinais.push(Convexidade (abaulamento para fora) no fluxo na ${fase} (${local}).);
 
       addAssincronia(
         "Padrão mais imposto/possível sobreassistência (contextual)",
-        `Convexidade na ${fase} (${local}).`,
+        Convexidade na ${fase} (${local}).,
         "Reavaliar nível de assistência/suporte e sincronização; ajustar para evitar sobreassistência conforme metas ventilatórias e resposta clínica."
       );
 
@@ -703,13 +703,13 @@
 
     // --- SAÍDAS ---
     if (achados.length === 0) {
-      resultado.innerHTML = `Contexto do ciclo: ${labelTipoCiclo(tipoCiclo)}. Nenhum achado selecionado.`;
+      resultado.innerHTML = Contexto do ciclo: ${labelTipoCiclo(tipoCiclo)}. Nenhum achado selecionado.;
       detalhes.innerHTML = "";
       resumoBox.style.display = "none";
       return;
     }
 
-    resultado.innerHTML = `Contexto do ciclo: ${labelTipoCiclo(tipoCiclo)}. Interpretação sugerida:`;
+    resultado.innerHTML = Contexto do ciclo: ${labelTipoCiclo(tipoCiclo)}. Interpretação sugerida:;
     detalhes.innerHTML = "<ul><li>" + achados.join("</li><li>") + "</li></ul>";
 
     const sinaisU = unique(sinais);
