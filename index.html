@@ -1,1 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Assincronias Ventilatórias – Ferramenta Educacional</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- BASE v1.0 – ESTÁVEL -->
+
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f5f6f7;
+  margin:0;
+  padding:20px;
+  color:#222;
+}
+h1 { font-size:22px; margin-bottom:5px; }
+h2 { font-size:18px; margin-top:30px; }
+.card {
+  background:#fff;
+  border-radius:6px;
+  padding:15px;
+  margin-bottom:15px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);
+}
+.legend {
+  font-size:13px;
+  color:#444;
+  margin-top:6px;
+}
+.muted {
+  font-size:12px;
+  color:#666;
+}
+.row {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:10px;
+}
+button {
+  padding:10px 16px;
+  font-size:15px;
+  cursor:pointer;
+}
+select {
+  width:100%;
+  padding:6px;
+}
+.resultado ul {
+  margin-top:5px;
+}
+footer {
+  margin-top:40px;
+  font-size:12px;
+  color:#555;
+  border-top:1px solid #ddd;
+  padding-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Assincronias Ventilatórias</h1>
+<p class="muted">
+Ferramenta educacional para apoio à interpretação das curvas do ventilador mecânico.
+</p>
+
+<!-- CONTEXTO -->
+<div class="card">
+  <label><b>Tipo de ciclo predominante</b></label>
+  <select id="tipoCiclo">
+    <option value="">Selecione</option>
+    <option value="mandatorio">Mandatório (a tempo)</option>
+    <option value="assistido">Assistido</option>
+    <option value="misto">Misto</option>
+    <option value="indefinido">Não sei</option>
+  </select>
+</div>
+
+<!-- ACHADOS VISUAIS -->
+<h2>Achados visuais nas curvas</h2>
+
+<div class="card">
+  <label>
+    <input type="checkbox" id="expNaoZera">
+    Expiração não atinge zero antes do próximo ciclo
+  </label>
+  <div class="legend">
+    Curva de fluxo expiratório não retorna à linha de base antes da próxima inspiração.
+    Compatível com auto-PEEP / hiperinsuflação dinâmica.
+  </div>
+</div>
+
+<div class="card">
+  <label>
+    <input type="checkbox" id="picoAbaulado">
+    Abaulamento do fluxo inspiratório
+  </label>
+  <div class="legend">
+    Aumento secundário do fluxo durante a inspiração, sugerindo fome de fluxo.
+  </div>
+</div>
+
+<div class="card">
+  <label>
+    <input type="checkbox" id="letraM">
+    Entalhe no platô de pressão (padrão em M)
+  </label>
+  <div class="legend">
+    Queda parcial da pressão durante o platô inspiratório, sugerindo esforço adicional ou disparo reverso.
+  </div>
+</div>
+
+<!-- AÇÕES -->
+<div class="row">
+  <button onclick="rodarAnalise()">Rodar análise</button>
+</div>
+
+<!-- RESULTADO -->
+<div class="resultado card" id="resultado"></div>
+
+<!-- ABA MANUAIS -->
+<h2>Manuais – Onde encontrar os ajustes</h2>
+
+<div class="card">
+  <div class="legend">
+    Esta seção orienta <b>onde localizar</b> os ajustes nos ventiladores, com base nos
+    <b>manuais oficiais dos fabricantes</b>.
+    Não substitui treinamento, protocolos institucionais ou julgamento clínico.
+  </div>
+
+  <div class="grid" style="margin-top:10px;">
+    <div>
+      <div class="muted">Ventilador</div>
+      <select id="manualVent">
+        <option value="">Selecione</option>
+        <option value="vela">Vela (Vyaire / CareFusion)</option>
+      </select>
+    </div>
+
+    <div>
+      <div class="muted">Objetivo do ajuste</div>
+      <select id="manualObjetivo">
+        <option value="">Selecione</option>
+        <option value="autopeep">Auto-PEEP / tempo expiratório</option>
+        <option value="trigger">Trigger / threshold load</option>
+        <option value="ciclagem">Ciclagem</option>
+        <option value="rise">Rise / pressurização</option>
+      </select>
+    </div>
+  </div>
+
+  <button style="margin-top:12px;" onclick="mostrarManual()">Mostrar onde procurar</button>
+
+  <div id="manualResultado" class="legend" style="margin-top:12px;"></div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+// MOTOR CLÍNICO SIMPLIFICADO
+function rodarAnalise() {
+  const sinais = [];
+  const assincronias = [];
+  const correcoes = [];
+
+  if (document.getElementById("expNaoZera").checked) {
+    sinais.push("Expiração não atinge zero antes do próximo ciclo.");
+    assincronias.push("Auto-PEEP / hiperinsuflação dinâmica");
+    correcoes.push("Aumentar tempo expiratório e reduzir carga ventilatória.");
+  }
+
+  if (document.getElementById("picoAbaulado").checked) {
+    sinais.push("Abaulamento do fluxo inspiratório.");
+    assincronias.push("Fome de fluxo");
+    correcoes.push("Ajustar oferta de fluxo ou pressurização.");
+  }
+
+  if (document.getElementById("letraM").checked) {
+    sinais.push("Entalhe no platô de pressão.");
+    assincronias.push("Disparo reverso provável");
+    correcoes.push("Reavaliar ciclos mandatórios e conforto ventilatório.");
+  }
+
+  let html = "<b>Sinais observados:</b><ul>";
+  sinais.forEach(s => html += "<li>" + s + "</li>");
+  html += "</ul>";
+
+  if (assincronias.length) {
+    html += "<b>Assincronias sugeridas:</b><ul>";
+    [...new Set(assincronias)].forEach(a => html += "<li>" + a + "</li>");
+    html += "</ul>";
+  }
+
+  if (correcoes.length) {
+    html += "<b>Resumo de correção (educacional):</b><ul>";
+    [...new Set(correcoes)].forEach(c => html += "<li>" + c + "</li>");
+    html += "</ul>";
+  }
+
+  document.getElementById("resultado").innerHTML = html;
+}
+
+// FUNÇÃO MANUAIS – VELA
+function mostrarManual() {
+  const vent = document.getElementById("manualVent").value;
+  const obj = document.getElementById("manualObjetivo").value;
+  const out = document.getElementById("manualResultado");
+
+  if (!vent || !obj) {
+    out.innerHTML = "Selecione o ventilador e o objetivo do ajuste.";
+    return;
+  }
+
+  const dados = {
+    vela: {
+      nome: "Vela (Vyaire / CareFusion)",
+      link: "https://www.vyaire.com/support/critical-care/vela",
+      autopeep: {
+        onde: "Parâmetros do modo / FR, I:E, Ti e PEEP",
+        termos: "auto-PEEP, intrinsic PEEP, expiratory time"
+      },
+      trigger: {
+        onde: "Trigger Sensitivity",
+        termos: "trigger sensitivity, flow trigger"
+      },
+      ciclagem: {
+        onde: "Cycling / ETS",
+        termos: "cycling, ETS"
+      },
+      rise: {
+        onde: "Rise Time / Pressurization",
+        termos: "rise time, pressurization"
+      }
+    }
+  };
+
+  const dVent = dados[vent];
+  const dObj = dVent ? dVent[obj] : null;
+
+  if (!dVent || !dObj) {
+    out.innerHTML = "Dados ainda não disponíveis para esta seleção.";
+    return;
+  }
+
+  out.innerHTML = `
+    <b>Ventilador:</b> ${dVent.nome}<br>
+    <b>Onde procurar:</b> ${dObj.onde}<br>
+    <b>Termos úteis no manual (Ctrl+F):</b> ${dObj.termos}<br>
+    <a href="${dVent.link}" target="_blank">Abrir manual oficial</a>
+  `;
+}
+
+</script>
+
+<footer>
+<b>Autoria:</b> Leticia Moreira<br>
+Material educacional. Não substitui decisão clínica, protocolos institucionais ou treinamento formal.<br>
+© 2026 – Uso educacional.
+</footer>
+
+</body>
+</html>
