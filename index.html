@@ -504,12 +504,14 @@ window.mostrarManual = function mostrarManual() {
     return;
   }
 
-  out.innerHTML = `
-    <b>Ventilador:</b> ${dVent.nome}<br>
-    <b>Onde procurar:</b> ${dObj.onde}<br>
-    <b>Termos (Ctrl+F):</b> ${dObj.termos}<br>
-    <a href="${dVent.link}" target="_blank" rel="noopener noreferrer">Abrir suporte/manual oficial</a>
-  `;
+ out.innerHTML = `
+  <b>Ventilador:</b> ${dVent.nome}<br>
+  <b>Onde procurar:</b> ${dObj.onde}<br>
+  <b>Termos para buscar no manual:</b> ${dObj.termos}<br>
+  <a href="${dVent.link}" target="_blank" rel="noopener noreferrer">
+    Abrir suporte/manual oficial
+  </a>
+`;
 };
 // ================= FIM FUNÇÃO MANUAIS =================
   function getTipoCiclo() {
