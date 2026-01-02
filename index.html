@@ -16,6 +16,7 @@
 
   .controls { margin-top:10px; padding-top:10px; border-top:1px dashed #d1d5db; display:none; }
   select { margin-top:6px; font-size:14px; }
+
   .radio-line { display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; }
   .radio-line label { font-weight:400; color:#111827; }
 
@@ -36,15 +37,15 @@
 
 <h1>Teste clínico – Assincronias Ventilatórias</h1>
 <p>
-  1) Selecione o <b>tipo de ciclo</b>. 2) Marque os achados e, quando aplicável, especifique “onde”.
-  O motor descreve o <b>sinal visual</b>, sugere <b>assincronia</b> (quando aplicável), lista <b>hipóteses</b> e mostra um resumo educacional de <b>como corrigir</b>.
+  1) Selecione o <b>tipo de ciclo</b>. 2) Marque os achados e, quando aplicável, indique “onde”.
+  O motor descreve o <b>sinal no traçado</b>, sugere <b>padrões/assincronias prováveis</b>, lista <b>hipóteses</b> e traz um <b>resumo de ajustes possíveis</b> (educacional).
 </p>
 
 <!-- CONTEXTO DO CICLO -->
 <div class="card">
-  <label>Contexto do ciclo observado <span class="pill">Obrigatório</span></label>
+  <label>Tipo de ciclo observado <span class="pill">Obrigatório</span></label>
   <div class="legend">
-    A leitura dos sinais depende se o traçado é mandatário (a tempo), assistido (disparado pelo paciente) ou misto.
+    Ajuda a interpretar o traçado: se o ciclo foi iniciado pelo ventilador (mandatório) ou pelo paciente (assistido), ou se há mistura.
   </div>
   <div class="radio-line">
     <label><input type="radio" name="tipoCiclo" value="mandatorio" /> Mandatório (a tempo)</label>
@@ -54,33 +55,43 @@
   </div>
 </div>
 
-<!-- BLOCO ESPECÍFICO PARA DISPARO REVERSO -->
+<!-- BLOCO ESPECÍFICO: DISPARO REVERSO -->
 <div class="card">
   <label><input type="checkbox" id="rt_habilitar"> Avaliar Disparo Reverso (Reverse Triggering) <span class="pill">Padrão</span></label>
   <div class="legend">
-    Use este bloco quando você suspeita que um ciclo <b>mandatório</b> esteja “puxando” um <b>segundo esforço</b> do paciente dentro da mesma inspiração (com ou sem ciclo duplo).
+    Use quando suspeitar que um ciclo <b>mandatório</b> esteja “puxando” um <b>segundo esforço inspiratório</b> do paciente dentro do mesmo ciclo.
+    Pode ocorrer <b>com</b> ou <b>sem</b> ciclo duplo.
   </div>
 
   <div class="controls" id="ctl_rt">
     <div class="legend">
-      <b>Selecione os sinais do padrão (quanto mais critérios, maior a confiança):</b>
+      <b>Marque os critérios:</b> quanto mais itens positivos, maior a confiança.
+    </div>
+
+    <!-- Critério 1: Segundo esforço (separado por curva para ficar claro) -->
+    <label style="margin-top:10px; font-weight:700;">
+      <input type="checkbox" id="rt_segundoEsforco_pressao">
+      Pressão: entalhe/queda durante a inspiração (no meio/fim)
+    </label>
+    <div class="legend">
+      Deformação inspiratória na pressão (ex.: “entalhe” no platô / formato em M), sem necessariamente gerar novo ciclo.
     </div>
 
     <label style="margin-top:10px; font-weight:700;">
-      <input type="checkbox" id="rt_segundoEsforco">
-      Segundo esforço inspiratório durante a inspiração mandatória (sem novo ciclo)
+      <input type="checkbox" id="rt_segundoEsforco_fluxo">
+      Fluxo: o fluxo inspiratório “volta a subir” no meio/fim da inspiração
     </label>
     <div class="legend">
-      <b>Sinal visual:</b> entalhe/queda na pressão durante a inspiração <i>ou</i> nova elevação do fluxo inspiratório no meio/fim,
-      porém <b>sem</b> disparar um novo ciclo.
+      Uma segunda elevação do fluxo inspiratório dentro do mesmo ciclo, sugerindo “segundo esforço” do paciente.
     </div>
 
+    <!-- Critério 2: Acoplamento/repetição -->
     <label style="margin-top:10px; font-weight:700;">
       <input type="checkbox" id="rt_acoplamento">
-      Padrão repetitivo acoplado aos ciclos mandatórios
+      Ocorre de forma repetitiva e “colada” aos ciclos mandatórios
     </label>
     <div class="legend">
-      Ex.: ocorre em vários ciclos consecutivos, com atraso semelhante em relação ao início do ciclo.
+      Ex.: aparece em vários ciclos seguidos, com atraso semelhante após o início do ciclo.
     </div>
 
     <div style="margin-top:10px;">
@@ -93,25 +104,35 @@
       </select>
     </div>
 
+    <!-- Critério 3: Fenótipo com/sem ciclo duplo -->
     <label style="margin-top:10px; font-weight:700;">
       <input type="checkbox" id="rt_cicloDuplo">
-      Há ciclo duplo (double triggering) associado
+      Há ciclo duplo (double triggering)
     </label>
     <div class="legend">
-      <b>Importante:</b> Disparo reverso pode ocorrer <b>com</b> ou <b>sem</b> ciclo duplo. Aqui você só classifica o fenótipo.
+      Use apenas para classificar o fenótipo. Disparo reverso pode existir mesmo sem ciclo duplo.
+    </div>
+
+    <!-- Critério 4 (opcional): reforço visual -->
+    <label style="margin-top:10px; font-weight:700;">
+      <input type="checkbox" id="rt_emMandatorios">
+      Vejo isso principalmente em ciclos mandatórios (a tempo)
+    </label>
+    <div class="legend">
+      Ajuda quando o traçado é misto e você consegue identificar que o padrão está nos mandatórios.
     </div>
   </div>
 </div>
 
 <!-- Degrau expiratório -->
 <div class="card">
-  <label><input type="checkbox" id="degrauExp"> Degrau expiratório <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="degrauExp"> Degrau expiratório <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> entalhe/degrau (quebra de inclinação) no <b>ramo expiratório</b>, interrompendo a queda suave do fluxo expiratório.
-    <br><b>Nota:</b> é um sinal inespecífico; sozinho <b>não</b> define disparo reverso.
+    <b>Sinal:</b> “degrau”/entalhe no <b>ramo expiratório</b> (a queda do fluxo não é suave).
+    <br><b>Importante:</b> é um achado inespecífico; sozinho <b>não</b> confirma disparo reverso.
   </div>
   <div class="controls" id="ctl_degrauExp">
-    Parte da expiração:
+    Em que parte da expiração?
     <select id="degrauExp_local">
       <option value="início">Início</option>
       <option value="meio">Meio</option>
@@ -122,60 +143,58 @@
 
 <!-- Pico inspiratório abaulado -->
 <div class="card">
-  <label><input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> pico de fluxo inspiratório <b>arredondado/abaulado</b> (pico “sem ponta”).
+    <b>Sinal:</b> pico inspiratório “arredondado” (sem ponta). Pode ocorrer quando o fluxo ofertado não acompanha a demanda ou quando há maior resistência.
   </div>
 </div>
 
-<!-- Abaulamento do platô de fluxo inspiratório -->
+<!-- Abaulamento do fluxo inspiratório -->
 <div class="card">
-  <label><input type="checkbox" id="abaulamentoPlatoFluxo"> Abaulamento do platô de fluxo inspiratório <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="abaulamentoPlatoFluxo"> Abaulamento do fluxo durante a inspiração <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> durante a inspiração, observa-se <b>abaulamento</b> (fluxo “volta a subir” ou forma uma barriga).
-    <br><b>Nota:</b> quando isso é repetitivo em ciclos mandatórios e aparece como “segundo esforço” dentro da inspiração, pode compor padrão de disparo reverso.
+    <b>Sinal:</b> o fluxo inspiratório “volta a subir” ou faz uma “barriga” no meio/fim da inspiração.
   </div>
   <div class="controls" id="ctl_abaulamentoPlatoFluxo">
     Onde ocorre mais?
     <select id="abaulamentoPlato_local">
-      <option value="no início da inspiração">No início da inspiração</option>
-      <option value="no meio da inspiração">No meio da inspiração</option>
-      <option value="no final da inspiração">No final da inspiração</option>
+      <option value="no início">No início</option>
+      <option value="no meio">No meio</option>
+      <option value="no final">No final</option>
     </select>
   </div>
 </div>
 
 <!-- Ciclagem precoce -->
 <div class="card">
-  <label><input type="checkbox" id="ciclagemPrecoce"> Ciclagem precoce <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="ciclagemPrecoce"> Ciclagem precoce <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual da assincronia:</b> a inspiração termina com <b>fluxo inspiratório ainda positivo</b> (não chega próximo de zero).
+    <b>Sinal:</b> a inspiração termina com <b>fluxo inspiratório ainda positivo</b> (não chega perto de zero).
   </div>
 </div>
 
 <!-- Ciclagem tardia -->
 <div class="card">
-  <label><input type="checkbox" id="ciclagemTardia"> Ciclagem tardia <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="ciclagemTardia"> Ciclagem tardia <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual da assincronia:</b> o ventilador mantém inspiração apesar do fluxo inspiratório já ter atingido <b>~zero</b>.
+    <b>Sinal:</b> o ventilador mantém a inspiração apesar de o fluxo já estar <b>~zero</b>.
   </div>
 </div>
 
 <!-- Letra M -->
 <div class="card">
-  <label><input type="checkbox" id="letraM"> Letra M (entalhe no platô) <span class="pill">Curva de pressão</span></label>
+  <label><input type="checkbox" id="letraM"> Entalhe no platô de pressão (“Letra M”) <span class="pill">Pressão</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> no platô inspiratório da pressão, há um <b>entalhe</b> no meio com retorno, formando <b>“M”</b>.
-    <b>Não</b> é “dois topos” e <b>não</b> corresponde a ciclos duplos.
-    <br><b>Nota:</b> em ciclos mandatórios repetidos, pode ser a deformação da pressão causada pelo “segundo esforço” do disparo reverso.
+    <b>Sinal:</b> queda/entalhe no platô inspiratório com retorno, formando “M”.
+    <br><b>Não</b> é “dois picos” e <b>não</b> é ciclo duplo.
   </div>
 </div>
 
 <!-- Concavidade no fluxo -->
 <div class="card">
-  <label><input type="checkbox" id="concavidade"> Concavidade no fluxo <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="concavidade"> Concavidade no fluxo <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> a curva “afunda” (concava) onde se esperaria trajetória mais linear/suave.
+    <b>Sinal:</b> a curva “afunda” (concava) onde se esperaria uma trajetória mais uniforme.
   </div>
   <div class="controls" id="ctl_concavidade">
     Onde aparece?
@@ -184,18 +203,18 @@
       <option value="expiração">Expiração</option>
     </select>
     <select id="concavidade_local">
-      <option value="no início">No início</option>
-      <option value="no meio">No meio</option>
-      <option value="no final">No final</option>
+      <option value="no início">Início</option>
+      <option value="no meio">Meio</option>
+      <option value="no final">Final</option>
     </select>
   </div>
 </div>
 
 <!-- Convexidade no fluxo -->
 <div class="card">
-  <label><input type="checkbox" id="convexidade"> Convexidade no fluxo <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="convexidade"> Convexidade no fluxo <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> a curva “abaula para fora” (convexa) na fase selecionada.
+    <b>Sinal:</b> a curva “abaula para fora” (convexa).
   </div>
   <div class="controls" id="ctl_convexidade">
     Onde aparece?
@@ -204,63 +223,63 @@
       <option value="expiração">Expiração</option>
     </select>
     <select id="convexidade_local">
-      <option value="no início">No início</option>
-      <option value="no meio">No meio</option>
-      <option value="no final">No final</option>
+      <option value="no início">Início</option>
+      <option value="no meio">Meio</option>
+      <option value="no final">Final</option>
     </select>
   </div>
 </div>
 
 <!-- Fluxo expiratório tremido -->
 <div class="card">
-  <label><input type="checkbox" id="fluxoTremidoExp"> Curva de fluxo expiratório “tremida” <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="fluxoTremidoExp"> Fluxo expiratório “tremido” (serrilhado) <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> serrilhado/oscilações repetidas no <b>ramo expiratório</b>.
-    <br><b>Interpretação típica:</b> secreções/condensado/interferência no tubo/circuito (correlacionar com ausculta e aspiração).
+    <b>Sinal:</b> pequenas oscilações repetidas no ramo expiratório.
+    <br><b>Mais comum em:</b> secreções/condensado/interferência no tubo/circuito (correlacionar com ausculta e aspiração).
   </div>
 </div>
 
 <!-- Sinal de raiz quadrada -->
 <div class="card">
-  <label><input type="checkbox" id="raizQuadrada"> “Sinal de raiz quadrada” <span class="pill">Resistência de via aérea</span></label>
+  <label><input type="checkbox" id="raizQuadrada"> Padrão “raiz quadrada” (limitação de fluxo / resistência) <span class="pill">Mecânica</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> traçado com aspecto “quadrado/achatado” compatível com <b>limitação ao fluxo</b>.
-    <br><b>Interpretação típica:</b> compatível com broncoespasmo/obstrução (correlacionar com sibilância, pressões e clínica).
+    <b>Sinal:</b> traçado “achatado/quadrado”, compatível com <b>limitação ao fluxo</b>.
+    <br><b>Interpretação típica:</b> aumento de resistência (ex.: broncoespasmo/obstrução), dependendo do contexto.
   </div>
 </div>
 
 <!-- Spike (pressão) - saída -->
 <div class="card">
-  <label><input type="checkbox" id="spikeSaida"> Spike (na saída) <span class="pill">Curva de pressão</span></label>
+  <label><input type="checkbox" id="spikeSaida"> Spike na saída (fim da inspiração) <span class="pill">Pressão</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> espícula/pico curto de pressão no <b>fim da inspiração</b> (transição para expiração).
+    <b>Sinal:</b> espícula curta no fim da inspiração, na transição para expiração.
   </div>
 </div>
 
 <!-- Overshoot (pressão) - entrada ou saída -->
 <div class="card">
-  <label><input type="checkbox" id="overshoot"> Overshoot (pressão) <span class="pill">Curva de pressão</span></label>
+  <label><input type="checkbox" id="overshoot"> Overshoot de pressão <span class="pill">Pressão</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> excesso transitório de pressão acima do alvo com retorno. Pode ocorrer na <b>entrada</b> ou <b>saída</b>.
+    <b>Sinal:</b> a pressão “passa do alvo” e retorna. Pode ser no <b>início</b> (entrada) ou no <b>fim</b> (saída) do ciclo.
   </div>
   <div class="controls" id="ctl_overshoot">
-    Overshoot ocorre em:
+    Onde ocorre?
     <div class="radio-line">
-      <label><input type="radio" name="ov_tipo" value="entrada" checked /> Entrada (início / rise time)</label>
-      <label><input type="radio" name="ov_tipo" value="saida" /> Saída (fim / ciclagem)</label>
+      <label><input type="radio" name="ov_tipo" value="entrada" checked /> Entrada (início / subida)</label>
+      <label><input type="radio" name="ov_tipo" value="saida" /> Saída (fim / troca de fase)</label>
     </div>
   </div>
 </div>
 
 <!-- Degrau recorrente pós-aspiração -->
 <div class="card">
-  <label><input type="checkbox" id="degrauRecorrente"> Degrau recorrente pós-aspiração <span class="pill">Curva de fluxo</span></label>
+  <label><input type="checkbox" id="degrauRecorrente"> Degrau recorrente após aspiração <span class="pill">Fluxo</span></label>
   <div class="legend">
-    <b>Sinal visual:</b> degraus repetidos no fluxo após aspiração, sugerindo fator persistente.
+    <b>Sinal:</b> degraus repetidos mesmo após aspiração, sugerindo fator persistente (secreção/obstrução/patência).
   </div>
 </div>
 
-<button onclick="rodarAnalise()">Rodar análise</button>
+<button id="btnRodar">Rodar análise</button>
 
 <div class="resultado" id="resultado"></div>
 
@@ -268,20 +287,20 @@
 <div class="card" id="resumoExecutivo" style="display:none;">
   <label>Resumo executivo</label>
   <div class="legend">
-    Síntese dos principais sinais visuais, <b>nome(s) da(s) assincronia(s)</b> (quando aplicável) e um <b>resumo de como corrigir</b> (educacional; depende do modo/protocolo).
+    Linguagem simples (mas técnica): o que apareceu no traçado, qual padrão/assincronia é mais provável e o que normalmente se ajusta.
   </div>
 
   <div class="detalhes">
-    <p><b>Principais sinais visuais identificados:</b></p>
+    <p><b>1) Sinais no traçado:</b></p>
     <ul id="listaSinais"></ul>
 
-    <p style="margin-top:10px;"><b>Assincronia(s) sugerida(s):</b></p>
+    <p style="margin-top:10px;"><b>2) Padrão/assincronia provável:</b></p>
     <ul id="listaAssincronias"></ul>
 
-    <p style="margin-top:10px;"><b>Como corrigir (resumo):</b></p>
+    <p style="margin-top:10px;"><b>3) Ajustes geralmente considerados (resumo):</b></p>
     <ul id="listaCorrecoes"></ul>
 
-    <p style="margin-top:10px;"><b>Hipóteses mais prováveis:</b></p>
+    <p style="margin-top:10px;"><b>4) Hipóteses:</b></p>
     <ul id="listaHipoteses"></ul>
 
     <p class="kicker" id="notaContextoResumo"></p>
@@ -290,44 +309,29 @@
 
 <div class="detalhes" id="detalhes"></div>
 
-<!-- PROPOSTAS DE MELHORIA (roadmap) -->
+<!-- PROPOSTAS DE MELHORIA -->
 <div class="card" id="propostasMelhoria">
-  <label>Propostas de melhoria (roadmap)</label>
+  <label>Propostas de melhoria do motor</label>
   <div class="legend">
-    Itens para aumentar a precisão do motor e padronizar “assincronia + correção resumida”, mantendo caráter educacional.
+    O objetivo é deixar o resultado mais confiável e mais “guiado”, sem perder rigor técnico.
   </div>
   <div class="detalhes">
     <ul>
-      <li><b>Selecionar modo ventilatório</b> (VCV/PCV/PSV/PRVC etc.) para personalizar correções (ex.: % ciclagem apenas em PSV).</li>
-      <li><b>Parâmetros mínimos opcionais</b> (Ti, % ciclagem, rise time, trigger, FR/VT, PEEP) para tornar correções menos genéricas.</li>
-      <li><b>Regras de compatibilidade</b> por contexto (mandatório/assistido/misto) para reduzir falso positivo de “assincronia”.</li>
-      <li><b>Confirmação cruzada</b> entre curvas (pressão/fluxo/volume) antes de nomear a assincronia.</li>
-      <li><b>Rótulo de confiança</b> (baixa/média/alta) por critérios convergentes e consistência com o contexto do ciclo.</li>
-      <li><b>Exportar resumo executivo</b> (texto pronto para discussão de caso/aula).</li>
-      <li><b>Biblioteca de exemplos</b> (miniaturas) por achado, exibidas ao marcar o checkbox.</li>
-      <li><b>Versionamento</b> do motor e log de mudanças para rastreabilidade educacional.</li>
+      <li><b>Selecionar modo ventilatório (VCV/PCV/PSV/PRVC)</b>: o motor só sugere ajustes que fazem sentido para o modo (ex.: % ciclagem em PSV).</li>
+      <li><b>Parâmetros opcionais mínimos</b> (Ti, rise/pressurização, trigger, % ciclagem, FR/VT, PEEP): melhora a precisão do “como ajustar”.</li>
+      <li><b>Checagem entre curvas</b>: antes de “batizar” a assincronia, pedir confirmação em pressão/fluxo (reduz falso positivo).</li>
+      <li><b>Confiança do resultado (baixa/média/alta)</b>: baseada em critérios objetivos (ex.: para disparo reverso, exigir “segundo esforço” + repetição + contexto mandatório).</li>
+      <li><b>Separar “sinal → padrão → hipótese → ajuste”</b>: o usuário entende por que o motor concluiu aquilo.</li>
+      <li><b>Botão de copiar o resumo</b>: útil para discussão de caso/aula/checklist.</li>
+      <li><b>Exemplos visuais por item</b>: miniaturas ao marcar cada achado, acelerando o reconhecimento do sinal.</li>
+      <li><b>Versão do motor</b>: exibir versão e histórico curto de mudanças para rastreabilidade educacional.</li>
     </ul>
   </div>
 </div>
 
 <script>
-  // Controles condicionais (expandir/colapsar)
-  const toggles = [
-    ["degrauExp", "ctl_degrauExp"],
-    ["concavidade", "ctl_concavidade"],
-    ["convexidade", "ctl_convexidade"],
-    ["overshoot", "ctl_overshoot"],
-    ["abaulamentoPlatoFluxo", "ctl_abaulamentoPlatoFluxo"],
-    ["rt_habilitar", "ctl_rt"]
-  ];
-
-  toggles.forEach(([cbId, ctlId]) => {
-    const cb = document.getElementById(cbId);
-    const ctl = document.getElementById(ctlId);
-    cb.addEventListener("change", () => {
-      ctl.style.display = cb.checked ? "block" : "none";
-    });
-  });
+  // ===== Utilitários DOM (evita falhas de "globais" em navegadores/strict) =====
+  const $ = (id) => document.getElementById(id);
 
   function getTipoCiclo() {
     const el = document.querySelector('input[name="tipoCiclo"]:checked');
@@ -364,26 +368,41 @@
     return out;
   }
 
+  // ===== Mostrar/ocultar controles =====
+  const toggles = [
+    ["degrauExp", "ctl_degrauExp"],
+    ["concavidade", "ctl_concavidade"],
+    ["convexidade", "ctl_convexidade"],
+    ["overshoot", "ctl_overshoot"],
+    ["abaulamentoPlatoFluxo", "ctl_abaulamentoPlatoFluxo"],
+    ["rt_habilitar", "ctl_rt"]
+  ];
+
+  toggles.forEach(([cbId, ctlId]) => {
+    const cb = $(cbId);
+    const ctl = $(ctlId);
+    cb.addEventListener("change", () => {
+      ctl.style.display = cb.checked ? "block" : "none";
+    });
+  });
+
+  // ===== Função principal =====
   function rodarAnalise() {
     const tipoCiclo = getTipoCiclo();
 
-    const achados = [];
-    const sinais = [];
-    const hipoteses = [];
+    const resultadoEl = $("resultado");
+    const detalhesEl = $("detalhes");
+    const resumoBox = $("resumoExecutivo");
 
-    const assincroniaMap = new Map(); // nome -> justificativa
-    const correcaoMap = new Map();    // nome -> correção
-
-    const resumoBox = document.getElementById("resumoExecutivo");
-    const listaSinais = document.getElementById("listaSinais");
-    const listaAssincronias = document.getElementById("listaAssincronias");
-    const listaCorrecoes = document.getElementById("listaCorrecoes");
-    const listaHipoteses = document.getElementById("listaHipoteses");
-    const notaCtx = document.getElementById("notaContextoResumo");
+    const listaSinais = $("listaSinais");
+    const listaAssincronias = $("listaAssincronias");
+    const listaCorrecoes = $("listaCorrecoes");
+    const listaHipoteses = $("listaHipoteses");
+    const notaCtx = $("notaContextoResumo");
 
     if (!tipoCiclo) {
-      resultado.innerHTML = "Selecione o tipo de ciclo (mandatório, assistido, misto ou não sei) antes de rodar a análise.";
-      detalhes.innerHTML = "";
+      resultadoEl.innerHTML = "Selecione o tipo de ciclo (mandatório, assistido, misto ou não sei) antes de rodar a análise.";
+      detalhesEl.innerHTML = "";
       resumoBox.style.display = "none";
       return;
     }
@@ -391,326 +410,257 @@
     const conservador = (tipoCiclo === "nao_sei");
     const misto = (tipoCiclo === "misto");
 
+    function notaResumo() {
+      if (conservador) return "Nota: como o tipo de ciclo não foi definido, as sugestões ficam mais gerais e devem ser confirmadas no contexto do modo ventilatório.";
+      if (misto) return "Nota: em traçado misto, confirme ciclo a ciclo (mandatório vs assistido) antes de concluir.";
+      return "";
+    }
+
     function notaContexto(extra) {
-      if (conservador) return "Interpretação conservadora (tipo de ciclo não informado). " + extra;
-      if (misto) return "Ciclos mistos podem combinar padrões diferentes no mesmo traçado. " + extra;
+      if (conservador) return "Interpretação mais conservadora (tipo de ciclo não informado). " + extra;
+      if (misto) return "Ciclos mistos podem mostrar padrões diferentes em ciclos diferentes. " + extra;
       return extra;
     }
 
-    function notaResumo() {
-      if (conservador) return "Nota: tipo de ciclo não informado; correções apresentadas de forma conservadora e dependentes do modo ventilatório e protocolo local.";
-      if (misto) return "Nota: traçado misto pode conter assincronias distintas em ciclos diferentes; correlacionar ciclo a ciclo.";
-      return "";
-    }
+    const achados = [];
+    const sinais = [];
+    const hipoteses = [];
+    const assincroniaMap = new Map();
+    const correcaoMap = new Map();
 
     function addAssincronia(nome, justificativa, correcao) {
       if (!assincroniaMap.has(nome)) assincroniaMap.set(nome, justificativa || "");
       if (!correcaoMap.has(nome)) correcaoMap.set(nome, correcao || "");
     }
 
-    // ========== DISPARO REVERSO (Padrão) ==========
-    if (rt_habilitar.checked) {
-      const segundoEsforco = rt_segundoEsforco.checked;
-      const acoplamento = rt_acoplamento.checked;
-      const padrao = document.getElementById("rt_padrao").value;
-      const cicloDuplo = rt_cicloDuplo.checked;
+    // ===================== DISPARO REVERSO =====================
+    if ($("rt_habilitar").checked) {
+      const sPressao = $("rt_segundoEsforco_pressao").checked;
+      const sFluxo   = $("rt_segundoEsforco_fluxo").checked;
+      const acopl    = $("rt_acoplamento").checked;
+      const padrao   = $("rt_padrao").value;
+      const duplo    = $("rt_cicloDuplo").checked;
+      const emMand   = $("rt_emMandatorios").checked;
 
-      const contextoOk = (tipoCiclo === "mandatorio" || tipoCiclo === "misto");
+      const contextoOk = (tipoCiclo === "mandatorio" || tipoCiclo === "misto" || tipoCiclo === "nao_sei");
+      const reforcoMandatorio = (tipoCiclo === "mandatorio") || emMand;
+
       let score = 0;
-      if (contextoOk) score++;
-      if (segundoEsforco) score++;
-      if (acoplamento) score++;
+      if (reforcoMandatorio) score++;
+      if (sPressao || sFluxo) score++;
+      if (acopl) score++;
       if (padrao !== "incerto") score++;
 
-      if (segundoEsforco) sinais.push("Segundo esforço inspiratório dentro da mesma inspiração mandatória (sem novo ciclo), sugerindo entrainment.");
-      if (acoplamento) sinais.push(Padrão repetitivo acoplado aos ciclos mandatórios (${padrao}).);
-      if (cicloDuplo) sinais.push("Há ciclo duplo associado (fenótipo com double triggering).");
+      if (sPressao) sinais.push("Disparo reverso: entalhe/queda na pressão durante a inspiração (meio/fim).");
+      if (sFluxo)   sinais.push("Disparo reverso: segunda elevação do fluxo inspiratório no meio/fim.");
+      if (acopl)    sinais.push(Disparo reverso: padrão repetitivo acoplado (${padrao}).);
+      if (duplo)    sinais.push("Disparo reverso: há ciclo duplo associado (fenótipo com double triggering).");
 
-      // Só nomeia se tiver critérios mínimos
-      if (contextoOk && segundoEsforco && acoplamento) {
-        const confianca = (score >= 4) ? "alta" : "moderada";
-        if (!cicloDuplo) {
+      const criteriosMinimos = reforcoMandatorio && (sPressao || sFluxo) && acopl;
+
+      if (contextoOk && criteriosMinimos) {
+        const confianca =
+          (score >= 4) ? "alta" :
+          (score === 3) ? "moderada" : "baixa";
+
+        if (!duplo) {
           addAssincronia(
-            "Disparo reverso (reverse triggering) sem ciclo duplo",
-            Critérios atendidos (contexto mandatório/misto + segundo esforço + acoplamento). Confiança ${confianca}.,
-            "Avaliar entrainment paciente–ventilador: revisar ajustes de ciclos mandatórios (FR/Ti) e contexto de drive/sedação; confirmar padrão em pressão e fluxo ciclo a ciclo."
+            "Disparo reverso (reverse triggering) — sem ciclo duplo",
+            Critérios: ciclo mandatório (ou em mandatórios) + “segundo esforço” + repetição. Confiança ${confianca}.,
+            "Rever entrainment: considerar ajustes em FR/Ti dos mandatórios quando apropriado, reavaliar conforto/drive (sedação/analgesia conforme objetivos) e confirmar padrão em pressão e fluxo ciclo a ciclo."
           );
         } else {
           addAssincronia(
-            "Disparo reverso (reverse triggering) com ciclo duplo",
-            Critérios atendidos (contexto mandatório/misto + acoplamento). Confiança ${confianca}.,
-            "Revisar entrainment e prevenir ciclo duplo: ajustar FR/Ti e critérios de término conforme modo, avaliar drive/sedação e confirmar padrão em pressão/fluxo ciclo a ciclo."
+            "Disparo reverso (reverse triggering) — com ciclo duplo",
+            Critérios: ciclo mandatório (ou em mandatórios) + “segundo esforço” + repetição. Confiança ${confianca}.,
+            "Além de avaliar entrainment (FR/Ti e drive), revisar ajustes que favorecem ciclo duplo (término/ciclagem conforme modo) e confirmar em pressão/fluxo."
           );
         }
-        hipoteses.push("Padrão compatível com entrainment: ciclo mandatório induz esforço neural secundário do paciente dentro da mesma inspiração.");
-        achados.push("Disparo reverso → padrão de segundo esforço acoplado a ciclos mandatórios (com ou sem ciclo duplo).");
-      } else if (rt_habilitar.checked) {
-        // Habilitou mas não preencheu critérios mínimos
+
+        hipoteses.push("Padrão compatível com entrainment: o ciclo mandatório pode induzir um esforço neural secundário dentro do mesmo ciclo.");
+        achados.push("Disparo reverso → padrão de “segundo esforço” repetitivo acoplado aos mandatórios (com ou sem ciclo duplo).");
+      } else {
         addAssincronia(
-          "Suspeita de disparo reverso (insuficiente para confirmar)",
-          "Faltam critérios mínimos (precisa de contexto mandatório/misto + segundo esforço + acoplamento).",
-          "Adicionar critérios: confirmar se é ciclo mandatório/misto, se há segundo esforço dentro da inspiração e se o padrão se repete de forma acoplada."
+          "Suspeita de disparo reverso (critérios incompletos)",
+          "Para concluir com mais segurança: marque (1) ‘segundo esforço’ (pressão e/ou fluxo) e (2) repetição/acoplamento, preferencialmente em ciclos mandatórios.",
+          "Completar critérios do bloco de disparo reverso e confirmar se o padrão se repete em vários ciclos mandatórios."
         );
+        achados.push("Disparo reverso (suspeita) → faltam critérios para concluir.");
       }
     }
 
-    // ========== ACHADOS INDIVIDUAIS ==========
-    if (degrauExp.checked) {
-      const local = document.getElementById("degrauExp_local").value;
-      sinais.push(Entalhe/degrau no ramo expiratório (${local}).);
-
+    // ===================== ACHADOS INDIVIDUAIS =====================
+    if ($("degrauExp").checked) {
+      const local = $("degrauExp_local").value;
+      sinais.push(Degrau/entalhe no ramo expiratório (${local}).);
       addAssincronia(
-        "Assincronia expiratória / provável auto-PEEP (contextual)",
-        "Degrau/entalhe no ramo expiratório (sinal inespecífico).",
-        "Priorizar aumento de tempo expiratório (reduzir Ti e/ou ajustar FR/VT conforme protocolo e modo), tratar broncoobstrução/secreções e considerar PEEP externa se houver evidência de auto-PEEP e indicação clínica."
+        "Alteração de expiração / possível auto-PEEP (contextual)",
+        "Degrau no ramo expiratório (sinal inespecífico).",
+        "Em geral, considerar otimizar tempo expiratório (Ti/FR/VT conforme modo e protocolo), avaliar broncoobstrução e secreções, e discutir PEEP externa se houver evidência de auto-PEEP."
       );
-
-      hipoteses.push("Alteração do esvaziamento expiratório (auto-PEEP, dinâmica expiratória desfavorável ou esforço expiratório ativo).");
-
-      achados.push(
-        `Degrau expiratório (fluxo) → entalhe no ramo expiratório (${local}). ` +
-        notaContexto("Sinal inespecífico; não define disparo reverso isoladamente.")
-      );
+      hipoteses.push("Esvaziamento expiratório comprometido (auto-PEEP/dinâmica expiratória desfavorável/esforço expiratório ativo).");
+      achados.push(Degrau expiratório (fluxo) → entalhe no ramo expiratório (${local}). ${notaContexto("Sinal inespecífico.")});
     }
 
-    if (picoAbaulado.checked) {
+    if ($("picoAbaulado").checked) {
       sinais.push("Pico inspiratório arredondado/abaulado no fluxo.");
-
       addAssincronia(
-        "Fluxo insuficiente / fome de fluxo (contextual)",
-        "Pico inspiratório abaulado/arredondado.",
-        "Aumentar oferta de fluxo (VCV) ou ajustar pressurização/rise time (PCV/PSV) para reduzir demanda não atendida; correlacionar com resistência e conforto."
+        "Fluxo insuficiente / demanda maior que oferta (contextual)",
+        "Pico inspiratório sem “ponta”, arredondado.",
+        "Geralmente considerar: aumentar oferta de fluxo (VCV) ou ajustar pressurização/rise time (modos a pressão) e checar resistência/obstrução."
       );
-
-      hipoteses.push("Demanda inspiratória pode exceder o fluxo ofertado; considerar também aumento de resistência/obstrução parcial (dependente do modo).");
-
-      achados.push(
-        `Pico inspiratório abaulado (fluxo) → pico inspiratório arredondado. ` +
-        notaContexto("Compatível com fome de fluxo/fluxo insuficiente (dependente do modo) ou resistência aumentada.")
-      );
+      hipoteses.push("Demanda inspiratória pode exceder o fluxo ofertado; considerar também aumento de resistência/obstrução.");
+      achados.push(Pico inspiratório abaulado → pico inspiratório arredondado. ${notaContexto("Compatível com demanda > oferta e/ou resistência aumentada, conforme modo.")});
     }
 
-    if (abaulamentoPlatoFluxo.checked) {
-      const local = document.getElementById("abaulamentoPlato_local").value;
-      sinais.push(Abaulamento (“barriga”) no trecho inspiratório do fluxo (${local}).);
-
+    if ($("abaulamentoPlatoFluxo").checked) {
+      const local = $("abaulamentoPlato_local").value;
+      sinais.push(Fluxo inspiratório “volta a subir” (${local}).);
       addAssincronia(
-        "Fome de fluxo intra-inspiratória (contextual)",
-        "Fluxo re-sobe/abaula durante a inspiração.",
-        "Rever oferta de fluxo/pressurização ao longo da inspiração (fluxo em VCV; rise/pressurização em PCV/PSV) e correlacionar com esforço do paciente."
+        "Fome de fluxo ao longo da inspiração (contextual)",
+        "Fluxo volta a subir no meio/fim da inspiração.",
+        "Geralmente considerar: ajustar fluxo (VCV) ou pressurização/rise time (PCV/PSV) para acompanhar a demanda e correlacionar com esforço do paciente."
       );
-
-      hipoteses.push("Demanda inspiratória variável durante a inspiração; compatível com fome de fluxo em parte do ciclo (dependente do modo).");
-
-      achados.push(
-        `Abaulamento do platô de fluxo inspiratório → re-elevação/abaulamento do fluxo (${local}). ` +
-        notaContexto("Em ciclos mandatórios repetidos, pode compor o padrão de disparo reverso quando associado a “segundo esforço” acoplado.")
-      );
+      hipoteses.push("Demanda inspiratória variável durante a inspiração; pode ser fome de fluxo em parte do ciclo.");
+      achados.push(Abaulamento do fluxo inspiratório → re-elevação do fluxo (${local}). ${notaContexto("Se repetitivo em mandatórios e associado a ‘segundo esforço’, pode reforçar disparo reverso.")});
     }
 
-    if (ciclagemPrecoce.checked) {
-      sinais.push("Fim da inspiração com fluxo inspiratório ainda positivo (não zera).");
-
+    if ($("ciclagemPrecoce").checked) {
+      sinais.push("Término inspiratório com fluxo ainda positivo.");
       addAssincronia(
         "Ciclagem precoce",
-        "Inspiração termina com fluxo inspiratório ainda positivo.",
-        "Prolongar a inspiração: aumentar Ti ou reduzir a sensibilidade de ciclagem (ex.: em PSV, diminuir o % de ciclagem), conforme modo/protocolo."
+        "Inspiração termina antes de o fluxo cair próximo de zero.",
+        "Geralmente considerar: prolongar Ti ou reduzir sensibilidade de ciclagem (ex.: reduzir % de ciclagem em PSV), conforme modo/protocolo."
       );
-
-      hipoteses.push("Término inspiratório antes da demanda do paciente (critério/tempo inspiratório curto).");
-
-      achados.push(
-        `Ciclagem precoce (fluxo) → inspiração termina com fluxo ainda positivo. ` +
-        notaContexto("Assincronia por término inspiratório antes da demanda do paciente.")
-      );
+      hipoteses.push("Término inspiratório antes da demanda do paciente.");
+      achados.push(Ciclagem precoce → termina com fluxo inspiratório ainda positivo. ${notaContexto("Sugere término precoce da inspiração.")});
     }
 
-    if (ciclagemTardia.checked) {
-      sinais.push("Inspiração mantida apesar de fluxo inspiratório ~zero.");
-
+    if ($("ciclagemTardia").checked) {
+      sinais.push("Inspiração mantida apesar de fluxo ~zero.");
       addAssincronia(
         "Ciclagem tardia",
-        "Inspiração persiste mesmo com fluxo inspiratório ~zero.",
-        "Encurtar a inspiração: reduzir Ti ou aumentar a sensibilidade de ciclagem (ex.: em PSV, aumentar o % de ciclagem), conforme modo/protocolo."
+        "Inspiração persiste mesmo quando o fluxo já está ~zero.",
+        "Geralmente considerar: reduzir Ti ou aumentar sensibilidade de ciclagem (ex.: aumentar % de ciclagem em PSV), conforme modo/protocolo."
       );
-
-      hipoteses.push("Inspiração prolongada além do desejado; pode induzir esforço expiratório ativo (critério/tempo inspiratório longo).");
-
-      achados.push(
-        `Ciclagem tardia (fluxo) → inspiração prolongada após fluxo ~zero. ` +
-        notaContexto("Assincronia por permanência inspiratória além do desejado.")
-      );
+      hipoteses.push("Inspiração prolongada além do necessário; pode gerar desconforto e esforço expiratório ativo.");
+      achados.push(Ciclagem tardia → inspiração prolongada após fluxo ~zero. ${notaContexto("Sugere manutenção excessiva da inspiração.")});
     }
 
-    if (letraM.checked) {
-      sinais.push("Entalhe no platô inspiratório da pressão formando “M”.");
-
+    if ($("letraM").checked) {
+      sinais.push("Entalhe no platô inspiratório da pressão com formato em “M”.");
       addAssincronia(
-        "Assincronia por interferência de esforço durante a inspiração (Letra M)",
-        "Entalhe no platô de pressão formando M.",
-        "Rever sincronização e conforto: checar trigger, rise/pressurização e critérios de término/ciclagem; correlacionar com drive/sedação e metas clínicas."
+        "Interferência de esforço durante a inspiração (Letra M)",
+        "Entalhe no platô de pressão durante a inspiração.",
+        "Geralmente considerar: revisar sincronização (trigger, pressurização/rise, término/ciclagem) e conforto/drive. Se repetitivo em mandatórios, investigar disparo reverso."
       );
-
-      hipoteses.push("Interferência de esforço/demanda durante a fase inspiratória; em mandatórios repetidos pode representar o “segundo esforço” do disparo reverso.");
-
-      const extra = (tipoCiclo === "mandatorio")
-        ? "Em ciclos mandatórios, o entalhe pode refletir esforço do paciente dentro da inspiração (inclui padrão de disparo reverso quando acoplado)."
-        : "Sugere interferência de esforço durante a fase inspiratória; correlacionar com contexto e repetitividade.";
-
-      achados.push(Letra M (pressão) → entalhe no platô formando “M”. ${notaContexto(extra)});
+      hipoteses.push("Esforço/demanda do paciente durante a inspiração; em mandatórios repetidos pode ser ‘segundo esforço’ do disparo reverso.");
+      achados.push(Letra M (pressão) → entalhe no platô inspiratório. ${notaContexto("Não é ciclo duplo. Se repetitivo em mandatórios, pode reforçar disparo reverso.")});
     }
 
-    if (concavidade.checked) {
-      const fase = document.getElementById("concavidade_fase").value;
-      const local = document.getElementById("concavidade_local").value;
-      sinais.push(Concavidade (“afundamento”) no fluxo na ${fase} (${local}).);
-
+    if ($("concavidade").checked) {
+      const fase = $("concavidade_fase").value;
+      const local = $("concavidade_local").value;
+      sinais.push(Concavidade no fluxo na ${fase} (${local}).);
       addAssincronia(
-        "Padrão compatível com demanda/esforço modulando o fluxo (contextual)",
+        "Demanda/esforço modulando o fluxo (contextual)",
         Concavidade na ${fase} (${local}).,
-        "Correlacionar com modo e contexto; revisar assistência/sincronia (trigger, rise/fluxo, ciclagem) e conforto do paciente, conforme objetivos clínicos."
+        "Geralmente considerar: correlacionar com modo e conforto; revisar oferta de assistência (trigger, pressurização/fluxo, ciclagem) se houver desconforto/assincronia."
       );
-
-      hipoteses.push("Modulação do fluxo por esforço/demanda do paciente na fase indicada (interpretar com pressão/volume e modo ventilatório).");
-
-      achados.push(
-        `Concavidade no fluxo → concavidade na ${fase} (${local}). ` +
-        notaContexto("Sugere modulação do fluxo por demanda/esforço; não define isoladamente o mecanismo.")
-      );
+      hipoteses.push("Modulação do fluxo por esforço/demanda; interpretar junto com pressão/volume e modo.");
+      achados.push(Concavidade no fluxo → concavidade na ${fase} (${local}). ${notaContexto("Sugere modulação por esforço/demanda; não define mecanismo isoladamente.")});
     }
 
-    if (convexidade.checked) {
-      const fase = document.getElementById("convexidade_fase").value;
-      const local = document.getElementById("convexidade_local").value;
-      sinais.push(Convexidade (abaulamento para fora) no fluxo na ${fase} (${local}).);
-
+    if ($("convexidade").checked) {
+      const fase = $("convexidade_fase").value;
+      const local = $("convexidade_local").value;
+      sinais.push(Convexidade no fluxo na ${fase} (${local}).);
       addAssincronia(
-        "Padrão mais imposto/possível sobreassistência (contextual)",
+        "Padrão mais imposto / possível sobreassistência (contextual)",
         Convexidade na ${fase} (${local}).,
-        "Reavaliar nível de assistência/suporte e sincronização; ajustar para evitar sobreassistência conforme metas ventilatórias e resposta clínica."
+        "Geralmente considerar: reavaliar nível de assistência e sincronização; evitar sobreassistência conforme metas ventilatórias e avaliação do drive."
       );
-
-      hipoteses.push("Padrão mais imposto/assistido; pode sugerir sobreassistência dependendo do contexto e modo.");
-
-      achados.push(
-        `Convexidade no fluxo → convexidade na ${fase} (${local}). ` +
-        notaContexto("Sugere padrão mais imposto/assistido; interpretar com modo e contexto.")
-      );
+      hipoteses.push("Padrão mais imposto/assistido; pode ocorrer em sobreassistência dependendo do modo/contexto.");
+      achados.push(Convexidade no fluxo → convexidade na ${fase} (${local}). ${notaContexto("Interpretar com modo e contexto.")});
     }
 
-    if (fluxoTremidoExp.checked) {
-      sinais.push("Serrilhado/oscilações repetidas no ramo expiratório do fluxo.");
-
+    if ($("fluxoTremidoExp").checked) {
+      sinais.push("Fluxo expiratório serrilhado/oscilações repetidas.");
       addAssincronia(
-        "Interferência por secreção/condensado (não é assincronia clássica)",
-        "Fluxo expiratório serrilhado/“tremido”.",
-        "Checar secreções/condensado e patência do circuito/tubo; considerar aspiração/higiene brônquica conforme avaliação clínica e rotina."
+        "Sinal compatível com secreção/condensado (não é assincronia clássica)",
+        "Fluxo expiratório serrilhado.",
+        "Geralmente considerar: checar secreções e condensado no circuito; revisar patência do tubo/circuito; considerar aspiração/higiene brônquica conforme avaliação clínica."
       );
-
-      hipoteses.push("Secreções, condensado ou interferência no sistema (tubo/circuito).");
-
-      achados.push(
-        `Fluxo expiratório “tremido” → serrilhado/oscilações no ramo expiratório. ` +
-        notaContexto("Sugere secreções/condensado/interferência no sistema.")
-      );
+      hipoteses.push("Secreções/condensado/interferência no sistema.");
+      achados.push(Fluxo expiratório serrilhado → oscilações repetidas na expiração. ${notaContexto("Mais comum com secreção/condensado; correlacionar com clínica.")});
     }
 
-    if (raizQuadrada.checked) {
-      sinais.push("Padrão compatível com limitação ao fluxo (aspecto em “raiz quadrada”).");
-
+    if ($("raizQuadrada").checked) {
+      sinais.push("Padrão compatível com limitação ao fluxo (raiz quadrada).");
       addAssincronia(
-        "Aumento de resistência de via aérea (mecânica; não assincronia isolada)",
-        "Padrão em raiz quadrada/limitação ao fluxo.",
-        "Avaliar broncoespasmo/obstrução e tratar conforme prescrição; otimizar tempo expiratório e revisar obstrução por secreção/tubo, conforme clínica."
+        "Aumento de resistência de via aérea (mecânica respiratória)",
+        "Limitação ao fluxo com padrão ‘achatado/quadrado’.",
+        "Geralmente considerar: avaliar broncoespasmo/obstrução conforme prescrição; otimizar tempo expiratório e revisar secreção/patência do tubo/circuito."
       );
-
-      hipoteses.push("Aumento de resistência (compatível com broncoespasmo/obstrução); correlacionar com clínica e pressões.");
-
-      achados.push(
-        `“Sinal de raiz quadrada” → padrão de limitação ao fluxo / aumento de resistência. ` +
-        notaContexto("Compatível com aumento de resistência; correlacionar com clínica.")
-      );
+      hipoteses.push("Resistência aumentada (ex.: broncoespasmo/obstrução), dependendo do contexto.");
+      achados.push(Padrão “raiz quadrada” → limitação ao fluxo / resistência aumentada. ${notaContexto("Correlacionar com clínica, ausculta e pressões.")});
     }
 
-    if (spikeSaida.checked) {
-      sinais.push("Espícula/pico curto de pressão no fim da inspiração (saída/ciclagem).");
-
+    if ($("spikeSaida").checked) {
+      sinais.push("Spike no fim da inspiração (transição para expiração).");
       addAssincronia(
-        "Instabilidade na transição inspiração→expiração (contextual)",
-        "Spike de saída na pressão (fim da inspiração).",
-        "Rever parâmetros de término/ciclagem e suavidade de transição; correlacionar com esforço no fim da inspiração e com o modo ventilatório."
+        "Transição inspiração→expiração instável (contextual)",
+        "Espícula no fim do ciclo.",
+        "Geralmente considerar: revisar término/ciclagem e suavidade de transição; correlacionar com esforço no fim da inspiração e com o modo."
       );
-
-      hipoteses.push("Transição abrupta/instabilidade na ciclagem; correlacionar com modo e interação paciente–ventilador.");
-
-      achados.push(
-        `Spike (saída, pressão) → espícula no fim da inspiração. ` +
-        notaContexto("Sugere instabilidade na transição; interpretar com modo e ajustes de término.")
-      );
+      hipoteses.push("Transição abrupta/instabilidade na troca de fase; correlacionar com modo e interação paciente–ventilador.");
+      achados.push(Spike na saída (pressão) → espícula no fim da inspiração. ${notaContexto("Sugere instabilidade na troca de fase; avaliar contexto.")});
     }
 
-    if (overshoot.checked) {
+    if ($("overshoot").checked) {
       const tipo = valRadio("ov_tipo") || "entrada";
       if (tipo === "entrada") {
-        sinais.push("Overshoot na entrada: excede o alvo no início da inspiração e retorna.");
-
+        sinais.push("Overshoot na entrada: pressão passa do alvo no início e retorna.");
         addAssincronia(
-          "Overshoot de entrada",
-          "Excesso de pressão no início (entrada/rise).",
-          "Reduzir agressividade da pressurização (ex.: aumentar rise time) se clinicamente indicado; checar oscilação do sistema/circuito."
+          "Overshoot de entrada (subida agressiva/oscilações)",
+          "Pressão excede o alvo no início do ciclo.",
+          "Geralmente considerar: suavizar a subida (ex.: ajustar rise time/pressurização) e revisar possíveis oscilações do sistema/circuito."
         );
-
-        hipoteses.push("Subida agressiva (rise curto) ou oscilação do sistema (complacência/resistência/circuito).");
-
-        achados.push(
-          `Overshoot (entrada, pressão) → excede o alvo no início e retorna. ` +
-          notaContexto("Frequentemente relacionado a subida agressiva ou oscilação do sistema.")
-        );
+        hipoteses.push("Subida agressiva (rise curto) e/ou oscilação do sistema.");
+        achados.push(Overshoot (entrada) → excede o alvo no início e retorna. ${notaContexto("Mais ligado a subida agressiva/oscilações.")});
       } else {
-        sinais.push("Overshoot na saída: excede o alvo no fim da inspiração/na ciclagem e retorna.");
-
+        sinais.push("Overshoot na saída: pressão passa do alvo no fim/ciclagem e retorna.");
         addAssincronia(
-          "Overshoot de saída",
-          "Excesso de pressão no fim/ciclagem (saída).",
-          "Rever término/ciclagem e interação no fim da inspiração; ajustar parâmetros para reduzir instabilidade na troca de fase, conforme modo."
+          "Overshoot de saída (troca de fase instável)",
+          "Pressão excede o alvo no fim/ciclagem.",
+          "Geralmente considerar: revisar término/ciclagem e interação no fim da inspiração; ajustar parâmetros que reduzam instabilidade na troca de fase, conforme modo."
         );
-
-        hipoteses.push("Instabilidade na troca de fase (fim/ciclagem), término abrupto ou interação com esforço no fim da inspiração.");
-
-        achados.push(
-          `Overshoot (saída, pressão) → excede o alvo no fim/ciclagem e retorna. ` +
-          notaContexto("Pode refletir instabilidade na troca de fase ou interação com esforço no fim da inspiração.")
-        );
+        hipoteses.push("Instabilidade na troca de fase e/ou interação com esforço no fim da inspiração.");
+        achados.push(Overshoot (saída) → excede o alvo no fim/ciclagem e retorna. ${notaContexto("Mais ligado à troca de fase e ciclagem.")});
       }
     }
 
-    if (degrauRecorrente.checked) {
-      sinais.push("Degraus repetidos no fluxo após aspiração (padrão recorrente).");
-
+    if ($("degrauRecorrente").checked) {
+      sinais.push("Degrau recorrente no fluxo mesmo após aspiração.");
       addAssincronia(
-        "Obstrução parcial persistente (contextual)",
-        "Degrau recorrente após aspiração.",
-        "Reavaliar patência do tubo/circuito e persistência de secreção; considerar repetir higiene brônquica/aspiração e investigar causa de obstrução persistente conforme avaliação clínica."
+        "Obstrução/secreção persistente (contextual)",
+        "Degraus persistem após aspiração.",
+        "Geralmente considerar: reavaliar patência do tubo/circuito e secreção persistente; repetir higiene brônquica/aspiração conforme avaliação clínica e investigar causa de obstrução contínua."
       );
-
-      hipoteses.push("Fator persistente: secreção/obstrução parcial/patência do tubo; correlacionar com pressões e clínica.");
-
-      achados.push(
-        `Degrau recorrente pós-aspiração (fluxo) → degraus repetidos após aspiração. ` +
-        notaContexto("Sugere fator persistente; correlacionar com clínica.")
-      );
+      hipoteses.push("Persistência de secreção/obstrução/patência comprometida; correlacionar com pressões e clínica.");
+      achados.push(Degrau recorrente após aspiração → padrão persistente. ${notaContexto("Sugere fator persistente; correlacionar com clínica.")});
     }
 
-    // --- SAÍDAS ---
+    // ===================== SAÍDAS =====================
     if (achados.length === 0) {
-      resultado.innerHTML = Contexto do ciclo: ${labelTipoCiclo(tipoCiclo)}. Nenhum achado selecionado.;
-      detalhes.innerHTML = "";
+      resultadoEl.innerHTML = Tipo de ciclo: ${labelTipoCiclo(tipoCiclo)}. Nenhum achado selecionado.;
+      detalhesEl.innerHTML = "";
       resumoBox.style.display = "none";
       return;
     }
 
-    resultado.innerHTML = Contexto do ciclo: ${labelTipoCiclo(tipoCiclo)}. Interpretação sugerida:;
-    detalhes.innerHTML = "<ul><li>" + achados.join("</li><li>") + "</li></ul>";
+    resultadoEl.innerHTML = Tipo de ciclo: ${labelTipoCiclo(tipoCiclo)}. Interpretação sugerida:;
+    detalhesEl.innerHTML = "<ul><li>" + achados.join("</li><li>") + "</li></ul>";
 
     const sinaisU = unique(sinais);
     const assincriasU = mapToArray(assincroniaMap);
@@ -724,6 +674,9 @@
     listaHipoteses.innerHTML = "<li>" + hipU.join("</li><li>") + "</li>";
     notaCtx.textContent = notaResumo();
   }
+
+  // botão
+  $("btnRodar").addEventListener("click", rodarAnalise);
 </script>
 
 <footer>
@@ -731,7 +684,7 @@
     <strong>Aviso educacional:</strong><br>
     Este material tem finalidade exclusivamente educacional e de apoio ao raciocínio clínico.
     Não substitui a avaliação individual do paciente, o julgamento do profissional de saúde
-    ou protocolos institucionais. As interpretações e correções devem sempre ser correlacionadas com o
+    ou protocolos institucionais. As interpretações e ajustes devem ser correlacionados com o
     contexto clínico e ventilatório.
   </p>
 
