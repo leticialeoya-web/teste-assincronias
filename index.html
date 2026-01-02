@@ -383,7 +383,49 @@
     </p>
   </div>
 </div>
+<!-- ===== ABA: MANUAIS (VELA + AVEA) ===== -->
+<div class="card" id="abaManuais">
+  <label>Manuais (onde ajustar no ventilador) <span class="pill">Vela + Avea</span></label>
 
+  <div class="legend">
+    Selecione o ventilador e o objetivo. O app mostra <b>onde procurar</b> e quais <b>termos buscar</b> no manual (Ctrl+F).
+  </div>
+
+  <div class="grid" style="margin-top:10px;">
+    <div>
+      <div class="muted">Ventilador</div>
+      <select id="manualVent">
+        <option value="">Selecione</option>
+        <option value="vela">Vela (Vyaire / CareFusion)</option>
+        <option value="avea">Avea (Vyaire)</option>
+      </select>
+    </div>
+
+    <div>
+      <div class="muted">Objetivo do ajuste</div>
+      <select id="manualObjetivo">
+        <option value="">Selecione</option>
+        <option value="autopeep">Auto-PEEP / hiperinsuflação dinâmica</option>
+        <option value="trigger">Sensibilidade de disparo (trigger)</option>
+        <option value="ciclagem">Ciclagem / término inspiratório</option>
+        <option value="rise">Rise time / pressurização</option>
+      </select>
+    </div>
+  </div>
+
+  <button style="margin-top:10px;" onclick="mostrarManual(); return false;">
+    Mostrar onde ajustar
+  </button>
+
+  <div class="detalhes" id="manualResultado" style="margin-top:10px;">
+    Selecione o ventilador e o objetivo.
+  </div>
+
+  <div class="muted" style="margin-top:8px;">
+    Observação: a nomenclatura varia por versão de software. Use os termos sugeridos no Ctrl+F do manual.
+  </div>
+</div>
+<!-- ===== FIM ABA: MANUAIS ===== -->
 <script>
 (function () {
   "use strict";
@@ -398,7 +440,78 @@
   };
 
   const $ = (id) => document.getElementById(id);
+// ================= FUNÇÃO MANUAIS (VELA + AVEA) =================
+window.mostrarManual = function mostrarManual() {
+  const vent = document.getElementById("manualVent");
+  const obj = document.getElementById("manualObjetivo");
+  const out = document.getElementById("manualResultado");
 
+  if (!vent || !obj || !out) return;
+
+  if (!vent.value || !obj.value) {
+    out.innerHTML = "Selecione o ventilador e o objetivo do ajuste.";
+    return;
+  }
+
+  const dados = {
+    vela: {
+      nome: "Vela (Vyaire / CareFusion)",
+      link: "https://www.vyaire.com/support/critical-care/vela",
+      autopeep: {
+        onde: "FR, Ti/I:E e PEEP (parâmetros do modo). Avaliar tempo expiratório e PEEP total/auto-PEEP.",
+        termos: "auto-PEEP, intrinsic PEEP, air trapping, expiratory time, dynamic hyperinflation"
+      },
+      trigger: {
+        onde: "Menu de Trigger / Sensitivity.",
+        termos: "trigger sensitivity, flow trigger, pressure trigger"
+      },
+      ciclagem: {
+        onde: "Critério de término inspiratório / cycling (especialmente em PSV).",
+        termos: "cycling, expiratory sensitivity, ETS, termination"
+      },
+      rise: {
+        onde: "Rise time / pressurization.",
+        termos: "rise time, pressurization, inspiratory ramp"
+      }
+    },
+    avea: {
+      nome: "Avea (Vyaire)",
+      link: "https://www.vyaire.com/support/critical-care/avea",
+      autopeep: {
+        onde: "FR, Ti/I:E e PEEP. Avaliar tempo expiratório e auto-PEEP.",
+        termos: "auto-PEEP, intrinsic PEEP, air trapping, expiratory time"
+      },
+      trigger: {
+        onde: "Trigger/Sensitivity.",
+        termos: "trigger, sensitivity, flow trigger, pressure trigger"
+      },
+      ciclagem: {
+        onde: "Término inspiratório/cycling (PSV).",
+        termos: "cycling, expiratory sensitivity, ETS"
+      },
+      rise: {
+        onde: "Rise time / pressurization.",
+        termos: "rise time, pressurization"
+      }
+    }
+  };
+
+  const dVent = dados[vent.value];
+  const dObj = dVent ? dVent[obj.value] : null;
+
+  if (!dVent || !dObj) {
+    out.innerHTML = "Dados ainda não disponíveis para esta seleção.";
+    return;
+  }
+
+  out.innerHTML = `
+    <b>Ventilador:</b> ${dVent.nome}<br>
+    <b>Onde procurar:</b> ${dObj.onde}<br>
+    <b>Termos (Ctrl+F):</b> ${dObj.termos}<br>
+    <a href="${dVent.link}" target="_blank" rel="noopener noreferrer">Abrir suporte/manual oficial</a>
+  `;
+};
+// ================= FIM FUNÇÃO MANUAIS =================
   function getTipoCiclo() {
     const el = document.querySelector('input[name="tipoCiclo"]:checked');
     return el ? el.value : null;
