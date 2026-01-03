@@ -57,29 +57,56 @@
 </head>
 
 <body>
-<body>
+
 <script>
 function setNivel(n) {
-  var essencial = document.getElementById('essencial');
-  var avancado = document.getElementById('avancado');
+  var essencial = document.getElementById("essencial");
+  var avancado  = document.getElementById("avancado");
+  var btnE = document.getElementById("btnEssencial");
+  var btnA = document.getElementById("btnAvancado");
+  var btnRodar = document.getElementById("btnRodar");
 
-  if (n === 'essencial') {
-    essencial.style.display = 'block';
-    avancado.style.display = 'none';
-    window.scrollTo(0, 0);
+  if (n === "essencial") {
+    essencial.style.display = "block";
+    avancado.style.display  = "none";
+    btnE.style.display = "none";
+    btnA.style.display = "inline-block";
+    if (btnRodar) btnRodar.disabled = true;
   } else {
-    essencial.style.display = 'none';
-    avancado.style.display = 'block';
-    window.scrollTo(0, 0);
+    essencial.style.display = "none";
+    avancado.style.display  = "block";
+    btnE.style.display = "inline-block";
+    btnA.style.display = "none";
+    if (btnRodar) btnRodar.disabled = false;
   }
+
+  window.scrollTo(0, 0);
 }
+
+     
+document.getElementById("btnEssencial").onclick = function () {
+  setNivel("essencial");
+};
+
+document.getElementById("btnAvancado").onclick = function () {
+  setNivel("avancado");
+};
+  document.getElementById("btnRodar").onclick = function () {
+  rodarAnalise();
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  setNivel("essencial");
+});
+
 </script>
 
 
 
+
 <div id="nivel">
-  <button onclick="setNivel('essencial')">Essencial</button>
-  <button onclick="setNivel('avancado')">Avançado</button>
+  <button id="btnEssencial">Essencial</button>
+  <button id="btnAvancado">Avançado</button>
 </div>
 
 <div id="essencial" style="display:none;">
@@ -192,9 +219,6 @@ Fluxo expiratório incompleto e esforço necessário para iniciar o ciclo seguin
 </div>
 </div>
 
-<div id="avancado">
-
-</div>
 
 <div style="margin-bottom:20px; font-size:14px; color:#444;">
   <p>
@@ -207,9 +231,7 @@ Fluxo expiratório incompleto e esforço necessário para iniciar o ciclo seguin
     nem a avaliação individual do paciente.
   </p>
 </div>
-<div id="avancado">
 
-</div> 
 <div id="avancado">
 
 <h1>Teste clínico – Assincronias Ventilatórias</h1>
@@ -499,8 +521,9 @@ O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b
 
 <!-- AÇÕES -->
 <div class="row">
-  <button id="btnRodar" class="primary" onclick="rodarAnalise(); return false;">Rodar análise</button>
-  <button id="btnCopiar" onclick="copiarResumo(); return false;" disabled>Copiar resumo</button>
+  <button id="btnRodar" class="primary" type="button">Rodar análise</button>
+
+  <button id="btnCopiar" onclick="copiarResumo(); " disabled>Copiar resumo</button>
 </div>
 
 <div class="resultado" id="resultado"></div>
@@ -568,14 +591,14 @@ O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b
     </div>
   </div>
 
-  <button style="margin-top:10px;" onclick="mostrarManual(); return false;">
+  <button style="margin-top:10px;" onclick="mostrarManual();">
     Mostrar onde ajustar
   </button>
 
   <div class="detalhes" id="manualResultado" style="margin-top:10px;">
     Selecione o ventilador e o objetivo.
   </div>
-
+</div>
   <div class="muted" style="margin-top:8px;">
     Observação: a nomenclatura varia por versão de software. Use os termos sugeridos no Ctrl+F do manual.
   </div>
@@ -668,9 +691,9 @@ termos: "dinâmica de pressurização, início da inspiração"
   <b>Ventilador:</b> ${dVent.nome}<br>
   <b>Onde procurar:</b> ${dObj.onde}<br>
   <b>Termos para buscar no manual:</b> ${dObj.termos}<br>
-  <a href="${dVent.link}" target="_blank" rel="noopener noreferrer">${dVent.link}</a>
-    Abrir suporte/manual oficial
-  </a>
+ <a href="${dVent.link}" target="_blank" rel="noopener noreferrer">
+  Abrir suporte/manual oficial
+</a>
 `; 
 };
 // ================= FIM FUNÇÃO MANUAIS =================
@@ -829,6 +852,13 @@ termos: "dinâmica de pressurização, início da inspiração"
 
   window.rodarAnalise = function rodarAnalise() {
     try {
+      const avancado = document.getElementById("avancado");
+if (!avancado || avancado.style.display === "none") {
+  const resultadoEl = document.getElementById("resultado");
+  if (resultadoEl) resultadoEl.innerHTML = "Abra a aba Avançado para rodar a análise.";
+  return;
+}
+
       debugBox.style.display = "none";
       debugBox.textContent = "";
 
@@ -1109,7 +1139,8 @@ termos: "dinâmica de pressurização, início da inspiração"
           add(
             "Overshoot de saída",
             "Mais compatível com instabilidade na troca de fase.",
-            Em geral: o padrão sugere instabilidade na transição entre fases do ciclo ventilatório, dependente do modo ventilatório.
+            "Em geral: o padrão sugere instabilidade na transição entre fases do ciclo ventilatório, dependente do modo ventilatório."
+
 
           );
           hipoteses.push("Instabilidade na troca de fase e/ou interação com esforço no fim da inspiração.");
