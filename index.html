@@ -58,6 +58,25 @@
 
 <body>
 <body>
+<script>
+function setNivel(n) {
+  var essencial = document.getElementById('essencial');
+  var avancado = document.getElementById('avancado');
+
+  if (n === 'essencial') {
+    essencial.style.display = 'block';
+    avancado.style.display = 'none';
+    window.scrollTo(0, 0);
+  } else {
+    essencial.style.display = 'none';
+    avancado.style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+}
+</script>
+
+
+
 <div id="nivel">
   <button onclick="setNivel('essencial')">Essencial</button>
   <button onclick="setNivel('avancado')">Avançado</button>
@@ -169,7 +188,7 @@ Fluxo expiratório incompleto e esforço necessário para iniciar o ciclo seguin
 
 </p>
 
-  </ul>
+
 </div>
 </div>
 
