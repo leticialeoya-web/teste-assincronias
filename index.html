@@ -91,7 +91,7 @@
         <option value="PCV">PCV (Pressure control)</option>
         <option value="PSV">PSV (Pressure support)</option>
         <option value="PRVC">PRVC / VAPS (híbridos)</option>
-        <option value="SIMV">SIMV</option>
+        
       </select>
       <div class="muted" style="margin-top:6px;">
         Versão do motor: <b>v0.9</b> (educacional).
@@ -612,7 +612,7 @@ window.mostrarManual = function mostrarManual() {
     if (m === "PSV") return "Observação: em PSV, ajustes de % ciclagem e pressurização/rise tendem a ser mais relevantes.";
     if (m === "VCV") return "Observação: em VCV, ajustes de fluxo/forma de fluxo e Ti costumam ter maior impacto na demanda.";
     if (m === "PCV") return "Observação: em PCV, pressurização/rise e Ti costumam ser os principais moduladores do conforto e sincronização.";
-    if (m === "SIMV") return "Observação: em SIMV, diferenciar ciclos mandatórios de assistidos é essencial (padrões podem alternar).";
+  
     if (m === "PRVC") return "Observação: modos híbridos podem mascarar sinais; confirme em pressão e fluxo.";
     return "Observação: sem modo informado, as sugestões ficam mais gerais.";
   }
