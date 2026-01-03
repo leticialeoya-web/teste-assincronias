@@ -1,0 +1,14 @@
+<svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="200" fill="#f9f9f9"/>
+  <line x1="0" y1="100" x2="600" y2="100" stroke="#bbb" stroke-width="2"/>
+  <path d="M0 100
+           C40 50, 120 45, 200 60
+           C280 75, 360 85, 420 92
+           L460 95"
+        fill="none" stroke="#ffffff" stroke-width="4"/>
+  <path d="M460 95 L480 100"
+        fill="none" stroke="#ffffff" stroke-width="4"/>
+  <path d="M480 100
+           C520 130, 560 135, 600 130"
+        fill="none" stroke="#ffffff" stroke-width="4"/>
+</svg>
