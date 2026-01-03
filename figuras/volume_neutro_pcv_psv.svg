@@ -1,0 +1,11 @@
+<svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="200" fill="#f9f9f9"/>
+  <line x1="0" y1="140" x2="600" y2="140" stroke="#bbb" stroke-width="2"/>
+  <path d="M0 140
+           C120 80, 240 60, 360 60
+           L420 70"
+        fill="none" stroke="#ffffff" stroke-width="4"/>
+  <path d="M420 70
+           C480 90, 540 120, 600 140"
+        fill="none" stroke="#ffffff" stroke-width="4"/>
+</svg>
