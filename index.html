@@ -58,6 +58,10 @@
 
 <body>
 <body>
+<div id="nivel">
+  <button onclick="setNivel('essencial')">Essencial</button>
+  <button onclick="setNivel('avancado')">Avançado</button>
+</div>
 
 <div style="margin-bottom:20px; font-size:14px; color:#444;">
   <p>
@@ -76,7 +80,8 @@
 <h1>Teste clínico – Assincronias Ventilatórias</h1>
 <p>
   1) Selecione <b>tipo de ciclo</b> e (se possível) o <b>modo</b>. 2) Marque os <b>achados</b> e “onde”. 3) Rode a análise.
-  O motor separa: <b>sinal → padrão/assincronia → hipótese → ajustes educacionais</b>, com <b>grau de confiança</b>.
+O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b>, com <b>grau de confiança</b>.
+
 </p>
 
 <div class="card">
@@ -91,7 +96,7 @@
       <div class="radio-line">
         <label><input type="radio" name="tipoCiclo" value="mandatorio" /> Mandatório (a tempo)</label>
         <label><input type="radio" name="tipoCiclo" value="assistido" /> Assistido (disparado pelo paciente)</label>
-        <label><input type="radio" name="tipoCiclo" value="misto" /> Misto</label>
+       
         <label><input type="radio" name="tipoCiclo" value="nao_sei" /> Não sei</label>
       </div>
     </div>
@@ -120,7 +125,8 @@
         <input id="p_ti" type="number" step="0.01" min="0" placeholder="ex.: 0,80" />
       </div>
       <div>
-        <div class="muted">Rise time / pressurização</div>
+        <div class="muted">Dinâmica de pressurização</div>
+
         <input id="p_rise" type="text" placeholder="ex.: 0,2 s / médio" />
       </div>
       <div>
@@ -420,7 +426,9 @@
         <option value="autopeep">Auto-PEEP / hiperinsuflação dinâmica</option>
         <option value="trigger">Sensibilidade de disparo (trigger)</option>
         <option value="ciclagem">Ciclagem / término inspiratório</option>
-        <option value="rise">Rise time / pressurização</option>
+    <option value="rise">Dinâmica de pressurização</option>
+
+
       </select>
     </div>
   </div>
@@ -482,9 +490,10 @@ window.mostrarManual = function mostrarManual() {
         termos: "cycling, expiratory sensitivity, ETS, termination"
       },
       rise: {
-        onde: "Rise time / pressurization.",
-        termos: "rise time, pressurization, inspiratory ramp"
-      }
+    onde: "Dinâmica de pressurização no início da inspiração.",
+    termos: "dinâmica de pressurização, resposta inicial do ventilador, início da inspiração"
+}
+
     },
     avea: {
       nome: "Avea (Vyaire)",
@@ -502,8 +511,9 @@ window.mostrarManual = function mostrarManual() {
         termos: "cycling, expiratory sensitivity, ETS"
       },
       rise: {
-        onde: "Rise time / pressurization.",
-        termos: "rise time, pressurization"
+       onde: "Dinâmica de pressurização no início da inspiração.",
+termos: "dinâmica de pressurização, início da inspiração"
+
       }
     }
   };
@@ -961,7 +971,8 @@ window.mostrarManual = function mostrarManual() {
           add(
             "Overshoot de saída",
             "Mais compatível com instabilidade na troca de fase.",
-            "Em geral: revisar término/ciclagem e parâmetros que reduzam instabilidade na troca de fase, conforme modo."
+            Em geral: o padrão sugere instabilidade na transição entre fases do ciclo ventilatório, dependente do modo ventilatório.
+
           );
           hipoteses.push("Instabilidade na troca de fase e/ou interação com esforço no fim da inspiração.");
         }
