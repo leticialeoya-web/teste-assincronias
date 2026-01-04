@@ -317,6 +317,60 @@ O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b
     </div>
   </div>
 </div>
+<div class="card">
+  <label>Achados (modo avançado) <span class="pill">Marque o que você viu</span></label>
+  <div class="legend">
+    Marque os achados observados. O motor usa estas marcações para gerar “padrão/assincronia provável”.
+  </div>
+
+  <!-- ===== DISPARO REVERSO ===== -->
+  <div style="margin-top:12px; padding-top:12px; border-top:1px solid #e5e7eb;">
+    <div class="legend"><b>Disparo reverso (reverse triggering)</b></div>
+
+    <label style="display:block; margin-top:8px;">
+      <input type="checkbox" id="rt_habilitar" />
+      Habilitar avaliação de disparo reverso
+    </label>
+
+    <div style="margin-left:18px; margin-top:10px;">
+      <div class="muted">Segundo esforço dentro do ciclo (marque onde aparece)</div>
+
+      <label style="display:block; margin-top:6px;">
+        <input type="checkbox" id="rt_segundoEsforco_pressao" />
+        Curva de pressão: entalhe/queda durante a inspiração (meio/fim)
+      </label>
+
+      <label style="display:block; margin-top:6px;">
+        <input type="checkbox" id="rt_segundoEsforco_fluxo" />
+        Curva de fluxo: segunda elevação do fluxo inspiratório (meio/fim)
+      </label>
+
+      <label style="display:block; margin-top:10px;">
+        <input type="checkbox" id="rt_acoplamento" />
+        Padrão repetitivo e acoplado (entrainment)
+      </label>
+
+      <div class="muted" style="margin-top:10px;">Padrão de acoplamento</div>
+      <select id="rt_padrao" style="margin-top:6px; width:100%;">
+        <option value="incerto">Incerto / não avaliado</option>
+        <option value="1:1">1:1 (um esforço por ciclo)</option>
+        <option value="1:2">1:2</option>
+        <option value="1:3">1:3</option>
+        <option value="outro">Outro</option>
+      </select>
+
+      <label style="display:block; margin-top:10px;">
+        <input type="checkbox" id="rt_cicloDuplo" />
+        Há ciclo duplo associado
+      </label>
+
+      <label style="display:block; margin-top:10px;">
+        <input type="checkbox" id="rt_emMandatorios" />
+        Ocorre em ciclos mandatórios (a tempo)
+      </label>
+    </div>
+  </div>
+</div>
 
 <!-- ===== ABA: MANUAIS (VELA + AVEA) ===== -->
 <div class="card" id="abaManuais">
