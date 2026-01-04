@@ -333,6 +333,9 @@ O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b
         <option value="">Selecione</option>
         <option value="vela">Vela (Vyaire / CareFusion)</option>
         <option value="avea">Avea (Vyaire)</option>
+        <option value="servo_s">Servo s (Maquet / Getinge)</option>
+<option value="servo_u_en">Servo u (Maquet / Getinge) – manual em inglês</option>
+
       </select>
     </div>
 
@@ -406,7 +409,7 @@ O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b
   };
 
   const $ = (id) => document.getElementById(id);
-// ================= FUNÇÃO MANUAIS (VELA + AVEA) =================
+// ================= FUNÇÃO MANUAIS (VELA + AVEA + SERVO) =================
 window.mostrarManual = function mostrarManual() {
   const vent = document.getElementById("manualVent");
   const obj = document.getElementById("manualObjetivo");
@@ -415,6 +418,31 @@ window.mostrarManual = function mostrarManual() {
   if (!vent || !obj || !out) return;
 
   if (!vent.value || !obj.value) {
+    out.innerHTML = "Selecione o ventilador e o objetivo do ajuste.";
+    return;
+  }
+
+  const arquivos = {
+    vela: "manual-vela.pdf?v=1",
+    avea: "manual-avea.pdf?v=1",
+    servo_s: "manual-servo-s.pdf?v=1",
+    servo_u_en: "manual-servo-u-en.pdf?v=1"
+  };
+
+  const pdf = arquivos[vent.value];
+
+  if (!pdf) {
+    out.innerHTML = "<div class='muted'>Selecione um ventilador para abrir o manual.</div>";
+    return;
+  }
+
+  window.location.href = pdf;
+};
+
+
+  // Abre no iPhone no mesmo contexto (target _self)
+  window.location.href = pdf;
+
     out.innerHTML = "Selecione o ventilador e o objetivo do ajuste.";
     return;
   }
