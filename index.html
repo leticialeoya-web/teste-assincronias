@@ -56,6 +56,21 @@
 
   footer { margin-top:36px; padding-top:16px; border-top:1px solid #e5e7eb; font-size:12px; color:#4b5563; line-height:1.55; }
   footer ul { margin-top:6px; }
+    .term-list {
+    margin-top:8px;
+    padding-left:18px;
+  }
+  .term-list li {
+    margin:6px 0;
+  }
+  .term-list code {
+    font-size:14px;
+    padding:4px 6px;
+    background:#e5e7eb;
+    border-radius:6px;
+    user-select: all;
+  }
+
 </style>
 </head>
 
@@ -562,16 +577,7 @@ O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b
   </div>
 
   <div class="grid" style="margin-top:10px;">
-    <div>
-      <div class="muted">Ventilador</div>
-      <select id="manualVent">
-        <option value="">Selecione</option>
-        <option value="vela">Vela (Vyaire / CareFusion)</option>
-        <option value="avea">Avea (Vyaire)</option>
-      </select>
-    </div>
-
-    <div>
+     <div>
       <div class="muted">Objetivo do ajuste</div>
       <select id="manualObjetivo">
         <option value="">Selecione</option>
@@ -607,6 +613,35 @@ O motor separa: <b>sinal → padrão/assincronia → hipótese interpretativa</b
 <a href="https://www.youtube.com/results?search_query=Maquet+Servo+u+ventilator+tutorial" target="_blank">
   <button style="margin-top:10px;">Servo-u – vídeos YouTube</button>
 </a>
+<div class="card" style="margin-top:12px;">
+  <label>Termos para procurar no manual (copiar e colar na lupa)</label>
+
+  <div class="legend">
+    Use Ctrl+F no desktop ou a lupa do leitor de PDF no celular.
+  </div>
+
+  <ul class="term-list">
+    <li><code>Trigger</code></li>
+    <li><code>Sensitivity</code></li>
+    <li><code>Flow trigger</code></li>
+    <li><code>Pressure trigger</code></li>
+    <li><code>Rise time</code></li>
+    <li><code>Inspiratory time</code></li>
+    <li><code>Expiratory time</code></li>
+    <li><code>Cycling</code></li>
+    <li><code>Cycle off</code></li>
+    <li><code>Flow termination</code></li>
+    <li><code>PEEP</code></li>
+    <li><code>Auto PEEP</code></li>
+    <li><code>Bias flow</code></li>
+    <li><code>Leak compensation</code></li>
+    <li><code>Pressure support</code></li>
+    <li><code>Assist control</code></li>
+    <li><code>Mandatory breath</code></li>
+    <li><code>Spontaneous breath</code></li>
+    <li><code>Asynchrony</code></li>
+  </ul>
+</div>
 
 <div class="card">
   <label>Como buscar no manual (iPhone)</label>
