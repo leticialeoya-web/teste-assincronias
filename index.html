@@ -146,43 +146,8 @@
     }
 
     /* ===== iPhone: Manuais & Referências sempre visível ===== */
-    .mobile-bar{
-      display:none;
-      position:fixed; left:0; right:0; bottom:0; z-index:60;
-      border-top:1px solid var(--line);
-      background:rgba(255,255,255,.96);
-      backdrop-filter: blur(8px);
-      padding:10px 12px;
-    }
-    .mobile-drawer{
-      display:none;
-      position:fixed; inset:0; z-index:70;
-      background:rgba(0,0,0,.35);
-      padding:12px;
-    }
-    .drawer-panel{
-      position:absolute; left:12px; right:12px; bottom:12px;
-      max-height: 78vh;
-      overflow:auto;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:18px;
-      box-shadow: var(--shadow);
-      padding:12px;
-    }
-    .drawer-head{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      position:sticky; top:0; background:#fff; padding:6px 0 10px; z-index:5;
-      border-bottom:1px solid var(--line);
-    }
-    .drawer-title{ font-weight:700; }
-
-    @media (max-width: 820px){
-      body{ padding-bottom:78px; }
-      .mobile-bar{ display:block; }
-      /* evita 2 botões "Manuais" (tabs + barra) */
-      #tabRef{ display:none; }
-    }
+    
+  
   </style>
 </head>
 
@@ -692,14 +657,6 @@
  
   </div>
 
-  <div class="mobile-drawer" id="drawer">
-    <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Manuais e referências">
-      <div class="drawer-head">
-        <div class="drawer-title">Manuais & Referências</div>
-        <button id="btnCloseDrawer" type="button">Fechar</button>
-      </div>
-      <div id="drawerBody"></div>
-    </div>
   </div>
 
   <script>
