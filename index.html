@@ -116,6 +116,194 @@ document.addEventListener("DOMContentLoaded", function () {
   setNivel("essencial");
 });
      
+const ANALISES_CONSOLIDADAS = {
+  fluxo_insuficiente: {
+    titulo: "Fluxo insuficiente (fome de fluxo)",
+    sinais: [
+      "Concavidade do fluxo inspiratório (\"escavado\")",
+      "Queda/instabilidade de pressão durante a inspiração",
+      "Volume menor do que o esperado para o suporte entregue"
+    ],
+    mecanismo:
+      "A demanda inspiratória do paciente excede a oferta instantânea de fluxo do ventilador. O esforço ativo deforma o perfil do fluxo e pode gerar instabilidade de pressão, sem aumento proporcional do volume.",
+    identificacao: "Fluxo insuficiente.",
+    diferenciais: [
+      "Resistência aumentada das vias aéreas",
+      "Vazamento significativo"
+    ],
+    confirmacao:
+      "Repetição em ciclos consecutivos e associação temporal entre concavidade do fluxo e queda de pressão.",
+    limitacoes:
+      "Não quantifica intensidade do esforço e pode haver sobreposição com alterações de mecânica."
+  },
+
+  ciclagem_precoce: {
+    titulo: "Ciclagem precoce",
+    sinais: [
+      "Fluxo não zera no momento da ciclagem (permanece positivo)",
+      "Reaceleração tardia do fluxo / convexidade intrainspiratória",
+      "Pico inspiratório abaulado / topo bifásico",
+      "Queda abrupta de pressão ao final da inspiração com esforço persistente",
+      "Crescimento de volume interrompido precocemente"
+    ],
+    mecanismo:
+      "O ventilador encerra a inspiração antes do término do esforço neural do paciente. O paciente continua tentando inspirar após a ciclagem, gerando sinais gráficos de esforço persistente.",
+    identificacao: "Ciclagem precoce.",
+    diferenciais: [
+      "Fluxo insuficiente",
+      "Duplo disparo em formação"
+    ],
+    confirmacao:
+      "Esforço inspiratório evidente logo após a ciclagem e, em alguns casos, progressão para um segundo disparo.",
+    limitacoes:
+      "Dependente do modo ventilatório e do critério de ciclagem do ventilador."
+  },
+
+  ciclagem_tardia: {
+    titulo: "Ciclagem tardia",
+    sinais: [
+      "Fluxo zera muito antes do fim da fase inspiratória (fluxo ~0 com inspiração mantida)",
+      "Pressão se mantém elevada após cessar o esforço",
+      "Volume estabiliza cedo apesar de tempo inspiratório prolongado"
+    ],
+    mecanismo:
+      "O paciente encerra o esforço inspiratório, mas o ventilador mantém suporte inspiratório além do tempo neural, impondo inspiração passiva prolongada.",
+    identificacao: "Ciclagem tardia.",
+    diferenciais: [
+      "Superassistência",
+      "Tempos inspiratórios fixos longos"
+    ],
+    confirmacao:
+      "Sinais de tentativa expiratória durante a inspiração e ausência de contribuição ativa ao volume no final do ciclo.",
+    limitacoes:
+      "Pode confundir com pausa inspiratória programada ou ajustes intencionais."
+  },
+
+  esforco_inefetivo: {
+    titulo: "Esforço inefetivo",
+    sinais: [
+      "Deflexão de fluxo e/ou pressão na expiração sem disparo",
+      "Degrau expiratório no fluxo",
+      "Elevação transitória de pressão na expiração",
+      "Ausência de volume correspondente ao esforço"
+    ],
+    mecanismo:
+      "Há esforço inspiratório que não supera o limiar de disparo do ventilador. Frequentemente associado a auto-PEEP, sensibilidade inadequada do trigger ou fraqueza muscular.",
+    identificacao: "Esforço inefetivo.",
+    diferenciais: [
+      "Artefato (movimento, secreção, condensação)",
+      "Disparo reverso (quando há relação fixa com ciclos mandatórios)"
+    ],
+    confirmacao:
+      "Padrão repetitivo, sincronizado com o esforço, e concordância entre deflexões em fluxo e pressão.",
+    limitacoes:
+      "Não identifica a causa primária do esforço inefetivo."
+  },
+
+  duplo_disparo: {
+    titulo: "Duplo disparo / empilhamento de ciclos",
+    sinais: [
+      "Dois ciclos com intervalo muito curto",
+      "Expiração incompleta entre ciclos",
+      "Volumes consecutivos com soma excessiva"
+    ],
+    mecanismo:
+      "O esforço inspiratório persiste além do término do primeiro ciclo, desencadeando um segundo disparo antes da completa expiração, resultando em empilhamento de volume.",
+    identificacao: "Duplo disparo (com empilhamento).",
+    diferenciais: [
+      "Ciclagem precoce sem segundo disparo",
+      "Disparo reverso"
+    ],
+    confirmacao:
+      "Ausência de retorno completo do fluxo expiratório ao zero entre ciclos e volume acumulado.",
+    limitacoes:
+      "Não determina se o segundo disparo foi iniciado por trigger de fluxo ou de pressão."
+  },
+
+  disparo_reverso: {
+    titulo: "Disparo reverso",
+    sinais: [
+      "Ciclos mandatórios seguidos por esforço do paciente com relação temporal fixa",
+      "Deformação tardia de fluxo e/ou pressão após ciclo mandatário",
+      "Pode ocorrer segundo disparo subsequente"
+    ],
+    mecanismo:
+      "O ventilador impõe o ciclo e o paciente responde com esforço entrainado, invertendo a sequência esperada (paciente → ventilador).",
+    identificacao: "Disparo reverso.",
+    diferenciais: [
+      "Duplo disparo clássico",
+      "Esforço inefetivo"
+    ],
+    confirmacao:
+      "Relação temporal estável e repetitiva entre ciclo mandatário e esforço subsequente.",
+    limitacoes:
+      "Confirmação ideal exige observação de múltiplos ciclos (padrão temporal)."
+  },
+
+  auto_peep_mecanismo: {
+    titulo: "Auto-PEEP como mecanismo associado",
+    sinais: [
+      "Expiração não completa (fluxo não retorna ao zero)",
+      "Linha de base de pressão elevada na expiração",
+      "Esforços inefetivos recorrentes"
+    ],
+    mecanismo:
+      "Aprisionamento aéreo gera pressão residual ao final da expiração, dificultando o disparo e favorecendo assincronias.",
+    identificacao:
+      "Condição mecânica associada (não é assincronia isolada).",
+    diferenciais: [
+      "PEEP externa elevada",
+      "Frequência respiratória alta / tempo expiratório curto"
+    ],
+    confirmacao:
+      "Concordância entre expiração incompleta no fluxo e baseline de pressão elevado, frequentemente com esforços inefetivos.",
+    limitacoes:
+      "Não quantifica auto-PEEP nem substitui mensuração específica."
+  }
+};
+
+function mostrarAnaliseConsolidada(chave) {
+  const card = document.getElementById("cardAnaliseFinal");
+  const box = document.getElementById("analiseFinal");
+  const a = ANALISES_CONSOLIDADAS[chave];
+
+  if (!card || !box) return;
+
+  if (!a) {
+    card.style.display = "none";
+    box.innerHTML = "";
+    return;
+  }
+
+  const sinaisHTML = (a.sinais || []).map(s => `<li>${s}</li>`).join("");
+  const difHTML = (a.diferenciais || []).map(s => `<li>${s}</li>`).join("");
+
+  box.innerHTML = `
+    <div class="sec">
+      <h3>${a.titulo}</h3>
+
+      <div class="k">Síntese dos sinais compatíveis</div>
+      <ul>${sinaisHTML}</ul>
+
+      <div class="k">Leitura fisiológica integrada</div>
+      <div class="p">${a.mecanismo}</div>
+
+      <div class="k">Assincronia identificada</div>
+      <div class="p">${a.identificacao}</div>
+
+      <div class="k">Principais diferenciais</div>
+      <ul>${difHTML}</ul>
+
+      <div class="k">Pistas de confirmação no traçado</div>
+      <div class="p">${a.confirmacao}</div>
+
+      <div class="k">Limitações</div>
+      <div class="p">${a.limitacoes}</div>
+    </div>
+  `;
+
+  card.style.display = "block";
+}
 
 </script>
 
