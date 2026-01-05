@@ -78,6 +78,9 @@
 
 <script>
 function setNivel(n) {
+  var btnRodar = document.getElementById("btnRodar");
+if (btnRodar) btnRodar.onclick = window.rodarAnalise;
+  mostrarAnaliseConsolidada("");
   var essencial = document.getElementById("essencial");
   var avancado  = document.getElementById("avancado");
   var btnE = document.getElementById("btnEssencial");
@@ -1083,6 +1086,9 @@ termos: "dinâmica de pressurização, início da inspiração"
 
   window.rodarAnalise = function rodarAnalise() {
     try {
+      const resultadoEl = document.getElementById("resultado");
+if (resultadoEl) resultadoEl.textContent = "";
+mostrarAnaliseConsolidada("");
       const avancado = document.getElementById("avancado");
 if (!avancado || avancado.style.display === "none") {
   const resultadoEl = document.getElementById("resultado");
