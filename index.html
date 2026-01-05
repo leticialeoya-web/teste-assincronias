@@ -897,11 +897,11 @@ if (!avancado || avancado.style.display === "none") {
 
       const resultadoEl = $("resultado");
       const resumoBox = $("resumoExecutivo");
-
+const tipoCiclo = document.getElementById("modoVent").value;
       if (!tipoCiclo) {
         resultadoEl.innerHTML = "Selecione o tipo de ciclo antes de rodar a análise.";
         resumoBox.style.display = "none";
-        $("btnCopiar").disabled = true;
+        document.getElementById("btnCopiar").disabled = true;
         lastSummaryState = null;
         return;
       }
@@ -1202,13 +1202,14 @@ if (!avancado || avancado.style.display === "none") {
       const corrU = mapToArray(correcaoMap);
       const hipU = unique(hipoteses);
 
-      if (sinaisU.length === 0) {
-        resultadoEl.innerHTML = `Ciclo: ${labelTipoCiclo(tipoCiclo)} | Modo: ${m === "nao_sei" ? "Não informado" : m}. Nenhum achado selecionado.`;
-        $("resumoExecutivo").style.display = "none";
-        $("btnCopiar").disabled = true;
-        lastSummaryState = null;
-        return;
-      }
+    if (sinaisU.length === 0) {
+  resultadoEl.innerHTML = `Ciclo: ${labelTipoCiclo(tipoCiclo)} | Modo: ${m === "nao_sei" ? "Não informado" : m}. Nenhum achado selecionado.`;
+  document.getElementById("resumoExecutivo").style.display = "none";
+  document.getElementById("btnCopiar").disabled = true;
+  lastSummaryState = null;
+  return;
+}
+
 
       const ctxCiclo = labelTipoCiclo(tipoCiclo);
       const ctxModo = (m === "nao_sei") ? "Não informado" : m;
