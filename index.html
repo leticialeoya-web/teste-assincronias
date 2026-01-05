@@ -1233,29 +1233,7 @@
         }
       }
 
-      // ======= Drawer mobile: sempre visível =======
-      const drawer = $("drawer");
-      const drawerBody = $("drawerBody");
-      const btnCloseDrawer = $("btnCloseDrawer");
 
-      function refreshDrawerContent(){
-        const src = document.getElementById("refsContent");
-        if(!src) return;
-        drawerBody.innerHTML = src.innerHTML;
-      }
-      function openDrawer(){
-        refreshDrawerContent();
-        drawer.style.display="block";
-      }
-      function closeDrawer(){
-        drawer.style.display="none";
-      }
-
-      btnOpenDrawer.addEventListener("click", openDrawer);
-      btnCloseDrawer.addEventListener("click", closeDrawer);
-      drawer.addEventListener("click", (e)=>{
-        if(e.target === drawer) closeDrawer();
-      });
 
       // init
       bindToggles();
