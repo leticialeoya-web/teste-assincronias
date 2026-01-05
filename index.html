@@ -1441,6 +1441,26 @@ if (!avancado || avancado.style.display === "none") {
       };
 
       $("btnCopiar").disabled = false;
+// ===== ligar saída antiga (#resultado) à Análise Consolidada =====
+try {
+  const resultadoEl = document.getElementById("resultado");
+  const txt = (resultadoEl?.innerText || resultadoEl?.textContent || "").toLowerCase();
+
+  let chave = "";
+
+  if (txt.includes("ciclagem precoce")) chave = "ciclagem_precoce";
+  else if (txt.includes("ciclagem tardia")) chave = "ciclagem_tardia";
+  else if (txt.includes("esforço inefetivo") || txt.includes("esforco inefetivo")) chave = "esforco_inefetivo";
+  else if (txt.includes("duplo disparo")) chave = "duplo_disparo";
+  else if (txt.includes("disparo reverso")) chave = "disparo_reverso";
+  else if (txt.includes("fluxo insuficiente") || txt.includes("fome de fluxo")) chave = "fluxo_insuficiente";
+  else if (txt.includes("auto-peep") || txt.includes("auto peep")) chave = "auto_peep_mecanismo";
+
+  if (chave) mostrarAnaliseConsolidada(chave);
+  else mostrarAnaliseConsolidada(""); // esconde se não reconhecer
+} catch (e2) {
+  // não faz nada
+}
 
     } catch (e) {
       showError("Falha ao rodar a análise: " + (e && e.message ? e.message : String(e)));
