@@ -16,74 +16,176 @@
       --line:#e5e7eb;
       --card:#f9fafb;
       --chip:#ffffff;
-      --danger:#991b1b;
-      --dangerbg:#fff1f2;
+      --accent:#111827;
+      --warn:#991b1b;
+      --warnbg:#fff1f2;
+      --ok:#166534;
+      --okbg:#f0fdf4;
+      --mid:#92400e;
+      --midbg:#fffbeb;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 14px;
     }
-    body { font-family: Arial, sans-serif; margin:0; padding:16px; background:var(--bg); color:var(--fg); }
-    h1 { font-size: 20px; margin: 0 0 8px; }
-    h2 { font-size: 16px; margin: 18px 0 8px; }
-    p  { color:#374151; margin: 0 0 10px; line-height:1.45; }
-    a  { color:#111827; }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0; padding:16px;
+      font-family: Arial, sans-serif;
+      background:var(--bg); color:var(--fg);
+    }
+
+    .wrap{ max-width: 1040px; margin:0 auto; }
+
+    h1{ font-size:20px; margin:0 0 8px; }
+    h2{ font-size:16px; margin:18px 0 8px; }
+    h3{ font-size:14px; margin:12px 0 6px; }
+    p{ margin:0 0 10px; line-height:1.45; color:#374151; }
+    a{ color:var(--fg); }
 
     .topbar{
-      position:sticky; top:0; z-index:10;
+      position:sticky; top:0; z-index:40;
       background:var(--bg);
       border-bottom:1px solid var(--line);
       padding:10px 0 12px;
       margin:0 0 12px;
     }
-    .tabs{ display:flex; gap:10px; flex-wrap:wrap; }
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .tabbtn{
       padding:10px 12px; font-size:14px; cursor:pointer;
-      border:1px solid var(--line); background:#fff; border-radius:10px;
+      border:1px solid var(--line); background:#fff; border-radius:12px;
     }
-    .tabbtn.active{ border-color:#111827; }
-    .wrap{ max-width: 980px; margin:0 auto; }
+    .tabbtn.active{ border-color:var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
 
-    .card { border:1px solid var(--line); border-radius:12px; padding:14px; margin:12px 0; background:var(--card); }
-    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:10px; }
-    .muted { color:var(--muted); font-size:12px; }
-    .pill { display:inline-block; font-size:12px; padding:3px 8px; border:1px solid var(--line); border-radius:999px; background:var(--chip); color:#4b5563; margin-left:8px; }
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px;
+      margin:12px 0;
+      background:var(--card);
+    }
+
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:10px; }
+
+    .muted{ color:var(--muted); font-size:12px; }
+    .pill{
+      display:inline-block; font-size:12px; padding:3px 8px;
+      border:1px solid var(--line); border-radius:999px;
+      background:var(--chip); color:#4b5563; margin-left:8px;
+    }
 
     select, input[type="number"], input[type="text"]{
-      margin-top:6px; font-size:14px; padding:9px; border:1px solid #d1d5db; border-radius:10px; background:#fff; width:100%;
+      margin-top:6px; font-size:14px; padding:9px;
+      border:1px solid #d1d5db; border-radius:12px; background:#fff; width:100%;
     }
-    input[type="number"]{ max-width:220px; }
+    input[type="number"]{ max-width:240px; }
 
     button{
       padding:10px 14px; font-size:15px; cursor:pointer;
-      border:1px solid #d1d5db; background:#fff; border-radius:10px;
+      border:1px solid #d1d5db; background:#fff; border-radius:12px;
     }
-    button.primary{ border-color:#111827; }
+    button.primary{ border-color:var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
     button:active{ transform:translateY(1px); }
 
-    .tag { display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; border:1px solid var(--line); background:#ffffff; color:#374151; }
-    .tag.good { border-color:#bbf7d0; background:#f0fdf4; color:#166534; }
-    .tag.mid  { border-color:#fde68a; background:#fffbeb; color:#92400e; }
-    .tag.low  { border-color:#fecaca; background:#fff1f2; color:#991b1b; }
+    .tag{
+      display:inline-block; font-size:12px; padding:2px 8px;
+      border-radius:999px; border:1px solid var(--line); background:#fff; color:#374151;
+      margin-left:6px;
+    }
+    .tag.good{ border-color:#bbf7d0; background:var(--okbg); color:var(--ok); }
+    .tag.mid { border-color:#fde68a; background:var(--midbg); color:var(--mid); }
+    .tag.low { border-color:#fecaca; background:var(--warnbg); color:var(--warn); }
 
-    .controls{ margin-top:10px; padding-top:10px; border-top:1px dashed #d1d5db; display:none; }
+    .controls{
+      margin-top:10px; padding-top:10px; border-top:1px dashed #d1d5db;
+      display:none;
+    }
     .controls.show{ display:block; }
 
-    .resultado { margin-top:14px; font-weight:700; }
-    .debug { margin-top:14px; font-size:12px; color:var(--danger); background:var(--dangerbg); border:1px solid #fecdd3; padding:10px; border-radius:10px; display:none; white-space:pre-wrap; }
-
-    .term-list { margin-top:8px; padding-left:18px; }
-    .term-list li { margin:6px 0; }
-    .term-list code {
-      font-size:14px; padding:4px 6px; background:#e5e7eb; border-radius:6px; user-select: all;
+    .resultado{
+      margin-top:14px;
+      font-weight:700;
+    }
+    .debug{
+      margin-top:14px;
+      font-size:12px;
+      color:var(--warn);
+      background:var(--warnbg);
+      border:1px solid #fecdd3;
+      padding:10px;
+      border-radius:12px;
+      display:none;
+      white-space:pre-wrap;
     }
 
-    footer { margin:28px 0 6px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:#4b5563; line-height:1.55; }
-    .k { font-size:12px; color:#6b7280; margin:10px 0 6px; }
-    .p { color:#374151; line-height:1.45; }
-
-    details{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:10px 12px; }
+    details{
+      background:#fff; border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:10px 12px;
+    }
     details + details{ margin-top:10px; }
     summary{ cursor:pointer; font-weight:700; }
+
     .links{ margin-top:8px; }
     .links a{ display:inline-block; margin:6px 10px 0 0; }
+
+    .term-list{ margin-top:8px; padding-left:18px; }
+    .term-list li{ margin:6px 0; }
+    .term-list code{
+      font-size:14px; padding:4px 6px; background:#e5e7eb; border-radius:8px; user-select:all;
+    }
+
+    .k{ font-size:12px; color:#6b7280; margin:10px 0 6px; }
+    .p{ color:#374151; line-height:1.45; margin:0; }
+
+    .hr{ height:1px; background:var(--line); margin:10px 0; }
+
+    footer{
+      margin:28px 0 6px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+      font-size:12px;
+      color:#4b5563;
+      line-height:1.55;
+    }
+
+    /* ===== iPhone: Manuais & Referências sempre visível ===== */
+    .mobile-bar{
+      display:none;
+      position:fixed; left:0; right:0; bottom:0; z-index:60;
+      border-top:1px solid var(--line);
+      background:rgba(255,255,255,.96);
+      backdrop-filter: blur(8px);
+      padding:10px 12px;
+    }
+    .mobile-bar .row{ justify-content:space-between; }
+    .mobile-drawer{
+      display:none;
+      position:fixed; inset:0; z-index:70;
+      background:rgba(0,0,0,.35);
+      padding:12px;
+    }
+    .drawer-panel{
+      position:absolute; left:12px; right:12px; bottom:12px;
+      max-height: 78vh;
+      overflow:auto;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow: var(--shadow);
+      padding:12px;
+    }
+    .drawer-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      position:sticky; top:0; background:#fff; padding:6px 0 10px; z-index:5;
+      border-bottom:1px solid var(--line);
+    }
+    .drawer-title{ font-weight:700; }
+
+    @media (max-width: 820px){
+      body{ padding-bottom:78px; } /* espaço para barra fixa */
+      .mobile-bar{ display:block; }
+    }
   </style>
 </head>
 
@@ -92,72 +194,77 @@
     <div class="topbar">
       <div class="tabs">
         <button id="tabEss" class="tabbtn active" type="button">Essencial</button>
-        <button id="tabAv"  class="tabbtn" type="button">Avançado</button>
+        <button id="tabAv" class="tabbtn" type="button">Avançado</button>
         <button id="tabRef" class="tabbtn" type="button">Manuais & Referências</button>
+        <span class="muted">Educacional. Não substitui julgamento clínico.</span>
       </div>
     </div>
 
-    <!-- ===== ESSENCIAL ===== -->
+    <!-- ====================== ESSENCIAL ====================== -->
     <section id="secEssencial">
       <h1>Essencial – Assincronias Ventilatórias</h1>
       <p class="muted">
-        Apoio à leitura de curvas ventilatórias (fluxo, pressão, volume). Não fornece recomendações de conduta.
+        Apoio educacional à leitura de curvas ventilatórias (pressão, fluxo, volume). Este app organiza sinais e interpretações possíveis.
+        Não prescreve conduta, não substitui avaliação individual, e não substitui protocolos institucionais.
       </p>
 
       <div class="card">
         <h2>Esforço inefetivo</h2>
-        <p><b>Achado</b><br>Esforço do paciente sem disparo do ventilador.</p>
-        <p><b>Interpretação provável</b><br>Esforço não supera limiar de disparo (trigger), frequentemente com auto-PEEP/limitação expiratória, fraqueza ou sensibilidade inadequada.</p>
-        <p><b>Checagens no traçado</b><br>Deflexões de fluxo/pressão na expiração sem ciclo e sem volume correspondente.</p>
+        <p><b>O que aparece</b><br>Esforço do paciente sem disparo do ventilador.</p>
+        <p><b>Leitura educacional</b><br>Descompasso na fase de disparo (trigger), frequentemente associado a carga inspiratória elevada (ex.: auto-PEEP) e/ou limiar de detecção.</p>
+        <p><b>Pistas nas curvas</b><br>Deflexões de fluxo/pressão na expiração sem ciclo e sem volume correspondente.</p>
       </div>
 
       <div class="card">
         <h2>Duplo disparo</h2>
-        <p><b>Achado</b><br>Dois ciclos consecutivos com expiração mínima entre eles.</p>
-        <p><b>Interpretação provável</b><br>Esforço neural persistente além do término do primeiro ciclo (pode ocorrer por ciclagem precoce / demanda não atendida).</p>
-        <p><b>Checagens no traçado</b><br>Dois disparos com “empilhamento” e expiração incompleta entre ciclos.</p>
+        <p><b>O que aparece</b><br>Dois ciclos consecutivos com expiração mínima entre eles.</p>
+        <p><b>Leitura educacional</b><br>Persistência do esforço neural além do término do primeiro ciclo; pode coexistir com ciclagem precoce e/ou demanda inspiratória não acompanhada.</p>
+        <p><b>Pistas nas curvas</b><br>Dois disparos com “empilhamento” e expiração incompleta entre ciclos.</p>
       </div>
 
       <div class="card">
-        <h2>Disparo reverso</h2>
-        <p><b>Achado</b><br>Esforço do paciente surge após o início do ciclo mandatório.</p>
-        <p><b>Interpretação provável</b><br>Entrainment (ventilador “puxa” o esforço) em ventilação controlada/mandatória.</p>
-        <p><b>Checagens no traçado</b><br>Relação temporal fixa entre ciclo mandatório e esforço tardio (fluxo/pressão).</p>
+        <h2>Disparo reverso (reverse triggering)</h2>
+        <p><b>O que aparece</b><br>Esforço do paciente surge após o início de um ciclo mandatório.</p>
+        <p><b>Leitura educacional</b><br>Entrainment (acoplamento) entre ciclos mandatórios e esforço tardio.</p>
+        <p><b>Pistas nas curvas</b><br>Relação temporal repetitiva entre ciclo mandatório e sinais de esforço no meio/fim da inspiração.</p>
       </div>
 
       <div class="card">
         <h2>Ciclagem precoce</h2>
-        <p><b>Achado</b><br>Ventilador encerra inspiração com fluxo ainda positivo (sem “zerar”).</p>
-        <p><b>Interpretação provável</b><br>Inspiração mecânica termina antes do tempo neural.</p>
-        <p><b>Checagens no traçado</b><br>Sinais de esforço persistente no fim da inspiração; pode evoluir para duplo disparo.</p>
+        <p><b>O que aparece</b><br>Ventilador encerra inspiração com fluxo ainda positivo.</p>
+        <p><b>Leitura educacional</b><br>Tempo mecânico inspiratório menor que o tempo neural.</p>
+        <p><b>Pistas nas curvas</b><br>Sinais de esforço persistente no fim da inspiração; pode evoluir para duplo disparo.</p>
       </div>
 
       <div class="card">
         <h2>Ciclagem tardia</h2>
-        <p><b>Achado</b><br>Inspiração mantém-se apesar de fluxo já ~zero.</p>
-        <p><b>Interpretação provável</b><br>Ventilador mantém suporte inspiratório além do tempo neural.</p>
-        <p><b>Checagens no traçado</b><br>Tentativa expiratória durante a inspiração; volume “estabiliza” cedo com Ti longo.</p>
+        <p><b>O que aparece</b><br>Inspiração mantém-se apesar de fluxo ~zero.</p>
+        <p><b>Leitura educacional</b><br>Tempo mecânico inspiratório maior que o tempo neural.</p>
+        <p><b>Pistas nas curvas</b><br>Tentativa expiratória durante a inspiração; volume estabiliza cedo apesar de inspiração prolongada.</p>
       </div>
 
       <div class="card">
         <h2>Auto-PEEP (PEEP intrínseca)</h2>
-        <p><b>Achado</b><br>Expiração não completa antes do ciclo seguinte.</p>
-        <p><b>Interpretação provável</b><br>Aprisionamento aéreo/hiperinsuflação dinâmica (mecanismo associado a várias assincronias).</p>
-        <p><b>Checagens no traçado</b><br>Fluxo expiratório não retorna a zero; baseline de pressão pode permanecer elevado.</p>
+        <p><b>O que aparece</b><br>Expiração não completa antes do ciclo seguinte.</p>
+        <p><b>Leitura educacional</b><br>Hiperinsuflação dinâmica/aprisionamento aéreo pode aumentar a carga de disparo e favorecer assincronias.</p>
+        <p><b>Pistas nas curvas</b><br>Fluxo expiratório não retorna a zero; baseline de pressão pode permanecer elevado.</p>
       </div>
 
       <div class="card">
-        <p><b>Aviso</b><br>
-          Este aplicativo é educacional e organiza a leitura de achados em curvas ventilatórias.
-          Não substitui julgamento clínico, avaliação individual do paciente ou protocolos institucionais.
+        <p><b>Escopo e limites</b><br>
+          Este aplicativo é exclusivamente educacional: organiza a leitura de sinais em curvas ventilatórias e sugere interpretações possíveis.
+          Não orienta conduta, não emite recomendações terapêuticas, e não substitui julgamento clínico, avaliação individual ou protocolos institucionais.
         </p>
       </div>
     </section>
 
-    <!-- ===== AVANÇADO ===== -->
+    <!-- ====================== AVANÇADO ====================== -->
     <section id="secAvancado" style="display:none;">
-      <h1>Avançado – Entrada mínima e análise</h1>
-      <p class="muted">Selecione o tipo de ciclo (obrigatório), modo (opcional) e os achados observados. O texto “Análise” é gerado pelo app.</p>
+      <h1>Avançado – Entrada mínima e análise gerada</h1>
+      <p class="muted">
+        Selecione o <b>tipo de ciclo</b> (obrigatório), o <b>modo</b> (opcional) e os <b>achados</b>. A saída gerada inclui o texto
+        “Teste clínico – Assincronias Ventilatórias”.
+      </p>
 
       <div class="card">
         <label>Tipo de ciclo <span class="pill">Obrigatório</span></label>
@@ -165,21 +272,20 @@
           <label><input type="radio" name="tipoCiclo" value="mandatorio"> Mandatório (a tempo)</label>
           <label><input type="radio" name="tipoCiclo" value="assistido"> Assistido (disparado pelo paciente)</label>
           <label><input type="radio" name="tipoCiclo" value="misto"> Misto</label>
-          <label><input type="radio" name="tipoCiclo" value="nao_sei" checked> Não informado</label>
         </div>
 
         <div style="margin-top:12px;">
           <div class="muted">Modo ventilatório (opcional)</div>
           <select id="modoVent">
-            <option value="nao_sei">Não informado</option>
-            <option value="VCV">VCV (Volume control)</option>
-            <option value="PCV">PCV (Pressure control)</option>
-            <option value="PSV">PSV (Pressure support)</option>
+            <option value="nao_informado">Não informado</option>
+            <option value="VCV">VCV (volume control)</option>
+            <option value="PCV">PCV (pressure control)</option>
+            <option value="PSV">PSV (pressure support)</option>
             <option value="PRVC">PRVC / VAPS (híbridos)</option>
           </select>
         </div>
 
-        <div class="k">Parâmetros opcionais (se tiver)</div>
+        <div class="k">Parâmetros opcionais (se você tiver)</div>
         <div class="grid">
           <div><div class="muted">Ti (s)</div><input id="p_ti" type="number" step="0.01" min="0" placeholder="ex.: 0,80" /></div>
           <div><div class="muted">Rise/pressurização</div><input id="p_rise" type="text" placeholder="ex.: 0,2 s / médio" /></div>
@@ -210,8 +316,8 @@
           </div>
 
           <div>
-            <label><input type="checkbox" id="degrauExp"> Degrau expiratório <span class="pill">Fluxo</span></label>
-            <div class="muted">Inespecífico; ganha peso com expiração não zera e/ou sinais de esforço.</div>
+            <label><input type="checkbox" id="degrauExp"> Degrau/entalhe expiratório <span class="pill">Fluxo</span></label>
+            <div class="muted">Interpretação depende do conjunto (expiração não zera, sinais de esforço, resistência, secreção).</div>
             <div class="controls" id="ctl_degrauExp">
               <div class="muted">Em que parte?</div>
               <select id="degrauExp_local">
@@ -234,7 +340,7 @@
 
           <div>
             <label><input type="checkbox" id="concavidade"> Concavidade no fluxo <span class="pill">Fluxo</span></label>
-            <div class="muted">Curva “afunda” (modulação por demanda/esforço).</div>
+            <div class="muted">Modulação por demanda/esforço (fase e timing ajudam).</div>
             <div class="controls" id="ctl_concavidade">
               <div class="row">
                 <select id="concavidade_fase">
@@ -252,7 +358,7 @@
 
           <div>
             <label><input type="checkbox" id="convexidade"> Convexidade no fluxo <span class="pill">Fluxo</span></label>
-            <div class="muted">Curva “abaula para fora”. Interpretação depende do modo e contexto.</div>
+            <div class="muted">Padrão “abaulado para fora” (modo/contexto determinam leitura).</div>
             <div class="controls" id="ctl_convexidade">
               <div class="row">
                 <select id="convexidade_fase">
@@ -270,17 +376,17 @@
 
           <div>
             <label><input type="checkbox" id="letraM"> Entalhe no platô de pressão (“Letra M”) <span class="pill">Pressão</span></label>
-            <div class="muted">Interação esforço–ventilador dentro da inspiração (não é automaticamente ciclo duplo).</div>
+            <div class="muted">Interação esforço–ventilador dentro da inspiração.</div>
           </div>
 
           <div>
-            <label><input type="checkbox" id="picoAbaulado"> Pico inspiratório abaulado <span class="pill">Fluxo</span></label>
-            <div class="muted">Compatível com demanda maior que oferta e/ou resistência (dependente do modo).</div>
+            <label><input type="checkbox" id="picoAbaulado"> Pico inspiratório “abaulado” no fluxo <span class="pill">Fluxo</span></label>
+            <div class="muted">Compatível com demanda não acompanhada e/ou resistência (dependente do modo).</div>
           </div>
 
           <div>
-            <label><input type="checkbox" id="abaulamentoPlatoFluxo"> Abaulamento do fluxo inspiratório <span class="pill">Fluxo</span></label>
-            <div class="muted">Fluxo “volta a subir” no meio/fim da inspiração (demanda variável).</div>
+            <label><input type="checkbox" id="abaulamentoPlatoFluxo"> Segunda elevação do fluxo inspiratório (meio/fim) <span class="pill">Fluxo</span></label>
+            <div class="muted">Sugere demanda variável durante a inspiração.</div>
             <div class="controls" id="ctl_abaulamentoPlatoFluxo">
               <div class="muted">Onde ocorre mais?</div>
               <select id="abaulamentoPlato_local">
@@ -293,22 +399,22 @@
 
           <div>
             <label><input type="checkbox" id="fluxoTremidoExp"> Fluxo expiratório serrilhado (“tremido”) <span class="pill">Fluxo</span></label>
-            <div class="muted">Sugere interferência no circuito/condensado/secreção (correlacionar com clínica).</div>
+            <div class="muted">Interferência (secreção/condensado/circuito) pode mimetizar padrões.</div>
           </div>
 
           <div>
-            <label><input type="checkbox" id="raizQuadrada"> Padrão “raiz quadrada” (limitação de fluxo / resistência) <span class="pill">Mecânica</span></label>
+            <label><input type="checkbox" id="raizQuadrada"> Padrão “raiz quadrada” (limitação ao fluxo / resistência) <span class="pill">Mecânica</span></label>
             <div class="muted">Compatível com resistência elevada/limitação ao fluxo (contextual).</div>
           </div>
 
           <div>
-            <label><input type="checkbox" id="spikeSaida"> Spike na saída (fim da inspiração) <span class="pill">Pressão</span></label>
-            <div class="muted">Transição inspiração→expiração abrupta/instável (depende do modo).</div>
+            <label><input type="checkbox" id="spikeSaida"> Espícula na transição inspiração→expiração <span class="pill">Pressão</span></label>
+            <div class="muted">Transição abrupta/instável (depende do modo).</div>
           </div>
 
           <div>
             <label><input type="checkbox" id="overshoot"> Overshoot de pressão <span class="pill">Pressão</span></label>
-            <div class="muted">Pressão passa do alvo e retorna (entrada ou saída).</div>
+            <div class="muted">Pressão passa do alvo e retorna.</div>
             <div class="controls" id="ctl_overshoot">
               <div class="row">
                 <label><input type="radio" name="ov_tipo" value="entrada" checked> Entrada</label>
@@ -318,13 +424,8 @@
           </div>
 
           <div>
-            <label><input type="checkbox" id="degrauRecorrente"> Degrau recorrente após aspiração <span class="pill">Fluxo</span></label>
-            <div class="muted">Sugere fator persistente (secreção/obstrução/patência).</div>
-          </div>
-
-          <div>
-            <label><input type="checkbox" id="rt_habilitar"> Disparo reverso (Reverse Triggering) <span class="pill">Padrão</span></label>
-            <div class="muted">Suspeitar quando um ciclo mandatório é seguido por esforço tardio repetitivo.</div>
+            <label><input type="checkbox" id="rt_habilitar"> Reverse Triggering (suspeita) <span class="pill">Padrão</span></label>
+            <div class="muted">Use quando houver ciclo mandatório + esforço tardio repetitivo (acoplamento).</div>
             <div class="controls" id="ctl_rt">
               <label style="display:block; margin-top:8px;"><input type="checkbox" id="rt_segundoEsforco_pressao"> Pressão: entalhe/queda durante a inspiração (meio/fim)</label>
               <label style="display:block; margin-top:8px;"><input type="checkbox" id="rt_segundoEsforco_fluxo"> Fluxo: segunda elevação do fluxo inspiratório (meio/fim)</label>
@@ -339,94 +440,129 @@
                 </select>
               </div>
               <label style="display:block; margin-top:8px;"><input type="checkbox" id="rt_cicloDuplo"> Há ciclo duplo associado</label>
-              <label style="display:block; margin-top:8px;"><input type="checkbox" id="rt_emMandatorios"> Principalmente em ciclos mandatórios (a tempo)</label>
             </div>
           </div>
         </div>
 
         <div class="row" style="margin-top:14px;">
           <button id="btnRodar" class="primary" type="button">Rodar análise</button>
-          <button id="btnCopiar" type="button" disabled>Copiar resumo</button>
+          <button id="btnCopiar" type="button" disabled>Copiar texto</button>
         </div>
 
         <div class="resultado" id="resultado"></div>
         <div class="debug" id="debugBox"></div>
       </div>
 
-      <div class="card" id="cardAnaliseFinal" style="display:none;">
-        <label>Análise consolidada (gerada) <span class="pill">Saída</span></label>
-        <div id="analiseFinal"></div>
-      </div>
-
-      <div class="card" id="resumoExecutivo" style="display:none;">
-        <label>Resumo executivo (gerado)</label>
-        <div class="muted">Estrutura: 1) sinais → 2) padrão/assincronia → 3) hipóteses → 4) ajustes educacionais.</div>
-        <div style="margin-top:10px;">
-          <p><b>Contexto</b></p><ul id="listaContexto"></ul>
-          <p><b>1) Sinais</b></p><ul id="listaSinais"></ul>
-          <p><b>2) Padrão/assincronia provável</b></p><ul id="listaAssincronias"></ul>
-          <p><b>3) Hipóteses</b></p><ul id="listaHipoteses"></ul>
-          <p><b>4) Ajustes geralmente considerados (educacional)</b></p><ul id="listaCorrecoes"></ul>
-          <p class="muted" id="notaContextoResumo"></p>
-        </div>
+      <div class="card" id="cardSaida" style="display:none;">
+        <label>Saída gerada <span class="pill">Texto</span></label>
+        <div id="saidaGerada"></div>
       </div>
     </section>
 
-    <!-- ===== MANUAIS & REFERÊNCIAS ===== -->
+    <!-- ====================== MANUAIS & REFERÊNCIAS ====================== -->
     <section id="secRefs" style="display:none;">
       <h1>Manuais & Referências</h1>
       <p class="muted">
-        Links externos (fabricante/Anvisa quando disponível) e buscas no YouTube. Termos para busca e instruções no iPhone.
+        Links externos (PDF direto quando existir; se não, página oficial). Inclui busca no YouTube por ventilador,
+        instruções iPhone e referências PubMed por tema.
       </p>
 
-      <div class="card">
-        <label>Termos para procurar no manual (copiar e colar)</label>
+      <div class="card" id="refsContent">
+        <h2>1) Termos para procurar no manual (copiar e colar)</h2>
         <ul class="term-list">
-          <li><code>Trigger</code></li>
-          <li><code>Sensitivity</code></li>
-          <li><code>Flow trigger</code></li>
-          <li><code>Pressure trigger</code></li>
-          <li><code>Rise time</code></li>
-          <li><code>Inspiratory time</code></li>
-          <li><code>Expiratory time</code></li>
-          <li><code>Cycling</code></li>
-          <li><code>Cycle off</code></li>
-          <li><code>Flow termination</code></li>
+          <li><code>trigger</code> / <code>Trigger</code></li>
+          <li><code>sensitivity</code> / <code>Sensitivity</code></li>
+          <li><code>flow trigger</code></li>
+          <li><code>pressure trigger</code></li>
+          <li><code>cycling</code></li>
+          <li><code>cycle off</code></li>
+          <li><code>flow termination</code></li>
+          <li><code>rise time</code></li>
+          <li><code>pressurization</code></li>
+          <li><code>inspiratory time</code> / <code>Ti</code></li>
+          <li><code>expiratory time</code> / <code>Te</code></li>
+          <li><code>flow</code></li>
+          <li><code>leak</code> / <code>leak compensation</code></li>
+          <li><code>bias flow</code></li>
           <li><code>PEEP</code></li>
-          <li><code>Auto PEEP</code></li>
-          <li><code>Bias flow</code></li>
-          <li><code>Leak compensation</code></li>
-          <li><code>Pressure support</code></li>
-          <li><code>Assist control</code></li>
-          <li><code>Mandatory breath</code></li>
-          <li><code>Spontaneous breath</code></li>
-          <li><code>Asynchrony</code></li>
+          <li><code>auto PEEP</code> / <code>intrinsic PEEP</code></li>
+          <li><code>pressure support</code></li>
+          <li><code>assist control</code></li>
+          <li><code>mandatory breath</code></li>
+          <li><code>spontaneous breath</code></li>
+          <li><code>asynchrony</code> / <code>asynchronies</code></li>
+          <li><code>reverse triggering</code></li>
         </ul>
-      </div>
 
-      <div class="card">
-        <label>Como buscar no manual (iPhone)</label>
+        <div class="hr"></div>
+
+        <h2>2) iPhone: como usar “Buscar na Página” dentro do PDF</h2>
         <div class="p">
-          1) Abra o PDF.<br>
-          2) Toque em <b>Compartilhar</b>.<br>
+          1) Abra o PDF (Safari/Arquivos).<br>
+          2) Toque no ícone de <b>Compartilhar</b> (quadrado com seta).<br>
           3) Selecione <b>Buscar na Página</b> (ou “Localizar na Página”).<br>
-          4) Cole um termo (da lista acima).<br>
-          5) Use as setas para ir para a próxima ocorrência.
+          4) Cole um termo da lista acima.<br>
+          5) Use as setas para navegar entre ocorrências.
         </div>
-      </div>
 
-      <div class="card">
-        <label>Ventiladores – PDFs e vídeos</label>
-        <p class="muted">Sem upload no GitHub. Links diretos para PDF (quando disponível) e busca no YouTube.</p>
+        <div class="hr"></div>
+
+        <h2>3) Ventiladores: PDF/página oficial + YouTube</h2>
+        <p class="muted">Se um PDF oficial não estiver acessível, foi incluída página oficial de suporte/recursos.</p>
 
         <details>
-          <summary>Dräger – V300 / V500 / Savina / Evita</summary>
+          <summary>Vyaire / CareFusion – Vela</summary>
           <div class="links">
-            <a target="_blank" rel="noopener" href="https://www.draeger.com/Content/Documents/Content/evita-v300-ifu-9052995-en.pdf">V300 – IFU (PDF)</a>
-            <a target="_blank" rel="noopener" href="https://www.draeger.com/Content/Documents/Content/evita-infinity-v500-sw-2n-ifu-9052161-en.pdf">V500 – IFU (PDF)</a>
+            <div class="muted">PDF / suporte</div>
+            <a target="_blank" rel="noopener" href="https://consultas.anvisa.gov.br/api/consulta/medicamentos/arquivo/bula/parecer/3388757/?Authorization=">Vela – Instruções de Uso (PDF – ANVISA)</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
+            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Vyaire+Vela+ventilator+tutorial">Vela vídeos</a>
+          </div>
+        </details>
+
+        <details>
+          <summary>Vyaire / CareFusion – Avea</summary>
+          <div class="links">
+            <div class="muted">PDF / suporte (links do fabricante – CareFusion)</div>
+            <a target="_blank" rel="noopener" href="https://pages.carefusion.com/rs/565-YXD-236/images/RC_AVEA-Modes-Guide_UG_EN.pdf">Avea – Modes Guide (PDF)</a>
+            <a target="_blank" rel="noopener" href="https://pages.carefusion.com/rs/565-YXD-236/images/RC_AVEA-Quick-Tips_QG_EN.pdf">Avea – Quick Tips (PDF)</a>
+            <a target="_blank" rel="noopener" href="https://pages.carefusion.com/rs/565-YXD-236/images/RC_AVEA-NIV-Guidelines_BR_EN.pdf">Avea – NIV Guidelines (PDF)</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
+            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=AVEA+ventilator+tutorial">Avea vídeos</a>
+          </div>
+        </details>
+
+        <details>
+          <summary>Getinge / Maquet – Servo-S</summary>
+          <div class="links">
+            <div class="muted">Página oficial</div>
+            <a target="_blank" rel="noopener" href="https://www.getinge.com/br/produtos/ventilador-mecanico-servo-s/">Servo-S (página oficial – Getinge)</a>
+            <a target="_blank" rel="noopener" href="https://www.getinge.com/br/centro-de-recursos-da-covid-19/material-de-treinamento-para-ventilacao-mecanica/">Centro de recursos (manuais/treinamento – Getinge)</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
+            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Servo+S+ventilator+tutorial">Servo-S vídeos</a>
+          </div>
+        </details>
+
+        <details>
+          <summary>Getinge / Maquet – Servo-U</summary>
+          <div class="links">
+            <div class="muted">PDF / suporte (Getinge)</div>
+            <a target="_blank" rel="noopener" href="https://www.getinge.com/dam/hospital/documents/english/servo-u-shortguide-4-105714-en.pdf">Servo-U – Short guide (PDF)</a>
+            <a target="_blank" rel="noopener" href="https://www.getinge.com/dam/hospital/documents/english/servo-u-4.1-trainm-startup-guide-en-nonus-mx-5948_rev07_digital-67924-en.pdf">Servo-U – Startup guide (PDF)</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
+            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Getinge+Servo+U+ventilator+tutorial">Servo-U vídeos</a>
+          </div>
+        </details>
+
+        <details>
+          <summary>Dräger – Evita V300 / V500 / Savina / Evita XL</summary>
+          <div class="links">
+            <div class="muted">PDF (Dräger)</div>
+            <a target="_blank" rel="noopener" href="https://www.draeger.com/Content/Documents/Content/evita-v300-ifu-9052995-en.pdf">Evita V300 – IFU (PDF)</a>
+            <a target="_blank" rel="noopener" href="https://www.draeger.com/Content/Documents/Content/evita-infinity-v500-sw-2n-ifu-9052161-en.pdf">Evita V500 – IFU (PDF)</a>
             <a target="_blank" rel="noopener" href="https://www.draeger.com/Content/Documents/Content/9054931_07_IfU_Savina_300_SW_5_n_en.pdf">Savina 300 – IFU (PDF)</a>
             <a target="_blank" rel="noopener" href="https://www.draeger.com/Content/Documents/Content/IfU_Evita_XL_SW_6.1n_EN_9038732.pdf">Evita XL – IFU (PDF)</a>
-            <div class="muted" style="margin-top:8px;">YouTube (busca):</div>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
             <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Dr%C3%A4ger+Evita+V300+tutorial">V300 vídeos</a>
             <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Dr%C3%A4ger+Evita+V500+tutorial">V500 vídeos</a>
             <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Dr%C3%A4ger+Savina+300+tutorial">Savina vídeos</a>
@@ -435,86 +571,152 @@
         </details>
 
         <details>
-          <summary>Getinge / Maquet – Servo-S / Servo-U</summary>
+          <summary>Medtronic – Puritan Bennett (PB980 / PB840)</summary>
           <div class="links">
-            <a target="_blank" rel="noopener" href="https://www.getinge.com/dam/hospital/documents/english/servo-u-shortguide-4-105714-en.pdf">Servo-U – Short guide (PDF)</a>
-            <a target="_blank" rel="noopener" href="https://www.getinge.com/dam/hospital/documents/english/servo-u-4.1-trainm-startup-guide-en-nonus-mx-5948_rev07_digital-67924-en.pdf">Servo-U – Startup guide (PDF)</a>
-            <div class="muted" style="margin-top:8px;">YouTube (busca):</div>
-            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Maquet+Servo+s+ventilator+tutorial">Servo-S vídeos</a>
-            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Getinge+Servo+u+ventilator+tutorial">Servo-U vídeos</a>
-          </div>
-        </details>
-
-        <details>
-          <summary>Medtronic – Puritan Bennett (PB 980 / PB 840)</summary>
-          <div class="links">
-            <a target="_blank" rel="noopener" href="https://documents.cdn.ifixit.com/RTncrXAwGQvKqdTl.pdf">PB980 – Operator’s Manual (PDF)</a>
-            <a target="_blank" rel="noopener" href="https://documents.cdn.ifixit.com/mVTASER2HDDS2w5X.pdf">PB840 – Operator’s & Technical Ref (PDF)</a>
-            <div class="muted" style="margin-top:8px;">YouTube (busca):</div>
+            <div class="muted">PDF / suporte</div>
+            <a target="_blank" rel="noopener" href="https://consultas.anvisa.gov.br/api/consulta/medicamentos/arquivo/bula/parecer/2905525/?Authorization=">PB980 – Instruções de Uso (PDF – ANVISA)</a>
+            <a target="_blank" rel="noopener" href="https://www.medtronic.com/us-en/healthcare-professionals/products/respiratory-and-monitoring/mechanical-ventilation.html">Página oficial (Medtronic – Mechanical Ventilation)</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
             <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Puritan+Bennett+980+ventilator+tutorial">PB980 vídeos</a>
             <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Puritan+Bennett+840+ventilator+tutorial">PB840 vídeos</a>
           </div>
         </details>
 
         <details>
-          <summary>GE – Engström Carestation</summary>
+          <summary>GE Healthcare – Engström Carestation</summary>
           <div class="links">
-            <a target="_blank" rel="noopener" href="https://www.gehealthcare.com.br/-/jssmedia/global/products/images/corporate/manual-engstrom-carestation.pdf">Engström – Manual (PDF, GE)</a>
-            <div class="muted" style="margin-top:8px;">YouTube (busca):</div>
+            <div class="muted">PDF (GE)</div>
+            <a target="_blank" rel="noopener" href="https://www.gehealthcare.com.br/-/jssmedia/global/products/images/corporate/manual-engstrom-carestation.pdf?hash=C4F9BC7DF832B07100B8483DD8C5FC00&rev=-1">Engström – User’s Reference Manual (PDF – PT)</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
             <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Engstrom+Carestation+ventilator+tutorial">Engström vídeos</a>
           </div>
         </details>
 
         <details>
-          <summary>Vyaire – bellavista 1000</summary>
+          <summary>Vyaire – bellavista</summary>
           <div class="links">
-            <a target="_blank" rel="noopener" href="https://documents.cdn.ifixit.com/RTncrXAwGQvKqdTl.pdf" style="display:none;">&nbsp;</a>
-            <a target="_blank" rel="noopener" href="https://www.rtso.ca/wp-content/uploads/2020/03/bellavista-Manual-G6-1000-1000e-Neo-EN-2019-10.pdf">bellavista – User Manual (PDF)</a>
-            <div class="muted" style="margin-top:8px;">YouTube (busca):</div>
-            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Vyaire+bellavista+1000+ventilator+tutorial">bellavista vídeos</a>
+            <div class="muted">PDF (ANVISA) / suporte</div>
+            <a target="_blank" rel="noopener" href="https://consultas.anvisa.gov.br/api/consulta/medicamentos/arquivo/bula/parecer/2319428/?Authorization=">bellavista 1000 – Instruções de Uso (PDF – ANVISA)</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
+            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=bellavista+1000+ventilator+tutorial">bellavista vídeos</a>
           </div>
         </details>
 
         <details>
-          <summary>Löwenstein – LUISA</summary>
+          <summary>Löwenstein Medical (nome confirmado). “Lüftung” (termo genérico em alemão; não é modelo)</summary>
           <div class="links">
-            <a target="_blank" rel="noopener" href="https://loewensteinmedical.com/en/downloads/">LUISA – Downloads oficiais (PDF)</a>
-            <div class="muted" style="margin-top:8px;">YouTube (busca):</div>
-            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Loewenstein+LUISA+ventilator+tutorial">LUISA vídeos</a>
+            <div class="muted">Página oficial de downloads</div>
+            <a target="_blank" rel="noopener" href="https://loewensteinmedical.com/en/downloads/">Löwenstein Medical – Downloads oficiais</a>
+            <div class="muted" style="margin-top:8px;">YouTube (busca)</div>
+            <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Loewenstein+Medical+ventilator+tutorial">Löwenstein vídeos</a>
           </div>
         </details>
 
         <details>
-          <summary>Lista a completar (links serão adicionados na rodada final com seus PDFs)</summary>
+          <summary>Outros citados (links gerais)</summary>
           <div class="p">
-            Dräger: <b>V500</b>, <b>V300</b>, <b>Savina</b>, <b>Evita</b> (já incluídos).<br>
-            Pendentes para completar quando você trouxer os PDFs/nomes exatos: <b>outros Maquet</b>, <b>outros Bennett</b>, <b>Bellavista (outras versões)</b>, <b>“Lüftung”</b> (confirmar fabricante/modelo).
+            Se você quiser que eu adicione <b>PDFs específicos oficiais</b> para modelos adicionais citados, o formato do bloco é:
+            <br><br>
+            <b>Fabricante – Modelo</b><br>
+            • PDF (quando existir) ou página oficial<br>
+            • YouTube (busca)
+            <br><br>
+            Já cobertos acima: Vela, Avea, Servo-S, Servo-U, Dräger V300/V500/Savina/Evita XL, PB980/PB840 (página oficial), GE Engström, bellavista, Löwenstein.
           </div>
         </details>
-      </div>
 
-      <div class="card">
-        <label>Referências (PubMed / revisões recentes)</label>
-        <div class="p">
-          <ul>
-            <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/40793855/">Patient-Ventilator Asynchrony & Clinical Outcomes (Sys Rev; até Jun/2024)</a></li>
-            <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/40928324/">Patient-Ventilator Asynchronies: Do They Matter? (2025)</a></li>
-            <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/37867118/">Reverse triggering: diagnosis and management (2023)</a></li>
-            <li><a target="_blank" rel="noopener" href="https://www.atsjournals.org/doi/full/10.1164/rccm.202208-1477CI">Reverse Triggering during Controlled Ventilation (ATS; 2022)</a></li>
-            <li><a target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9256988/">Reverse Triggering: intro, diagnosis, management (PMC; 2022)</a></li>
-            <li><a target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11111438/">Reverse triggering – review (PMC; 2024)</a></li>
-            <li><a target="_blank" rel="noopener" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11285488/">Patient-ventilator asynchronies: bridging detection/understanding (PMC; 2024)</a></li>
-          </ul>
-        </div>
+        <div class="hr"></div>
+
+        <h2>4) Referências científicas (PubMed) – por tema</h2>
+
+        <details>
+          <summary>Assincronia geral</summary>
+          <div class="p">
+            <ul>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/30020347/">Patient-ventilator asynchrony (2018)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/30539927/">Patient-ventilator asynchronies: types, outcomes and nursing detection skills (2018)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/31346799/">Patient-ventilator asynchrony: clinical impact and management (2019)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/34399855/">Patient-ventilator asynchrony, impact on outcomes and effectiveness of interventions: systematic review/meta-analysis (2021)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/39445589/">Patient ventilator asynchrony: a comprehensive review and meta-analysis (2024)</a></li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Auto-PEEP / hiperinsuflação dinâmica</summary>
+          <div class="p">
+            <ul>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/40178919/">Physiological effects of PEEP in patients with chronic obstructive pulmonary disease during acute ventilatory failure (2024)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/40578847/">Auto-PEEP in acute respiratory failure: causes, quantification, and clinical implications (2025)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/39484944/">Effects of external PEEP in COPD patients with intrinsic PEEP on patient-ventilator interaction (2024)</a></li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Ciclagem (precoce/tardia) e término inspiratório</summary>
+          <div class="p">
+            <ul>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/30539927/">Patient-ventilator asynchronies: inclui premature/delayed cycling (2018)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/34399855/">Meta-analysis: asynchrony index e impacto; inclui intervenções por modo/PS/VT (2021)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/33745888/">Patient-ventilator asynchrony: a review in the critically ill patient (2021)</a></li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Reverse triggering</summary>
+          <div class="p">
+            <ul>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/37867118/">Reverse triggering: diagnosis and management (2023)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/35697324/">Reverse triggering: a global perspective and clinical impact (2022)</a></li>
+            </ul>
+          </div>
+        </details>
+
+        <details>
+          <summary>Detecção (monitorização e algoritmos)</summary>
+          <div class="p">
+            <ul>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/38384216/">A Review on Automatic Detection Algorithm for Patient-Ventilator Asynchrony during Mechanical Ventilation (2024)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/33821042/">Neural networks for detection of patient-ventilator asynchrony (2021)</a></li>
+              <li><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/36054277/">Deep learning for automatic detection of patient-ventilator asynchrony (2022)</a></li>
+            </ul>
+          </div>
+        </details>
       </div>
     </section>
 
     <footer>
       <p><b>Autoria:</b> Leticia Moreira. © 2026.</p>
       <p>
-        Material educacional. Não substitui avaliação individual, julgamento profissional ou protocolos institucionais.
+        <b>Uso permitido:</b> exclusivamente educacional. Este app organiza sinais e interpretações possíveis a partir de curvas ventilatórias.
+        <b>Não orienta conduta</b>, não substitui julgamento clínico, avaliação individual, e nem protocolos institucionais.
+      </p>
+      <p>
+        <b>Proteção e restrição:</b> proibido uso comercial, redistribuição, ou incorporação em produtos/serviços sem autorização expressa da autora.
+        Citação obrigatória em qualquer reprodução autorizada.
       </p>
     </footer>
+  </div>
+
+  <!-- ===== Barra fixa (iPhone): Manuais & Referências sempre visível ===== -->
+  <div class="mobile-bar" aria-hidden="false">
+    <div class="row">
+      <button id="btnOpenDrawer" class="primary" type="button">Manuais & Referências</button>
+      <button id="btnGoAdvanced" type="button">Ir para Avançado</button>
+    </div>
+  </div>
+
+  <div class="mobile-drawer" id="drawer">
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Manuais e referências">
+      <div class="drawer-head">
+        <div class="drawer-title">Manuais & Referências</div>
+        <button id="btnCloseDrawer" type="button">Fechar</button>
+      </div>
+      <!-- Conteúdo clonado via JS para ficar sempre igual ao da aba -->
+      <div id="drawerBody"></div>
+    </div>
   </div>
 
   <script>
@@ -546,6 +748,7 @@
       // ======= HELPERS =======
       const $ = (id)=>document.getElementById(id);
       const debugBox = $("debugBox");
+
       function showError(msg){
         debugBox.style.display="block";
         debugBox.textContent=String(msg||"Erro");
@@ -566,9 +769,9 @@
         if (v==="mandatorio") return "Mandatório (a tempo)";
         if (v==="assistido") return "Assistido (disparado pelo paciente)";
         if (v==="misto") return "Misto";
-        if (v==="nao_sei") return "Não informado / não sei";
         return "Não selecionado";
       }
+
       function unique(arr){
         const s = new Set(); const out=[];
         (arr||[]).forEach(x=>{
@@ -578,15 +781,12 @@
         });
         return out;
       }
-      function mapToArray(map){
-        const out=[];
-        for(const [k,v] of map.entries()) out.push(v ? `${k} — ${v}` : k);
-        return out;
-      }
+
       function fmtNum(x){
         const v=String(x||"").trim();
         return v ? v.replace(".",",") : "";
       }
+
       function parseNum(x){
         if(x===null||x===undefined) return null;
         const s=String(x).trim().replace(",",".");
@@ -594,10 +794,36 @@
         const n=Number(s);
         return Number.isFinite(n) ? n : null;
       }
+
       function confidenceTag(level){
         if(level==="alta") return '<span class="tag good">Confiança alta</span>';
         if(level==="média") return '<span class="tag mid">Confiança média</span>';
         return '<span class="tag low">Confiança baixa</span>';
+      }
+
+      function modo(){ return $("modoVent").value; }
+      function modoToLabel(m){ return (m==="nao_informado") ? "Não informado" : m; }
+
+      function paramsResumo(){
+        const ti = $("p_ti").value;
+        const rise = $("p_rise").value.trim();
+        const trig = $("p_trigger").value.trim();
+        const cyc = $("p_ciclagem").value;
+        const fr = $("p_fr").value;
+        const vt = $("p_vt").value;
+        const peep = $("p_peep").value;
+        const peepi = $("p_peepi").value;
+
+        const parts=[];
+        if(ti)   parts.push(`Ti ${fmtNum(ti)} s`);
+        if(rise) parts.push(`Rise/pressurização: ${rise}`);
+        if(trig) parts.push(`Trigger: ${trig}`);
+        if(cyc)  parts.push(`% ciclagem: ${fmtNum(cyc)}%`);
+        if(fr)   parts.push(`FR ${fmtNum(fr)}`);
+        if(vt)   parts.push(`VT ${fmtNum(vt)} mL`);
+        if(peep) parts.push(`PEEP ${fmtNum(peep)} cmH2O`);
+        if(peepi)parts.push(`Auto-PEEP (PEEPi) ${fmtNum(peepi)} cmH2O`);
+        return parts.length ? parts.join(" | ") : "Sem parâmetros adicionais informados.";
       }
 
       // ======= TOGGLES =======
@@ -620,524 +846,426 @@
         });
       }
 
-      function modo(){ return $("modoVent").value; }
+      // ======= MAPEAMENTO EDUCACIONAL: curvas e fases =======
+      const FASES = ["disparo","inspiração","ciclagem","expiração"];
 
-      function paramsResumo(){
-        const ti = $("p_ti").value;
-        const rise = $("p_rise").value.trim();
-        const trig = $("p_trigger").value.trim();
-        const cyc = $("p_ciclagem").value;
-        const fr = $("p_fr").value;
-        const vt = $("p_vt").value;
-        const peep = $("p_peep").value;
-        const peepi = $("p_peepi").value;
-
-        const parts=[];
-        if(ti)   parts.push(`Ti ${fmtNum(ti)} s`);
-        if(rise) parts.push(`Rise/pressurização: ${rise}`);
-        if(trig) parts.push(`Trigger: ${trig}`);
-        if(cyc)  parts.push(`% ciclagem: ${fmtNum(cyc)}%`);
-        if(fr)   parts.push(`FR ${fmtNum(fr)}`);
-        if(vt)   parts.push(`VT ${fmtNum(vt)} mL`);
-        if(peep) parts.push(`PEEP ${fmtNum(peep)} cmH2O`);
-        if(peepi)parts.push(`Auto-PEEP (PEEPi) ${fmtNum(peepi)} cmH2O`);
-
-        return parts.length ? parts.join(" | ") : "Sem parâmetros adicionais informados.";
+      function bucketInit(){
+        return {
+          pressao: {disparo:[], inspiração:[], ciclagem:[], expiração:[]},
+          fluxo:   {disparo:[], inspiração:[], ciclagem:[], expiração:[]},
+          volume:  {disparo:[], inspiração:[], ciclagem:[], expiração:[]},
+        };
       }
 
-      function modoNotaAjustes(){
-        const m=modo();
-        if(m==="PSV") return "Em PSV, % de ciclagem e pressurização/rise tendem a ser mais relevantes.";
-        if(m==="VCV") return "Em VCV, fluxo/forma de fluxo e Ti costumam ter maior impacto.";
-        if(m==="PCV") return "Em PCV, pressurização/rise e Ti são moduladores centrais.";
-        if(m==="PRVC") return "Em híbridos, confirme em pressão e fluxo (pode mascarar padrões).";
-        return "Sem modo informado: sugestões mais gerais.";
+      function addBucket(b, curva, fase, item){
+        if(!b[curva] || !b[curva][fase]) return;
+        b[curva][fase].push(item);
       }
 
-      function ajusteCiclagemSugestao(direction){
-        const m=modo();
-        const cyc=$("p_ciclagem").value;
-        if(m!=="PSV"){
-          return "Ajustar término/ciclagem conforme o modo (em PSV costuma ser via % de ciclagem; em outros, via Ti/critério de término).";
-        }
-        if(direction==="aumentar"){
-          return `Em PSV: considerar aumentar % ciclagem (atual: ${cyc ? fmtNum(cyc)+"%" : "não informado"}) para encurtar a inspiração.`;
-        }
-        return `Em PSV: considerar reduzir % ciclagem (atual: ${cyc ? fmtNum(cyc)+"%" : "não informado"}) para prolongar a inspiração.`;
-      }
+      // ======= MOTOR (sem recomendações de conduta; apenas leitura/variáveis relacionadas) =======
+      const btnRodar = $("btnRodar");
+      const btnCopiar = $("btnCopiar");
+      const saidaGerada = $("saidaGerada");
+      const cardSaida = $("cardSaida");
+      const resultado = $("resultado");
 
-      function peepExternaSugestao75a85(){
-        const peepi=parseNum($("p_peepi").value);
-        if(!peepi || peepi<=0){
-          return "Se PEEPi medida e paciente disparando/assistido: considerar PEEP externa abaixo da auto-PEEP, frequentemente em torno de 75–85% como ponto de partida, titulando 1–2 cmH2O e monitorando PEEP total/platô/hemodinâmica.";
-        }
-        const low=Math.round(peepi*0.75), high=Math.round(peepi*0.85);
-        return `Compensação parcial (educacional) ~75–85% da PEEPi. Para PEEPi ${peepi} cmH2O → alvo inicial ≈ ${low}–${high} cmH2O (titulando 1–2 cmH2O e monitorando PEEP total/platô/hemodinâmica).`;
-      }
+      let lastPlainText = "";
 
-      // ======= ANÁLISES CONSOLIDADAS (aprofundadas) =======
-      const ANALISES = {
-        fluxo_insuficiente: {
-          titulo:"Fluxo insuficiente (fome de fluxo)",
-          sinais:[
-            "Concavidade do fluxo inspiratório (“escavado”) e/ou re-elevações do fluxo durante a inspiração",
-            "Queda/instabilidade de pressão durante a inspiração (dependente do modo)",
-            "Sinais de esforço persistente no fim da inspiração (pode coexistir com ciclagem precoce)"
-          ],
-          mecanismo:"A demanda inspiratória do paciente excede a oferta instantânea do ventilador. O esforço ativo deforma o perfil do fluxo e pode gerar instabilidade de pressão, sem aumento proporcional do volume.",
-          identificacao:"Padrão compatível com demanda > oferta (fome de fluxo), especialmente em VCV/PSV.",
-          diferenciais:[
-            "Resistência aumentada (broncoespasmo/obstrução)",
-            "Vazamento significativo (NIV)",
-            "Ajustes de pressurização/rise inadequados (modos a pressão)"
-          ],
-          confirmacao:"Repetição em ciclos consecutivos e concordância entre sinais em fluxo e pressão no mesmo intervalo temporal.",
-          limitacoes:"Sem medida direta de esforço; sobreposição com alterações de mecânica e vazamentos."
-        },
-
-        ciclagem_precoce: {
-          titulo:"Ciclagem precoce",
-          sinais:[
-            "Inspiração termina com fluxo inspiratório ainda positivo",
-            "Esforço persistente imediatamente após a ciclagem",
-            "Pode evoluir para duplo disparo/empilhamento"
-          ],
-          mecanismo:"O ventilador encerra a inspiração antes do término do esforço neural do paciente. O paciente segue tentando inspirar após a ciclagem.",
-          identificacao:"Ciclagem precoce (descompasso tempo mecânico < tempo neural).",
-          diferenciais:[
-            "Fome de fluxo sem evidência clara de término precoce",
-            "Duplo disparo quando há segundo disparo efetivo"
-          ],
-          confirmacao:"Padrão consistente com sintomas no fim da inspiração e sinais gráficos repetitivos em múltiplos ciclos.",
-          limitacoes:"Depende do modo e do critério de ciclagem; requer interpretação integrada."
-        },
-
-        ciclagem_tardia: {
-          titulo:"Ciclagem tardia",
-          sinais:[
-            "Fluxo chega a ~0 e a inspiração mantém-se",
-            "Sinais de tentativa expiratória durante a inspiração",
-            "Volume estabiliza cedo apesar de Ti prolongado"
-          ],
-          mecanismo:"O esforço neural encerra, mas o ventilador mantém suporte inspiratório além do tempo neural, impondo inspiração passiva prolongada.",
-          identificacao:"Ciclagem tardia (tempo mecânico > tempo neural).",
-          diferenciais:[
-            "Pausa inspiratória programada",
-            "Ajustes intencionais de Ti longo em controle"
-          ],
-          confirmacao:"Repetição em ciclos e associação com desconforto/sinais de esforço expiratório.",
-          limitacoes:"Sem informação clínica, pode confundir com estratégia programada."
-        },
-
-        auto_peep_mecanismo: {
-          titulo:"Auto-PEEP / hiperinsuflação dinâmica (mecanismo associado)",
-          sinais:[
-            "Expiração não retorna a zero antes do ciclo seguinte",
-            "Baseline expiratória de pressão elevada (quando disponível)",
-            "Esforços inefetivos podem coexistir"
-          ],
-          mecanismo:"Aprisionamento aéreo gera pressão residual ao final da expiração, aumentando a carga para disparo e favorecendo assincronias.",
-          identificacao:"Condição mecânica associada (não é uma assincronia isolada).",
-          diferenciais:[
-            "PEEP externa elevada",
-            "Frequência alta/tempo expiratório curto sem hiperinsuflação real"
-          ],
-          confirmacao:"Concordância entre expiração incompleta e outros sinais de limitação expiratória; idealmente confirmar por medidas específicas.",
-          limitacoes:"Não quantifica auto-PEEP; substitui apenas triagem pelo traçado."
-        },
-
-        disparo_reverso: {
-          titulo:"Disparo reverso (Reverse Triggering)",
-          sinais:[
-            "Esforço do paciente surge após insuflação mecânica",
-            "Relação temporal fixa (acoplamento) em ciclos mandatórios",
-            "Pode ocorrer ciclo duplo associado"
-          ],
-          mecanismo:"O ventilador inicia o ciclo e o paciente responde com esforço entrainado, invertendo a sequência fisiológica esperada.",
-          identificacao:"Disparo reverso (padrão de entrainment).",
-          diferenciais:[
-            "Duplo disparo clássico (paciente inicia ambos)",
-            "Esforço inefetivo sem acoplamento temporal fixo"
-          ],
-          confirmacao:"Padrão repetitivo, acoplado (1:1, 1:2, 1:3) e coerente entre curvas.",
-          limitacoes:"Confirmação ideal requer medidas de esforço; o traçado sugere, mas pode haver mimetizadores."
-        }
-      };
-
-      function renderAnaliseConsolidada(key){
-        const card = $("cardAnaliseFinal");
-        const box  = $("analiseFinal");
-        if(!card || !box) return;
-
-        const a = ANALISES[key];
-        if(!a){
-          card.style.display="none";
-          box.innerHTML="";
-          return;
-        }
-
-        const sinaisHTML = (a.sinais||[]).map(s=>`<li>${s}</li>`).join("");
-        const difHTML = (a.diferenciais||[]).map(s=>`<li>${s}</li>`).join("");
-
-        box.innerHTML = `
-          <div class="k">Título</div>
-          <div class="p"><b>${a.titulo}</b></div>
-
-          <div class="k">Síntese dos sinais compatíveis</div>
-          <ul>${sinaisHTML}</ul>
-
-          <div class="k">Leitura fisiológica integrada</div>
-          <div class="p">${a.mecanismo}</div>
-
-          <div class="k">Identificação</div>
-          <div class="p">${a.identificacao}</div>
-
-          <div class="k">Principais diferenciais</div>
-          <ul>${difHTML}</ul>
-
-          <div class="k">Pistas de confirmação no traçado</div>
-          <div class="p">${a.confirmacao}</div>
-
-          <div class="k">Limitações</div>
-          <div class="p">${a.limitacoes}</div>
-        `;
-
-        card.style.display="block";
-      }
-
-      function buildPlainTextSummary(state){
-        const lines=[];
-        lines.push("RESUMO EXECUTIVO – Assincronias Ventilatórias (educacional)");
-        lines.push(`Contexto: Ciclo: ${state.ctxCiclo} | Modo: ${state.ctxModo}`);
-        lines.push(`Parâmetros: ${state.ctxParams}`);
-        lines.push("");
-        lines.push("1) Sinais:");
-        state.sinais.forEach(s=>lines.push(`- ${s}`));
-        lines.push("");
-        lines.push("2) Padrão/assincronia provável:");
-        state.assin.forEach(a=>lines.push(`- ${a}`));
-        lines.push("");
-        lines.push("3) Hipóteses:");
-        state.hip.forEach(h=>lines.push(`- ${h}`));
-        lines.push("");
-        lines.push("4) Ajustes geralmente considerados (educacional):");
-        state.corr.forEach(c=>lines.push(`- ${c}`));
-        if(state.nota){
-          lines.push("");
-          lines.push(state.nota);
-        }
-        return lines.join("\n");
-      }
-
-      let lastSummaryState=null;
-
-      // ======= MOTOR =======
-      function modoToLabel(m){ return (m==="nao_sei") ? "Não informado" : m; }
-
-      $("btnRodar").addEventListener("click", ()=>rodarAnalise());
-      $("btnCopiar").addEventListener("click", ()=>copiarResumo());
+      btnRodar.addEventListener("click", ()=>rodarAnalise());
+      btnCopiar.addEventListener("click", ()=>copiarTexto());
 
       function rodarAnalise(){
         try{
-          debugBox.style.display="none";
-          debugBox.textContent="";
+          debugBox.style.display="none"; debugBox.textContent="";
+          resultado.textContent="";
+          cardSaida.style.display="none";
+          saidaGerada.innerHTML="";
+          btnCopiar.disabled=true;
+          lastPlainText="";
 
-          $("resultado").textContent="";
-          $("resumoExecutivo").style.display="none";
-          $("btnCopiar").disabled=true;
-          lastSummaryState=null;
-          renderAnaliseConsolidada("");
-
-          const tipoCiclo=getTipoCiclo();
+          const tipoCiclo = getTipoCiclo();
           if(!tipoCiclo){
-            $("resultado").textContent="Selecione o tipo de ciclo antes de rodar a análise.";
+            resultado.textContent="Selecione o tipo de ciclo antes de rodar a análise.";
             return;
           }
 
-          const m=modo();
-          const assistOuMisto = (tipoCiclo==="assistido" || tipoCiclo==="misto");
+          const m = modo();
+          const ctxCiclo = labelTipoCiclo(tipoCiclo);
+          const ctxModo  = modoToLabel(m);
+          const ctxParams= paramsResumo();
 
-          const sinais=[];
-          const hipoteses=[];
-          const assincroniaMap=new Map();
-          const correcaoMap=new Map();
+          const sinais = [];
+          const padroes = [];
+          const hipoteses = [];
+          const variaveis = [];
+          const buckets = bucketInit();
 
-          const scoreKey = new Map(); // para escolher análise consolidada
-          function bump(key, points){
-            if(!key) return;
-            scoreKey.set(key, (scoreKey.get(key)||0) + (points||1));
+          // Scoring (para priorizar texto consolidado)
+          const score = new Map();
+          function bump(k, pts){ score.set(k, (score.get(k)||0) + (pts||1)); }
+
+          // ===== Achados → sinais + curvas/fases =====
+          if($("expNaoZera").checked){
+            const quem = $("expNaoZera_quem").value;
+            sinais.push("Fluxo: expiração não retorna a zero antes do próximo ciclo.");
+            addBucket(buckets,"fluxo","expiração","Fluxo expiratório não zera antes do ciclo seguinte.");
+            addBucket(buckets,"volume","expiração","Volume pode não retornar ao baseline antes do ciclo seguinte (interpretação integrada).");
+            padroes.push(`Auto-PEEP / hiperinsuflação dinâmica ${confidenceTag("alta")}`);
+            hipoteses.push("Aprisionamento aéreo pode aumentar carga de disparo e favorecer esforços inefetivos.");
+            variaveis.push("Tempo expiratório (Te), FR, tempo inspiratório (Ti), resistência/obstrução, vazamentos.");
+            if(quem==="ventilador") sinais.push("Contexto: próximo ciclo iniciado pelo ventilador (mandatório).");
+            if(quem==="paciente") sinais.push("Contexto: próximo ciclo iniciado pelo paciente (assistido).");
+            bump("autopeep",4);
           }
 
-          function add(nomeHtml, justificativa, correcao){
-            if(!assincroniaMap.has(nomeHtml)) assincroniaMap.set(nomeHtml, justificativa||"");
-            if(!correcaoMap.has(nomeHtml)) correcaoMap.set(nomeHtml, correcao||"");
+          if($("degrauExp").checked){
+            const local = $("degrauExp_local").value;
+            sinais.push(`Fluxo: degrau/entalhe no ramo expiratório (${local}).`);
+            addBucket(buckets,"fluxo","expiração",`Degrau/entalhe no ramo expiratório (${local}).`);
+            hipoteses.push("Pode coexistir com limitação expiratória, secreção/condensado ou esforço interferindo na expiração.");
+            variaveis.push("Tempo expiratório, resistência/obstrução, secreções/condensado, sensibilidade de trigger (se houver auto-PEEP).");
+            bump("expiratorio",1);
           }
 
-          let flagAutoPeep=false;
+          if($("ciclagemPrecoce").checked){
+            sinais.push("Fluxo: ciclagem precoce (inspiração termina com fluxo ainda positivo).");
+            addBucket(buckets,"fluxo","ciclagem","Término inspiratório com fluxo ainda positivo.");
+            addBucket(buckets,"pressao","ciclagem","Pode haver sinal de esforço persistente no fim da inspiração (dependente do modo).");
+            padroes.push(`Ciclagem precoce ${confidenceTag("alta")}`);
+            hipoteses.push("Tempo mecânico inspiratório menor que o tempo neural.");
+            variaveis.push("Critério de término/ciclagem, Ti, sensibilidade/pressurização (modo-dependente).");
+            bump("cic_precoce",4);
+          }
 
-          // Reverse triggering
+          if($("ciclagemTardia").checked){
+            sinais.push("Fluxo: ciclagem tardia (inspiração persiste com fluxo ~0).");
+            addBucket(buckets,"fluxo","ciclagem","Fluxo aproxima-se de zero e a inspiração persiste.");
+            addBucket(buckets,"pressao","inspiração","Pode haver sinais de tentativa expiratória durante inspiração (dependente do modo).");
+            padroes.push(`Ciclagem tardia ${confidenceTag("alta")}`);
+            hipoteses.push("Tempo mecânico inspiratório maior que o tempo neural.");
+            variaveis.push("Critério de término/ciclagem, Ti, transição inspiração→expiração, vazamento (NIV).");
+            bump("cic_tardia",4);
+          }
+
+          if($("concavidade").checked){
+            const fase = $("concavidade_fase").value;
+            const local= $("concavidade_local").value;
+            sinais.push(`Fluxo: concavidade na ${fase} (${local}).`);
+            addBucket(buckets,"fluxo", (fase==="inspiração" ? "inspiração":"expiração"), `Concavidade no fluxo (${local}).`);
+            hipoteses.push("Modulação por esforço/demanda; interpretação depende do modo e do timing.");
+            variaveis.push("Forma do fluxo, pressurização/rise (modos a pressão), trigger e ciclagem (PSV).");
+            bump("demanda",2);
+          }
+
+          if($("convexidade").checked){
+            const fase = $("convexidade_fase").value;
+            const local= $("convexidade_local").value;
+            sinais.push(`Fluxo: convexidade na ${fase} (${local}).`);
+            addBucket(buckets,"fluxo", (fase==="inspiração" ? "inspiração":"expiração"), `Convexidade no fluxo (${local}).`);
+            hipoteses.push("Padrão imposto/assistência elevada pode deformar a curva; considerar modo e contexto.");
+            variaveis.push("Nível de suporte/pressão alvo, pressurização/rise, vazamentos.");
+            bump("imposto",1);
+          }
+
+          if($("letraM").checked){
+            sinais.push("Pressão: entalhe no platô inspiratório (“Letra M”).");
+            addBucket(buckets,"pressao","inspiração","Entalhe no platô inspiratório (Letra M).");
+            hipoteses.push("Interação esforço–ventilador dentro da inspiração; pode coexistir com ajustes de disparo/pressurização/ciclagem.");
+            variaveis.push("Trigger, rise/pressurização, critério de término/ciclagem, vazamento (NIV).");
+            bump("interacao",2);
+          }
+
+          if($("picoAbaulado").checked){
+            sinais.push("Fluxo: pico inspiratório com contorno abaulado.");
+            addBucket(buckets,"fluxo","inspiração","Contorno inspiratório abaulado (fluxo).");
+            hipoteses.push("Demanda não acompanhada e/ou resistência (dependente do modo).");
+            variaveis.push("Forma e magnitude do fluxo (VCV), rise/pressurização (PCV/PSV), resistência/obstrução.");
+            bump("demanda",2);
+          }
+
+          if($("abaulamentoPlatoFluxo").checked){
+            const local=$("abaulamentoPlato_local").value;
+            sinais.push(`Fluxo: segunda elevação do fluxo inspiratório (${local}).`);
+            addBucket(buckets,"fluxo","inspiração",`Segunda elevação do fluxo inspiratório (${local}).`);
+            hipoteses.push("Demanda variável durante a inspiração e/ou interação esforço–ventilador (modo-dependente).");
+            variaveis.push("Rise/pressurização (PCV/PSV), forma do fluxo (VCV), ciclagem (PSV), vazamentos.");
+            bump("demanda",2);
+          }
+
+          if($("fluxoTremidoExp").checked){
+            sinais.push("Fluxo: serrilhado/tremido na expiração.");
+            addBucket(buckets,"fluxo","expiração","Serrilhado/tremido no fluxo expiratório.");
+            hipoteses.push("Interferência por secreção/condensado/circuito pode alterar leitura do traçado.");
+            variaveis.push("Secreções, condensado, circuito, patência do tubo, filtros.");
+            bump("artefato",2);
+          }
+
+          if($("raizQuadrada").checked){
+            sinais.push("Mecânica: padrão “raiz quadrada” (limitação ao fluxo / resistência).");
+            addBucket(buckets,"fluxo","inspiração","Padrão compatível com limitação ao fluxo/resistência aumentada (dependente do modo).");
+            hipoteses.push("Resistência aumentada pode contribuir para expiração prolongada e auto-PEEP.");
+            variaveis.push("Resistência/obstrução, tempo expiratório, secreções.");
+            bump("resistencia",2);
+          }
+
+          if($("spikeSaida").checked){
+            sinais.push("Pressão: espícula na transição inspiração→expiração.");
+            addBucket(buckets,"pressao","ciclagem","Espícula na transição inspiração→expiração.");
+            hipoteses.push("Transição abrupta pode ocorrer por interação com esforço e/ou configuração do modo.");
+            variaveis.push("Critério de término, Ti, rise/pressurização, válvulas/tempo de resposta do sistema.");
+            bump("transicao",2);
+          }
+
+          if($("overshoot").checked){
+            const tipo = valRadio("ov_tipo") || "entrada";
+            if(tipo==="entrada"){
+              sinais.push("Pressão: overshoot na entrada (início da inspiração).");
+              addBucket(buckets,"pressao","inspiração","Overshoot no início da inspiração (pressão ultrapassa o alvo e retorna).");
+              variaveis.push("Rise/pressurização (PCV/PSV), dinâmica do sistema, compliance/resistência.");
+              bump("pressurizacao",2);
+            }else{
+              sinais.push("Pressão: overshoot na saída (fim da inspiração).");
+              addBucket(buckets,"pressao","ciclagem","Overshoot no fim da inspiração/transição.");
+              variaveis.push("Critério de término/ciclagem, transição de fase, interação com esforço no fim da inspiração.");
+              bump("transicao",2);
+            }
+          }
+
           if($("rt_habilitar").checked){
             const sPressao=$("rt_segundoEsforco_pressao").checked;
             const sFluxo=$("rt_segundoEsforco_fluxo").checked;
             const acopl=$("rt_acoplamento").checked;
             const padrao=$("rt_padrao").value;
             const duplo=$("rt_cicloDuplo").checked;
-            const emMand=$("rt_emMandatorios").checked;
 
-            const reforcoMand = (tipoCiclo==="mandatorio") || (tipoCiclo==="misto") || emMand;
-            const temSegundo = (sPressao||sFluxo);
-
-            let score=0;
-            if(reforcoMand) score++;
-            if(temSegundo) score++;
-            if(acopl) score++;
-            if(padrao!=="incerto") score++;
+            let scoreRT=0;
+            if(sPressao || sFluxo) scoreRT++;
+            if(acopl) scoreRT++;
+            if(padrao!=="incerto") scoreRT++;
 
             let conf="baixa";
-            if(score>=4) conf="alta";
-            else if(score===3) conf="média";
+            if(scoreRT>=3) conf="alta";
+            else if(scoreRT===2) conf="média";
 
-            if(sPressao) sinais.push("Disparo reverso: entalhe/queda de pressão durante a inspiração (meio/fim).");
-            if(sFluxo) sinais.push("Disparo reverso: segunda elevação do fluxo inspiratório (meio/fim).");
-            if(acopl) sinais.push(`Disparo reverso: padrão repetitivo e acoplado (${padrao}).`);
-            if(duplo) sinais.push("Disparo reverso: há ciclo duplo associado.");
+            if(sPressao){
+              sinais.push("Reverse triggering: entalhe/queda de pressão durante a inspiração (meio/fim).");
+              addBucket(buckets,"pressao","inspiração","Segundo esforço sugerido por entalhe/queda de pressão (meio/fim).");
+            }
+            if(sFluxo){
+              sinais.push("Reverse triggering: segunda elevação do fluxo inspiratório (meio/fim).");
+              addBucket(buckets,"fluxo","inspiração","Segundo esforço sugerido por re-elevação do fluxo (meio/fim).");
+            }
+            if(acopl){
+              sinais.push(`Reverse triggering: padrão repetitivo e acoplado (${padrao}).`);
+            }
+            if(duplo){
+              sinais.push("Reverse triggering: ciclo duplo associado.");
+              addBucket(buckets,"fluxo","ciclagem","Ciclo duplo pode ocorrer quando o esforço tardio dispara um segundo ciclo.");
+            }
 
-            const criteriosMin = reforcoMand && temSegundo && acopl;
-            if(criteriosMin){
-              bump("disparo_reverso", 4);
-              const nome = duplo
-                ? `Disparo reverso — com ciclo duplo ${confidenceTag(conf)}`
-                : `Disparo reverso — sem ciclo duplo ${confidenceTag(conf)}`;
-              add(nome, "Padrão em mandatórios + segundo esforço + repetição/acoplamento.", "Rever entrainment (educacional): ajustar padrões de mandatórios (FR/Ti quando aplicável), revisar conforto/drive e confirmar ciclo a ciclo.");
-              hipoteses.push("Entrainment: ciclo mandatório pode induzir esforço neural tardio.");
+            if((sPressao||sFluxo) && acopl){
+              padroes.push(`Reverse triggering ${confidenceTag(conf)}`);
+              hipoteses.push("Entrainment: ciclo mandatório pode induzir esforço neural tardio acoplado.");
+              variaveis.push("Tipo de ciclo mandatório, timing (Ti/FR), detecção de esforço, sincronização ciclo a ciclo.");
+              bump("rt",4);
             }else{
-              add(`Suspeita de disparo reverso (critérios incompletos) ${confidenceTag("baixa")}`, "Para concluir: precisa de segundo esforço + repetição/acoplamento em mandatórios.", "Complete os critérios e confirme se ocorre em ciclos mandatórios.");
-              bump("disparo_reverso", 1);
+              padroes.push(`Suspeita de reverse triggering (critérios incompletos) ${confidenceTag("baixa")}`);
+              bump("rt",1);
             }
           }
 
-          // Auto-PEEP forte
-          if($("expNaoZera").checked){
-            flagAutoPeep=true;
-            bump("auto_peep_mecanismo", 4);
-
-            const quem=$("expNaoZera_quem").value;
-            sinais.push("Expiração não zera: fluxo expiratório não retorna a zero antes do próximo ciclo.");
-            if(quem==="ventilador") sinais.push("Próximo ciclo iniciado pelo ventilador (mandatório).");
-            else if(quem==="paciente") sinais.push("Próximo ciclo iniciado pelo paciente (assistido).");
-
-            add(`Auto-PEEP / hiperinsuflação dinâmica (sinal forte) ${confidenceTag("alta")}`,
-              "Expiração incompleta sugere air trapping e auto-PEEP.",
-              (function(){
-                let t="Aumentar tempo expiratório (educacional): reduzir FR e/ou encurtar Ti conforme modo; tratar resistência/secreções quando presentes; monitorar PEEP total/platô/hemodinâmica.";
-                if(assistOuMisto || quem==="paciente") t += " Se houver carga de disparo, considerar compensação parcial com PEEP externa. " + peepExternaSugestao75a85();
-                return t;
-              })()
-            );
-            hipoteses.push("Hiperinsuflação dinâmica (air trapping) com auto-PEEP.");
-          }
-
-          // Degrau expiratório
-          if($("degrauExp").checked){
-            flagAutoPeep=true;
-            bump("auto_peep_mecanismo", 1);
-
-            const local=$("degrauExp_local").value;
-            sinais.push(`Degrau/entalhe no ramo expiratório (${local}).`);
-            add("Alteração expiratória (contextual) — considerar auto-PEEP conforme conjunto de sinais",
-              "Degrau expiratório é inespecífico; interpretar com outros sinais (ex.: expiração não zera, limitação ao fluxo, secreção).",
-              "Revisar tempo expiratório e mecânica (educacional). Se houver evidência de auto-PEEP: priorizar tempo expiratório e tratar resistência/secreções."
-            );
-            hipoteses.push("Esvaziamento expiratório comprometido (auto-PEEP, resistência elevada, secreções ou esforço expiratório).");
-          }
-
-          // Pico abaulado / abaulamento
-          if($("picoAbaulado").checked){
-            sinais.push("Pico inspiratório abaulado no fluxo.");
-            bump("fluxo_insuficiente", 2);
-            add("Demanda inspiratória possivelmente > oferta (contextual)", "Pico arredondado pode indicar oferta não acompanha demanda (modo-dependente).",
-              (m==="VCV") ? "VCV: revisar fluxo/forma de fluxo e Ti (educacional)." : "Modos a pressão: revisar pressurização/rise e suporte (educacional)."
-            );
-            hipoteses.push("Demanda inspiratória acima da oferta e/ou resistência aumentada.");
-          }
-          if($("abaulamentoPlatoFluxo").checked){
-            const local=$("abaulamentoPlato_local").value;
-            sinais.push(`Fluxo inspiratório volta a subir (abaulamento) — ${local}.`);
-            bump("fluxo_insuficiente", 2);
-            add("Fome de fluxo ao longo da inspiração (contextual)", "Re-elevação do fluxo sugere demanda variável durante o ciclo.",
-              (m==="VCV") ? "VCV: ajustar fluxo/forma de fluxo para acompanhar demanda (educacional)." : "A pressão: ajustar pressurização/rise e suporte (educacional)."
-            );
-            hipoteses.push("Demanda inspiratória variável ao longo da inspiração.");
-          }
-
-          // Ciclagens
-          if($("ciclagemPrecoce").checked){
-            sinais.push("Ciclagem precoce: inspiração termina com fluxo ainda positivo.");
-            bump("ciclagem_precoce", 4);
-            add("Ciclagem precoce", "Término inspiratório antes do tempo neural.",
-              `Prolongar inspiração (educacional): Ti/critério de término menos precoce. ${ajusteCiclagemSugestao("reduzir")}`
-            );
-            hipoteses.push("Tempo inspiratório mecânico curto em relação ao tempo neural.");
-          }
-          if($("ciclagemTardia").checked){
-            sinais.push("Ciclagem tardia: inspiração persiste com fluxo ~0.");
-            bump("ciclagem_tardia", 4);
-            add("Ciclagem tardia", "Término inspiratório mais longo que a necessidade neural.",
-              `Encurtar inspiração (educacional): Ti/critério de término mais precoce. ${ajusteCiclagemSugestao("aumentar")}`
-            );
-            hipoteses.push("Tempo inspiratório mecânico longo, podendo gerar esforço expiratório.");
-          }
-
-          // Letra M
-          if($("letraM").checked){
-            sinais.push("Letra M: entalhe no platô inspiratório da pressão.");
-            add("Interação esforço–ventilador durante a inspiração (Letra M)", "Entalhe no platô sugere esforço interferindo dentro do ciclo.",
-              "Revisar sincronização (educacional): trigger, pressurização/rise, término/ciclagem; se repetitivo em mandatórios, considerar investigar disparo reverso."
-            );
-            hipoteses.push("Esforço/demanda interferindo dentro da inspiração.");
-          }
-
-          // Concavidade / convexidade
-          if($("concavidade").checked){
-            const fase=$("concavidade_fase").value, local=$("concavidade_local").value;
-            sinais.push(`Concavidade no fluxo — ${fase} (${local}).`);
-            bump("fluxo_insuficiente", 1);
-            add("Modulação do fluxo por demanda/esforço (contextual)", "Concavidade sugere demanda modulando o fluxo.",
-              "Revisar assistência e sincronização (educacional) conforme modo e objetivos."
-            );
-            hipoteses.push("Esforço/demanda modulando o fluxo na fase descrita.");
-          }
-          if($("convexidade").checked){
-            const fase=$("convexidade_fase").value, local=$("convexidade_local").value;
-            sinais.push(`Convexidade no fluxo — ${fase} (${local}).`);
-            add("Padrão mais imposto / possível sobreassistência (contextual)", "Convexidade pode refletir padrão mais imposto (modo-dependente).",
-              "Reavaliar nível de suporte e sincronização (educacional)."
-            );
-            hipoteses.push("Padrão mais imposto/assistido (dependente do modo e contexto).");
-          }
-
-          // “Tremido”, raiz quadrada, spikes, overshoot, degrau pós-aspiração
-          if($("fluxoTremidoExp").checked){
-            sinais.push("Fluxo expiratório serrilhado (“tremido”).");
-            add("Interferência no circuito/secreção (não é assincronia clássica)", "Oscilações sugerem secreção/condensado/interferência.",
-              "Checar secreções/condensado e patência do circuito/tubo (educacional)."
-            );
-            hipoteses.push("Secreção/condensado/interferência no circuito.");
-          }
-          if($("raizQuadrada").checked){
-            sinais.push("Padrão ‘raiz quadrada’: limitação ao fluxo / resistência aumentada.");
-            add("Aumento de resistência de via aérea (mecânica)", "Padrão compatível com resistência elevada (contextual).",
-              "Correlacionar com broncoespasmo/obstrução e revisar tempo expiratório (educacional)."
-            );
-            hipoteses.push("Resistência aumentada (broncoespasmo/obstrução), dependendo do contexto.");
-            if(flagAutoPeep) hipoteses.push("Resistência elevada pode favorecer auto-PEEP.");
-          }
-          if($("spikeSaida").checked){
-            sinais.push("Spike na saída: espícula curta no fim da inspiração (pressão).");
-            add("Transição inspiração→expiração instável (contextual)", "Espícula na troca de fase pode indicar transição abrupta.",
-              "Revisar término/ciclagem e suavidade de transição (educacional)."
-            );
-            hipoteses.push("Instabilidade na troca de fase.");
-          }
-          if($("overshoot").checked){
-            const tipo=valRadio("ov_tipo") || "entrada";
-            if(tipo==="entrada"){
-              sinais.push("Overshoot de entrada: pressão passa do alvo no início e retorna.");
-              add("Overshoot de entrada", "Subida agressiva/oscilações na pressurização.",
-                (modo()==="PCV" || modo()==="PSV") ? "Suavizar pressurização/rise (educacional) e revisar oscilações." : "Revisar dinâmica de pressurização e oscilações (educacional)."
-              );
-              hipoteses.push("Subida agressiva (rise curto) e/ou oscilação do sistema.");
-            }else{
-              sinais.push("Overshoot de saída: pressão passa do alvo no fim/ciclagem e retorna.");
-              add("Overshoot de saída", "Instabilidade na troca de fase.",
-                "Revisar transição entre fases (educacional), dependente do modo."
-              );
-              hipoteses.push("Instabilidade na troca de fase e/ou interação com esforço no fim da inspiração.");
-            }
-          }
-          if($("degrauRecorrente").checked){
-            sinais.push("Degrau recorrente após aspiração.");
-            add("Obstrução/secreção persistente (contextual)", "Persistência após aspiração sugere fator ainda presente.",
-              "Reavaliar patência do tubo/circuito e persistência de secreções (educacional)."
-            );
-            hipoteses.push("Persistência de secreção/obstrução/patência comprometida.");
-          }
-
-          // PEEPi preenchida
           const peepiVal=parseNum($("p_peepi").value);
           if(peepiVal && peepiVal>0){
-            hipoteses.push(`PEEPi informada: ${peepiVal} cmH2O (dado adicional).`);
+            hipoteses.push(`Dado adicional: PEEPi informada = ${peepiVal} cmH2O.`);
           }
 
-          // Saída
-          const sinaisU=unique(sinais);
-          const assinU=mapToArray(assincroniaMap);
-          const corrU=mapToArray(correcaoMap);
-          const hipU=unique(hipoteses);
+          const sinaisU = unique(sinais);
+          const padroesU = unique(padroes.map(x=>x)); // mantém tags HTML
+          const hipU = unique(hipoteses);
+          const varU = unique(variaveis);
 
           if(sinaisU.length===0){
-            $("resultado").textContent=`Ciclo: ${labelTipoCiclo(tipoCiclo)} | Modo: ${modoToLabel(m)}. Nenhum achado selecionado.`;
+            resultado.textContent=`Ciclo: ${ctxCiclo} | Modo: ${ctxModo}. Nenhum achado selecionado.`;
             return;
           }
 
-          // Contexto + resumo
-          const ctxCiclo=labelTipoCiclo(tipoCiclo);
-          const ctxModo=modoToLabel(m);
-          const ctxParams=paramsResumo();
+          // ======= Texto gerado (inclui “Teste clínico – Assincronias Ventilatórias”) =======
+          const bestKey = (function(){
+            let best="", bestScore=-1;
+            for(const [k,v] of score.entries()){
+              if(v>bestScore){ best=k; bestScore=v; }
+            }
+            return best;
+          })();
 
-          $("resultado").textContent="Análise concluída.";
-          $("resumoExecutivo").style.display="block";
+          const leituraConsolidada = (function(){
+            if(bestKey==="autopeep"){
+              return "Predomínio de sinais compatíveis com expiração incompleta/auto-PEEP (mecanismo associado), com impacto esperado na fase de disparo e na sincronia global.";
+            }
+            if(bestKey==="cic_precoce"){
+              return "Predomínio de sinais compatíveis com ciclagem precoce (tempo mecânico inspiratório menor que o tempo neural).";
+            }
+            if(bestKey==="cic_tardia"){
+              return "Predomínio de sinais compatíveis com ciclagem tardia (tempo mecânico inspiratório maior que o tempo neural).";
+            }
+            if(bestKey==="rt"){
+              return "Predomínio de sinais compatíveis com reverse triggering (acoplamento entre ciclo mandatório e esforço tardio).";
+            }
+            if(bestKey==="demanda"){
+              return "Predomínio de sinais compatíveis com demanda inspiratória variável/não acompanhada (modo e timing determinam a leitura final).";
+            }
+            return "Sinais múltiplos selecionados. A leitura integrada depende do modo, da fase em que os sinais ocorrem e da repetição ciclo a ciclo.";
+          })();
 
-          $("listaContexto").innerHTML =
-            `<li><b>Ciclo:</b> ${ctxCiclo}</li>`+
-            `<li><b>Modo:</b> ${ctxModo}</li>`+
-            `<li><b>Parâmetros:</b> ${ctxParams}</li>`;
+          const bucketsHTML = (function(){
+            function listOrDash(arr){
+              const a=unique(arr||[]);
+              if(!a.length) return "<div class='muted'>—</div>";
+              return "<ul><li>"+a.map(x=>escapeHtml(x)).join("</li><li>")+"</li></ul>";
+            }
 
-          $("listaSinais").innerHTML = "<li>"+sinaisU.join("</li><li>")+"</li>";
-          $("listaAssincronias").innerHTML = "<li>"+(assinU.length?assinU.join("</li><li>"):"Sem padrão dominante identificado")+"</li>";
-          $("listaHipoteses").innerHTML = "<li>"+(hipU.length?hipU.join("</li><li>"):"Sem hipóteses adicionais")+"</li>";
-          $("listaCorrecoes").innerHTML = "<li>"+(corrU.length?corrU.join("</li><li>"):"Sem sugestões (educacionais)")+"</li>";
+            function section(curvaLabel, obj){
+              return `
+                <div class="card" style="background:#fff;">
+                  <div style="font-weight:700; margin-bottom:6px;">${curvaLabel}</div>
+                  <div class="grid">
+                    <div><div class="muted">Disparo</div>${listOrDash(obj.disparo)}</div>
+                    <div><div class="muted">Inspiração</div>${listOrDash(obj["inspiração"])}</div>
+                    <div><div class="muted">Ciclagem</div>${listOrDash(obj.ciclagem)}</div>
+                    <div><div class="muted">Expiração</div>${listOrDash(obj.expiração)}</div>
+                  </div>
+                </div>
+              `;
+            }
 
-          const nota = modoNotaAjustes();
-          $("notaContextoResumo").textContent = nota;
+            return `
+              <div class="k">Análise por curva e fase (educacional)</div>
+              ${section("Pressão × tempo", buckets.pressao)}
+              ${section("Fluxo × tempo", buckets.fluxo)}
+              ${section("Volume × tempo (interpretação integrada)", buckets.volume)}
+            `;
+          })();
 
-          lastSummaryState = {
+          const html = `
+            <div class="p" style="font-weight:700; font-size:14px;">Teste clínico – Assincronias Ventilatórias</div>
+            <div class="k">Contexto</div>
+            <div class="p">
+              <b>Ciclo:</b> ${escapeHtml(ctxCiclo)}<br>
+              <b>Modo:</b> ${escapeHtml(ctxModo)}<br>
+              <b>Parâmetros informados:</b> ${escapeHtml(ctxParams)}
+            </div>
+
+            <div class="k">1) Sinais selecionados</div>
+            <ul>${sinaisU.map(s=>`<li>${escapeHtml(s)}</li>`).join("")}</ul>
+
+            <div class="k">2) Padrões compatíveis (síntese)</div>
+            <div class="p">${padroesU.length ? padroesU.map(x=>`<div>${x}</div>`).join("") : "<span class='muted'>Sem padrão dominante identificado.</span>"}</div>
+
+            <div class="k">3) Leitura integrada (educacional)</div>
+            <div class="p">${escapeHtml(leituraConsolidada)}</div>
+
+            <div class="k">4) Hipóteses interpretativas (educacionais)</div>
+            ${hipU.length ? `<ul>${hipU.map(h=>`<li>${escapeHtml(h)}</li>`).join("")}</ul>` : "<div class='muted'>—</div>"}
+
+            <div class="k">5) Variáveis frequentemente relacionadas (para localizar no ventilador/manual)</div>
+            ${varU.length ? `<ul>${varU.map(v=>`<li>${escapeHtml(v)}</li>`).join("")}</ul>` : "<div class='muted'>—</div>"}
+
+            ${bucketsHTML}
+
+            <div class="k">Escopo e limites</div>
+            <div class="p">
+              Texto gerado para fins educacionais. Não orienta conduta, não substitui julgamento clínico, avaliação individual, e nem protocolos institucionais.
+            </div>
+          `;
+
+          saidaGerada.innerHTML = html;
+          cardSaida.style.display="block";
+          resultado.textContent="Análise concluída.";
+
+          // texto para copiar (sem HTML)
+          lastPlainText = buildPlainText({
             ctxCiclo, ctxModo, ctxParams,
             sinais: sinaisU,
-            assin: assinU.map(x=>x.replace(/<[^>]*>/g,"")),
+            padroes: stripTagsArray(padroesU),
+            leitura: leituraConsolidada,
             hip: hipU,
-            corr: corrU,
-            nota
-          };
-          $("btnCopiar").disabled=false;
+            vars: varU,
+            buckets
+          });
 
-          // Escolher análise consolidada principal
-          let bestKey="";
-          let bestScore=-1;
-          for(const [k,v] of scoreKey.entries()){
-            if(v>bestScore){ bestScore=v; bestKey=k; }
-          }
-          renderAnaliseConsolidada(bestKey);
+          btnCopiar.disabled=false;
 
         }catch(e){
           showError("Falha ao rodar a análise: " + (e && e.message ? e.message : String(e)));
         }
       }
 
-      async function copiarResumo(){
+      function buildPlainText(s){
+        const lines=[];
+        lines.push("Teste clínico – Assincronias Ventilatórias");
+        lines.push("");
+        lines.push(`Contexto: Ciclo: ${s.ctxCiclo} | Modo: ${s.ctxModo}`);
+        lines.push(`Parâmetros informados: ${s.ctxParams}`);
+        lines.push("");
+        lines.push("1) Sinais selecionados:");
+        s.sinais.forEach(x=>lines.push(`- ${x}`));
+        lines.push("");
+        lines.push("2) Padrões compatíveis (síntese):");
+        (s.padroes.length ? s.padroes : ["—"]).forEach(x=>lines.push(`- ${x}`));
+        lines.push("");
+        lines.push("3) Leitura integrada (educacional):");
+        lines.push(s.leitura);
+        lines.push("");
+        lines.push("4) Hipóteses interpretativas (educacionais):");
+        (s.hip.length ? s.hip : ["—"]).forEach(x=>lines.push(`- ${x}`));
+        lines.push("");
+        lines.push("5) Variáveis frequentemente relacionadas (para localizar no ventilador/manual):");
+        (s.vars.length ? s.vars : ["—"]).forEach(x=>lines.push(`- ${x}`));
+        lines.push("");
+        lines.push("Análise por curva e fase (educacional):");
+
+        function dump(curvaLabel, obj){
+          lines.push(`- ${curvaLabel}`);
+          lines.push(`  Disparo: ${unique(obj.disparo).join(" | ") || "—"}`);
+          lines.push(`  Inspiração: ${unique(obj["inspiração"]).join(" | ") || "—"}`);
+          lines.push(`  Ciclagem: ${unique(obj.ciclagem).join(" | ") || "—"}`);
+          lines.push(`  Expiração: ${unique(obj.expiração).join(" | ") || "—"}`);
+        }
+        dump("Pressão × tempo", s.buckets.pressao);
+        dump("Fluxo × tempo", s.buckets.fluxo);
+        dump("Volume × tempo (interpretação integrada)", s.buckets.volume);
+
+        lines.push("");
+        lines.push("Escopo e limites: educacional. Não orienta conduta. Não substitui julgamento clínico ou protocolos institucionais.");
+        return lines.join("\n");
+      }
+
+      function stripTagsArray(arr){
+        return (arr||[]).map(x=>String(x||"").replace(/<[^>]*>/g,"").trim()).filter(Boolean);
+      }
+
+      function escapeHtml(str){
+        return String(str||"")
+          .replace(/&/g,"&amp;")
+          .replace(/</g,"&lt;")
+          .replace(/>/g,"&gt;")
+          .replace(/"/g,"&quot;")
+          .replace(/'/g,"&#039;");
+      }
+
+      async function copiarTexto(){
         try{
-          if(!lastSummaryState) return;
-          const text=buildPlainTextSummary(lastSummaryState);
+          if(!lastPlainText) return;
 
           if(navigator.clipboard && navigator.clipboard.writeText){
-            await navigator.clipboard.writeText(text);
-            $("btnCopiar").textContent="Resumo copiado";
-            setTimeout(()=>{$("btnCopiar").textContent="Copiar resumo";}, 1200);
+            await navigator.clipboard.writeText(lastPlainText);
+            btnCopiar.textContent="Copiado";
+            setTimeout(()=>{ btnCopiar.textContent="Copiar texto"; }, 1200);
             return;
           }
 
           const ta=document.createElement("textarea");
-          ta.value=text;
+          ta.value=lastPlainText;
           ta.style.position="fixed";
           ta.style.left="-9999px";
           document.body.appendChild(ta);
@@ -1145,12 +1273,43 @@
           document.execCommand("copy");
           document.body.removeChild(ta);
 
-          $("btnCopiar").textContent="Resumo copiado";
-          setTimeout(()=>{$("btnCopiar").textContent="Copiar resumo";}, 1200);
+          btnCopiar.textContent="Copiado";
+          setTimeout(()=>{ btnCopiar.textContent="Copiar texto"; }, 1200);
         }catch(e){
-          showError("Não foi possível copiar o resumo: " + (e && e.message ? e.message : String(e)));
+          showError("Não foi possível copiar o texto: " + (e && e.message ? e.message : String(e)));
         }
       }
+
+      // ======= Drawer mobile: sempre visível =======
+      const drawer = $("drawer");
+      const drawerBody = $("drawerBody");
+      const btnOpenDrawer = $("btnOpenDrawer");
+      const btnCloseDrawer = $("btnCloseDrawer");
+      const btnGoAdvanced = $("btnGoAdvanced");
+
+      function refreshDrawerContent(){
+        const src = document.getElementById("refsContent");
+        if(!src) return;
+        drawerBody.innerHTML = src.innerHTML;
+      }
+
+      function openDrawer(){
+        refreshDrawerContent();
+        drawer.style.display="block";
+      }
+      function closeDrawer(){
+        drawer.style.display="none";
+      }
+
+      btnOpenDrawer.addEventListener("click", openDrawer);
+      btnCloseDrawer.addEventListener("click", closeDrawer);
+      drawer.addEventListener("click", (e)=>{
+        if(e.target === drawer) closeDrawer();
+      });
+
+      btnGoAdvanced.addEventListener("click", ()=>{
+        showTab("av");
+      });
 
       // init
       bindToggles();
