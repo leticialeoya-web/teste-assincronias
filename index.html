@@ -773,16 +773,18 @@
       const tabAv  = document.getElementById("tabAv");
       const tabRef = document.getElementById("tabRef");
 
-      function showTab(which){
-        secEss.style.display = (which==="ess") ? "block" : "none";
-        secAv.style.display  = (which==="av")  ? "block" : "none";
-        const isMobile = window.matchMedia("(max-width: 820px)").matches;
-secRef.style.display = isMobile ? "block" : ((which==="ref") ? "block" : "none");
-        tabEss.classList.toggle("active", which==="ess");
-        tabAv.classList.toggle("active",  which==="av");
-        tabRef.classList.toggle("active", which==="ref");
-        window.scrollTo(0,0);
-      }
+  function showTab(which){
+  secEss.style.display = (which==="ess") ? "block" : "none";
+  secAv.style.display  = (which==="av")  ? "block" : "none";
+  secRef.style.display = (which==="ref") ? "block" : "none";
+
+  tabEss.classList.toggle("active", which==="ess");
+  tabAv.classList.toggle("active",  which==="av");
+  tabRef.classList.toggle("active", which==="ref");
+
+  window.scrollTo(0,0);
+}
+
 
       tabEss.addEventListener("click", ()=>showTab("ess"));
       tabAv.addEventListener("click",  ()=>showTab("av"));
