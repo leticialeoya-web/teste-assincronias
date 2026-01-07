@@ -870,7 +870,15 @@
             if(quem==="paciente") sinais.push("Contexto: próximo ciclo iniciado pelo paciente (assistido).");
             bump("autopeep",4);
           }
-
+if($("duploDisparo").checked){
+  sinais.push("Padrão: duplo disparo (dois ciclos consecutivos com expiração mínima).");
+  addB(b,"fluxo","ciclagem","Dois ciclos consecutivos com expiração mínima entre eles (empilhamento).");
+  addB(b,"volume","ciclagem","Empilhamento de volume pode coexistir quando a expiração entre ciclos é mínima (interpretação integrada).");
+  padroes.push(`Duplo disparo ${confidenceTag("média")}`);
+  hipoteses.push("Persistência do esforço neural além do término do primeiro ciclo e/ou término mecânico precoce podem coexistir com este padrão (modo-dependente).");
+  variaveis.push("Critério de término/ciclagem, timing do ciclo, sincronização ciclo a ciclo, modo ventilatório.");
+  bump("duplo_disparo",4);
+}
           if($("degrauExp").checked){
             const local = $("degrauExp_local").value;
             sinais.push(`Fluxo: degrau/entalhe no ramo expiratório (${local}).`);
@@ -966,7 +974,14 @@
             variaveis.push("Resistência/obstrução, tempo expiratório, secreções.");
             bump("resistencia",2);
           }
-
+if($("fluxoRetangularPC").checked){
+  sinais.push("Mecânica: fluxo inspiratório em formato retangular em modo pressórico.");
+  addB(b,"fluxo","inspiracao","Fluxo inspiratório com contorno retangular/achatado em modo pressórico (contextual).");
+  padroes.push(`Resistência elevada (compatível) ${confidenceTag("média")}`);
+  hipoteses.push("Padrão compatível com aumento de resistência/dificuldade de escoamento, quando observado em modos pressóricos (interpretação integrada).");
+  variaveis.push("Resistência/obstrução, secreções, calibre do tubo, filtros/circuito, vazamentos.");
+  bump("resistencia",2);
+}
           if($("spikeSaida").checked){
             sinais.push("Pressão: espícula na transição inspiração→expiração.");
             addB(b,"pressao","ciclagem","Espícula na transição inspiração→expiração.");
